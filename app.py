@@ -4,7 +4,7 @@
 from flask import Flask
 from dotenv import load_dotenv
 from flask_session import Session
-from flask_core import CORS
+from flask_cors import CORS
 
 
 #   Import application repositories
