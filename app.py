@@ -1,7 +1,7 @@
 # Entry point for the application
 
 # Importing the required libraries
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from dotenv import load_dotenv
 from flask_session import Session
 from flask_cors import CORS
@@ -23,7 +23,7 @@ app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 Session(app)
 
-#   Enable the CORS policy
+#   Enable the CORS for the application
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 
@@ -53,11 +53,24 @@ Books = [
         'read': False
     }
 ]
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def get_books():
-    return jsonify({
-        "status": "success",
-        'books': Books})
+    response = {"status": "success"}
+
+    if request.method == 'POST':
+        post_data = request.get_json()
+
+        Books.append({
+            'id': Books[-1]['id'] + 1,
+            'title': post_data.get('title'),
+            'author': post_data.get('author'),
+            })
+        
+        response['message'] = 'Book added successfully'
+
+    else:
+        response['books'] = Books
+    return jsonify(response)
 
 #   Register the application routes
 @app.route('/ping', methods=['GET'])

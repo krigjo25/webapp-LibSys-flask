@@ -15,9 +15,7 @@
                 <td> {{ book.Read }}</td>
                 <td>
                     <button>Update</button>
-                    <button>Modify</button>
                     <button>Delete</button>
-
                 </td>
             </tr>
         </tbody>
