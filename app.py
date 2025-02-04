@@ -38,8 +38,29 @@ def after_request(response):
     response.headers['Cache-Control'] = "no-cache, no-store, must-revalidate"
     return response
 
-#   Register the application routes
+
+Books = [
+    {
+        'id': 1,
+        'title': 'The Alchemist',
+        'author': 'Paulo Coelho',
+        'read': True
+    },
+    {
+        'id': 2,
+        'title': 'The Secret',
+        'author': 'Rhonda Byrne',
+        'read': False
+    }
+]
 @app.route('/', methods=['GET'])
+def get_books():
+    return jsonify({
+        "status": "success",
+        'books': Books})
+
+#   Register the application routes
+@app.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
 
