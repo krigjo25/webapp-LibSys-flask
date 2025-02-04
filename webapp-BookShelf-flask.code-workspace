@@ -4,5 +4,17 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {},
+
+	"extensions": {
+		"recommendations": [
+			"Vue.volar", 
+			"Vue.vscode-typescript-vue-plugin", 
+			"ms-python.python", 
+			"syler.sass-indented", 
+			"mikestead.dotenv",
+			"glenn2223.live-sass",
+			"ms-vscode.powershell"
+		]
+	}
 }
