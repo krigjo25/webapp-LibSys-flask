@@ -1,7 +1,7 @@
 # Entry point for the application
 
 # Importing the required libraries
-from flask import Flask
+from flask import Flask, jsonify
 from dotenv import load_dotenv
 from flask_session import Session
 from flask_cors import CORS
@@ -39,7 +39,11 @@ def after_request(response):
     return response
 
 #   Register the application routes
-app.add_url_rule('/', view_func=Index().as_view('index.html'))
+@app.route('/', methods=['GET'])
+def ping_pong():
+    return jsonify('pong!')
+
+#app.add_url_rule('/', view_func=Index().as_view('index.html'))
 
 
 #   Run the program
