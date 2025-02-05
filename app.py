@@ -94,6 +94,12 @@ def UpdateBook(BID):
             })
             response['message'] = 'Book updated successfully'
     
+    if request.method == 'DELETE':
+        if CheckBook(BID):
+            DeleteBook(BID)
+            response['message'] = "Book deleted successfully"
+        else:
+            response['message'] = "Book does not exist"
     return jsonify(response)
 
 def CheckBook(BID:str):

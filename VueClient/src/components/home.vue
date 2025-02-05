@@ -117,9 +117,10 @@ export default {
         });
     },
 
-    ResetBook() 
+    ResetForm() 
     {
       this.initForm();
+      this.fetchBooks();
     },
     SubmitBook() 
     {
@@ -144,16 +145,14 @@ export default {
       this.UpdateBook(playload, this.uBook.id);
       this.initForm();
     },
+    
     initForm() 
     {
-      this.uBook = {
-        title: '',
-        book: '',
-      };
-      this.Book = {
-        title: '',
-        book: '',
-      };
+      // Reset the form
+      this.cBook.title = '';
+      this.cBook.author = '';
+      this.uBook.title = '';
+      this.uBook.author = '';
     },
   },
   created() {
