@@ -8,11 +8,10 @@ from flask_cors import CORS
 
 
 #   Import application repositories
-from lib.views.index import Index
 from lib.config.config import DevelopmentConfig
 
 #   Import the application views
-from lib.views.index import Index
+from lib.views.index import BookShelf
 
 #   Load the environment variables from the .env file
 load_dotenv()
@@ -53,6 +52,7 @@ Books = [
         'read': False
     }
 ]
+
 @app.route('/', methods=['GET', 'POST'])
 def get_books():
     response = {"status": "success"}
@@ -77,7 +77,7 @@ def get_books():
 def ping_pong():
     return jsonify('pong!')
 
-#app.add_url_rule('/', view_func=Index().as_view('index.html'))
+#app.add_url_rule('/', view_func=BookShelf().as_view('index.html'))
 
 
 #   Run the program
