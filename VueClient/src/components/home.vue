@@ -6,7 +6,7 @@
     <label for="author">Author</label>
     <input type="text" id="author" name="author" v-model="cBook.author" placeholder="Author">
     <div>
-      <button @click="SubmitChanges">Add Book</button>
+      <button @click="SubmitBook">Add Book</button>
       <button @click="ResetBook">Reset Book</button>
     </div>
   </form>
@@ -21,9 +21,9 @@
       <button @click="ResetBook">Reset Book</button>
     </div>
   </form>
+  <h2>Books</h2>
     <table>
         <thead>
-          <h1>Books</h1>
             <tr>
                 <th>Name</th>
                 <th>Author</th>
@@ -53,7 +53,6 @@ export default {
       
       cBook: 
       {
-        id: '',
         title: '',
         author: '',
       },
@@ -79,13 +78,27 @@ export default {
       axios.post(path, playload)
         .then(() => {
           this.fetchBooks();
-          console.log('Book added successfully', playload);
+          console.log('Book added successfully');
         })
         .catch((error) => {
           console.error(error);
           this.fetchBooks();
         });
     },
+
+    SubmitBook() 
+    {
+      // Initialize the playload
+      const playload = {
+        title: this.cBook.title,
+        author: this.cBook.author,
+      }
+      console.log(playload)
+      // Add a book
+      this.CreateBook(this.cBook);
+      this.initForm();
+    },
+
     UpdateBook(playload, ID)
     {
       //  Initialize the path
@@ -102,8 +115,18 @@ export default {
           this.fetchBooks();
         });
     },
-    DeleteBook(ID)
-    {},
+
+    SubmitChanges() 
+    {
+      // Initialize the playload
+      const playload = {
+        title: this.uBook.title,
+        author: this.uBook.author,
+      }
+      // Add a book
+      this.UpdateBook(playload, this.uBook.id);
+      this.initForm();
+    },
     fetchBooks() 
     {
       //  Initialize the path
@@ -122,30 +145,8 @@ export default {
       this.initForm();
       this.fetchBooks();
     },
-    SubmitBook() 
-    {
-      // Initialize the playload
-      const playload = {
-        title: this.Book.title,
-        author: this.Book.author,
-      }
-      // Add a book
-      this.addBook(this.Book);
-      this.initForm();
-    },
-
-    SubmitChanges() 
-    {
-      // Initialize the playload
-      const playload = {
-        title: this.uBook.title,
-        author: this.uBook.author,
-      }
-      // Add a book
-      this.UpdateBook(playload, this.uBook.id);
-      this.initForm();
-    },
-    
+    DeleteBook(ID)
+    {},
     initForm() 
     {
       // Reset the form

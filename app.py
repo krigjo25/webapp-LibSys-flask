@@ -64,6 +64,7 @@ def get_books():
     if request.method == 'POST':
         post_data = request.get_json()
 
+
         Books.append({
             'id': ID.uuid4().hex,
             'title': post_data.get('title'),
@@ -83,6 +84,7 @@ def UpdateBook(BID):
 
     if request.method == 'PUT':
         data = request.get_json()
+        print("test")
 
 
         if CheckBook(BID):
