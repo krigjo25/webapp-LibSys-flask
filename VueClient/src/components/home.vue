@@ -36,7 +36,7 @@
                 <td> {{ book.Read }}</td>
                 <td>
                     <button @click="UpdateBook">Update</button>
-                    <button @click="RemoveBook">Delete</button>
+                    <button @click="ConfirmDelete">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -128,6 +128,28 @@ export default {
       this.UpdateBook(playload, this.uBook.id);
       this.initForm();
     },
+
+    DeleteBook(ID)
+    {
+      // Initialize the path
+      const path = `http://localhost:5000/${ID}`;
+
+      // Send a delete request to the server
+      axios.delete(path)
+        .then(() => {
+          this.fetchBooks();
+          console.log('Book deleted successfully');
+        })
+        .catch((error) => {
+          console.error(error);
+          this.fetchBooks();
+        });
+    },
+
+    ConfirmDelete()
+    {
+      this.DeleteBook(books.id);
+    },
     fetchBooks() 
     {
       //  Initialize the path
@@ -146,8 +168,7 @@ export default {
       this.initForm();
       this.fetchBooks();
     },
-    DeleteBook(ID)
-    {},
+
     initForm() 
     {
       // Reset the form
