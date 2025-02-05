@@ -76,6 +76,52 @@ def get_books():
         response['books'] = Books
     return jsonify(response)
 
+@app.route('/<book_id>', methods=['PUT'])
+def UpdateBook(BID):
+
+    response = {'status' : "success"}
+
+    if request.method == 'PUT':
+        data = request.get_json()
+
+
+        if CheckBook(BID):
+            DeleteBook(BID)
+            Books.append({
+                'id': ID.uuid4().hex,
+                'title': data.get('title'),
+                'author': data.get('author')
+            })
+            response['message'] = 'Book updated successfully'
+    
+    return jsonify(response)
+
+def CheckBook(BID:str):
+    
+    """
+        *  Ensure that the book exists in the dictionary
+
+        param: BID
+        return: True or False
+    """
+        
+    for book in Books:
+        if book['id'] == BID:
+            return True
+    return False
+
+def DeleteBook(BID:str):
+    """
+        *  Delete the book from the dictionary
+
+        param: BID
+        return: None
+    """
+    for book in Books:
+        if book['id'] == BID:
+            Books.remove(book)
+            return
+        
 #   Register the application routes
 @app.route('/ping', methods=['GET'])
 def ping_pong():

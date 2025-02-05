@@ -1,18 +1,29 @@
 <template>
   <form>
+    <legend>Add a Book</legend>
     <label for="title">Title</label>
-    <input type="text" id="title" name="title" v-model="Book.title" placeholder="Title">
+    <input type="text" id="title" name="title" v-model="cBook.title" placeholder="Title">
     <label for="author">Author</label>
-    <input type="text" id="author" name="author" v-model="Book.author" placeholder="Author">
+    <input type="text" id="author" name="author" v-model="cBook.author" placeholder="Author">
     <div>
-      <button @click="SubmitBook">Add Book</button>
+      <button @click="SubmitChanges">Add Book</button>
       <button @click="ResetBook">Reset Book</button>
     </div>
   </form>
-    
+  <form>
+    <legend>Modify a Book</legend>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" v-model="uBook.title" placeholder="Title">
+    <label for="author">Author</label>
+    <input type="text" id="author" name="author" v-model="uBook.author" placeholder="Author">
+    <div>
+      <button @click="SubmitChanges">Modify Book</button>
+      <button @click="ResetBook">Reset Book</button>
+    </div>
+  </form>
     <table>
-        <h1>Books</h1>
         <thead>
+          <h1>Books</h1>
             <tr>
                 <th>Name</th>
                 <th>Author</th>
@@ -40,18 +51,26 @@ export default {
   data() {
     return {
       
-      Book: 
+      cBook: 
       {
+        id: '',
         title: '',
         author: '',
       },
+      uBook: 
+      {
+        id: '',
+        title: '',
+        author: '',
+      },
+      dBook:{},
       books: [],
     };
   },
   methods: {
 
     // Add a book
-    addBook(playload)
+    CreateBook(playload)
     {
       // Initialize the path
       const path = 'http://localhost:5000/';
@@ -67,6 +86,24 @@ export default {
           this.fetchBooks();
         });
     },
+    UpdateBook(playload, ID)
+    {
+      //  Initialize the path
+      const path = `http://localhost:5000/${ID}`;
+
+      // Send a post request to the server
+      axios.put(path, playload)
+        .then(() => {
+          this.fetchBooks();
+          console.log('Book updated successfully', playload);
+        })
+        .catch((error) => {
+          console.error(error);
+          this.fetchBooks();
+        });
+    },
+    DeleteBook(ID)
+    {},
     fetchBooks() 
     {
       //  Initialize the path
@@ -95,8 +132,24 @@ export default {
       this.addBook(this.Book);
       this.initForm();
     },
+
+    SubmitChanges() 
+    {
+      // Initialize the playload
+      const playload = {
+        title: this.uBook.title,
+        author: this.uBook.author,
+      }
+      // Add a book
+      this.UpdateBook(playload, this.uBook.id);
+      this.initForm();
+    },
     initForm() 
     {
+      this.uBook = {
+        title: '',
+        book: '',
+      };
       this.Book = {
         title: '',
         book: '',
