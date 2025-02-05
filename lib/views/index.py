@@ -1,5 +1,5 @@
 #  Index view
-
+import uuid as ID
 #   Importing  required dependencies
 from flask import jsonify, request
 from flask.views import MethodView
@@ -10,13 +10,13 @@ load_dotenv()
 
 Books = [
     {
-        'id': 1,
+        'id': ID.uuid4().hex,
         'title': 'The Alchemist',
         'author': 'Paulo Coelho',
         'read': True
     },
     {
-        'id': 2,
+        'id': ID.uuid4().hex,
         'title': 'The Secret',
         'author': 'Rhonda Byrne',
         'read': False
@@ -42,7 +42,7 @@ class BookShelf(MethodView):
             data = request.get_json()
             Books.append(
                 {
-                    'id': Books[-1]['id'] + 1,
+                    'id': ID.uuid4().hex,
                     'title': data['title'],
                     'author': data['author'],
                     'read': False

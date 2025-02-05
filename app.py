@@ -1,10 +1,14 @@
 # Entry point for the application
 
+
+import uuid as ID
+
 # Importing the required libraries
 from flask import Flask, jsonify, request
 from dotenv import load_dotenv
 from flask_session import Session
 from flask_cors import CORS
+
 
 
 #   Import application repositories
@@ -40,13 +44,13 @@ def after_request(response):
 
 Books = [
     {
-        'id': 1,
+        'id': ID.uuid4().hex,
         'title': 'The Alchemist',
         'author': 'Paulo Coelho',
         'read': True
     },
     {
-        'id': 2,
+        'id': ID.uuid4().hex,
         'title': 'The Secret',
         'author': 'Rhonda Byrne',
         'read': False
@@ -61,7 +65,7 @@ def get_books():
         post_data = request.get_json()
 
         Books.append({
-            'id': Books[-1]['id'] + 1,
+            'id': ID.uuid4().hex,
             'title': post_data.get('title'),
             'author': post_data.get('author'),
             })
