@@ -89,7 +89,8 @@ export default {
     SubmitBook() 
     {
       // Initialize the playload
-      const playload = {
+      const playload = 
+      {
         title: this.cBook.title,
         author: this.cBook.author,
       }
