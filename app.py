@@ -13,21 +13,20 @@ from flask_cors import CORS
 
 #   Import application repositories
 from lib.config.config import DevelopmentConfig
-
+from lib.utility_tools.tools import UtilityTools
 #   Import the application views
 from lib.views.index import BookShelf
 
 #   Load the environment variables from the .env file
 load_dotenv()
 
+#   Initialize the Flask application
 app = Flask(__name__)
-
-#   Load the configuration settings for the app
 app.config.from_object(DevelopmentConfig)
 Session(app)
 
 #   Enable the CORS for the application
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": '*'}})
 
 
 #   Application webworkers
@@ -75,9 +74,10 @@ def get_books():
 
     else:
         response['books'] = Books
+    print(response)
     return jsonify(response)
 
-@app.route('/<book_id>', methods=['PUT'])
+@app.route('/<book_id>', methods=['PUT', 'DELETE'])
 def UpdateBook(BID):
 
     response = {'status' : "success"}
@@ -97,11 +97,13 @@ def UpdateBook(BID):
             response['message'] = 'Book updated successfully'
     
     if request.method == 'DELETE':
+
         if CheckBook(BID):
             DeleteBook(BID)
             response['message'] = "Book deleted successfully"
         else:
             response['message'] = "Book does not exist"
+
     return jsonify(response)
 
 def CheckBook(BID:str):

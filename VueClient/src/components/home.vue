@@ -33,10 +33,10 @@
             <tr v-for="(book, index) in books" :key="index">
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
-                <td> {{ book.Read }}</td>
                 <td>
-                    <button @click="UpdateBook">Update</button>
-                    <button @click="ConfirmDelete">Delete</button>
+                    <button @click="SubmitChanges(book.title, book.author, book.id)">Update</button>
+                    <button @click="ConfirmDelete(book.id)">Delete</button>
+
                 </td>
             </tr>
         </tbody>
@@ -95,6 +95,7 @@ export default {
         author: this.cBook.author,
       }
       console.log(playload)
+      
       // Add a book
       this.CreateBook(this.cBook);
       this.initForm();
@@ -117,15 +118,15 @@ export default {
         });
     },
 
-    SubmitChanges() 
+    SubmitChanges(title, author, ID) 
     {
       // Initialize the playload
       const playload = {
-        title: this.uBook.title,
-        author: this.uBook.author,
+        title: title,
+        author: author,
       }
       // Add a book
-      this.UpdateBook(playload, this.uBook.id);
+      this.UpdateBook(playload, ID);
       this.initForm();
     },
 
@@ -146,9 +147,10 @@ export default {
         });
     },
 
-    ConfirmDelete()
+    ConfirmDelete(ID)
     {
-      this.DeleteBook(books.id);
+      this.DeleteBook(ID);
+      
     },
     fetchBooks() 
     {
@@ -157,6 +159,7 @@ export default {
       axios.get(path)
         .then((res) => {
           this.books = res.data.books;
+          
         })
         .catch((error) => {
           console.error(error);
