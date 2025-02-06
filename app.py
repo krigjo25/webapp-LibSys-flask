@@ -15,7 +15,7 @@ from flask_cors import CORS
 from lib.config.config import DevelopmentConfig
 from lib.utility_tools.tools import UtilityTools
 #   Import the application views
-from lib.views.index import BookShelf
+from lib.views.BookShelf import BookShelf
 
 #   Load the environment variables from the .env file
 load_dotenv()

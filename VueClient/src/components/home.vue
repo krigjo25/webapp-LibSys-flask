@@ -2,21 +2,11 @@
   <form>
     <legend>Add a Book</legend>
     <label for="title">Title</label>
-    <input type="text" id="title" name="title" v-model="cBook.title" placeholder="Title">
-    <label for="author">Author</label>
-    <input type="text" id="author" name="author" v-model="cBook.author" placeholder="Author">
-    <div>
-      <button @click="SubmitBook">Add Book</button>
-      <button @click="ResetBook">Reset Book</button>
-    </div>
-  </form>
-  <form>
-    <legend>Modify a Book</legend>
-    <label for="title">Title</label>
     <input type="text" id="title" name="title" v-model="Book.title" placeholder="Title">
     <label for="author">Author</label>
     <input type="text" id="author" name="author" v-model="Book.author" placeholder="Author">
     <div>
+      <button @click="SubmitBook">Add Book</button>
       <button @click="ResetBook">Reset Book</button>
     </div>
   </form>
@@ -88,13 +78,13 @@ export default {
       // Initialize the playload
       const playload = 
       {
-        title: this.cBook.title,
-        author: this.cBook.author,
+        title: this.Book.title,
+        author: this.Book.author,
       }
       console.log(playload)
       
       // Add a book
-      this.CreateBook(this.cBook);
+      this.CreateBook(this.Book);
       this.initForm();
     },
 
@@ -177,8 +167,8 @@ export default {
     initForm() 
     {
       // Reset the form
-      this.cBook.title = '';
-      this.cBook.author = '';
+      this.Book.title = '';
+      this.Book.author = '';
       this.uBook.title = '';
       this.uBook.author = '';
     },
