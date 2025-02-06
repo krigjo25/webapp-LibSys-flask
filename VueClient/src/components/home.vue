@@ -40,11 +40,6 @@ export default {
   data() {
     return {
       
-      cBook: 
-      {
-        title: '',
-        author: '',
-      },
       Book:
       {
         title: "",
@@ -59,7 +54,7 @@ export default {
     CreateBook(playload)
     {
       // Initialize the path
-      const path = 'http://localhost:5000/';
+      const path = 'http://localhost:5000/add';
 
       // Send a post request to the server
       axios.post(path, playload)
@@ -85,6 +80,7 @@ export default {
       
       // Add a book
       this.CreateBook(this.Book);
+      
       this.initForm();
     },
 
@@ -150,7 +146,7 @@ export default {
       axios.get(path)
         .then((res) => {
           this.books = res.data.books;
-
+          console.log(this.books);
         })
         .catch((error) => {
           console.error(error);
@@ -169,8 +165,6 @@ export default {
       // Reset the form
       this.Book.title = '';
       this.Book.author = '';
-      this.uBook.title = '';
-      this.uBook.author = '';
     },
   },
   created() {

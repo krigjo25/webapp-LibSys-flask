@@ -1,4 +1,5 @@
 
+import uuid as ID
 
 class UtilityTools(object):
 
@@ -38,3 +39,24 @@ class UtilityTools(object):
                 arg.remove(i)
 
         return arg
+    
+        """
+            *  Initialize the book dictionary
+
+            param: data
+            return: dictionary
+        """
+
+        book = [
+            {
+            'id': ID.uuid4().hex,
+            'title': 'The Alchemist',
+            'author': 'Paulo Coelho',
+            },
+            {
+                'id': ID.uuid4().hex,
+                'title': 'The Secret',
+                'author': 'Rhonda Byrne',
+
+            }]
+        return book

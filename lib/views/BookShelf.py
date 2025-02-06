@@ -14,7 +14,7 @@ from lib.utility_tools.tools import UtilityTools
 #   Loading environment variables
 load_dotenv()
 
-Books = [
+BOOKS = [
     {
         'id': ID.uuid4().hex,
         'title': 'The Alchemist',
@@ -23,64 +23,65 @@ Books = [
     {
         'id': ID.uuid4().hex,
         'title': 'The Secret',
-        'author': 'Rhonda Byrne',
-
-    }
-]
+        'author': 'Rhonda Byrne'}]
 
 class BookMananger(MethodView):
 
-    def __init__(self):
+    def __init__(self, books = BOOKS, *args, **kwargs):
 
         self.tool = UtilityTools()
+        self.BOOKS = books
+        print(kwargs)
     
-    def FetchBooks(self):
+    def get(self):
 
-        if request.method == 'GET':
-            response = {}
-
-            #   Ensure that the request method is GET
-            if self.GET:
-
-                response['books'] = Books
-                response['status'] = "success"
-                response['message'] = "Books fetched successfully"
-
-            else:
-                response['status'] = "Unsuccessful"
-                response['message'] = "An error Occured while attempting to process the request"
-            
-        return jsonify(response)
-    
-    def CreateBook(self):
-
-        #   Initialize the json response
         response = {}
 
-        #   Ensure that the request method is POST
-        if request.method == 'POST':
+        #   Ensure that the request method is GET
+        if request.method == 'GET':
 
-            #  Fetch the requested data
-            data = request.get_json()
+            response['books'] = self.BOOKS
+            response['status'] = "success"
+            response['message'] = "Books fetched successfully"
 
-            book = {
-                'id': ID.uuid4().hex,
-                'title': data.get('title'),
-                'author': data.get('author')
-            }
-            Books.append(book)
-            
-            response = {
-                'status': "success", 
-                'message': "Book added successfully",
-                'books': Books}
         else:
             response['status'] = "Unsuccessful"
             response['message'] = "An error Occured while attempting to process the request"
         
         return jsonify(response)
     
-    def UpdateBook(self, BID):
+    def post(self):
+
+        #   Initialize the json response
+        response = {}
+
+        #   Ensure that the request method is POST
+        if request.method == 'POST':
+            print("test")
+
+            #  Fetch the requested data
+            data = request.get_json()
+
+            book = {
+                'id': ID.uuid4().hex,
+                'title': data['title'],
+                'author': data['author']
+            }
+
+            self.BOOKS.append(book)
+            print(self.BOOKS)
+
+            response = {
+                'status': "success", 
+                'message': "Book added successfully"
+                }
+        else:
+            response['status'] = "Unsuccessful"
+            response['message'] = "An error Occured while attempting to process the request"
+        
+        return jsonify(response)
+    
+    def put(self, BID):
 
         response = {}
         #   Ensure that the request method is PUT (Update)
@@ -93,7 +94,7 @@ class BookMananger(MethodView):
 
 
             #   Ensure that the book exists in the dictionary
-            if self.tool.Check(Books, BID):
+            if self.tool.Check(self.BOOKS, BID):
                 
                 dictionary = {
                     'id': BID,
@@ -102,10 +103,10 @@ class BookMananger(MethodView):
                 }
 
                 #   Remove the old book from the dictionary
-                self.tool.Purge(Books, BID)
+                self.tool.Purge(self.BOOKS, BID)
 
                 #   Add the updated book to the dictionary
-                Books.append(dictionary)
+                self.BOOKS.append(dictionary)
                 response['message'] = 'Book updated successfully'
             else:
                 response['message'] = "Book does not exist"
@@ -116,7 +117,7 @@ class BookMananger(MethodView):
 
         return jsonify(response)
 
-    def DeleteBook(self, BID):
+    def delete(self, BID):
 
         response = {}
 
@@ -126,12 +127,14 @@ class BookMananger(MethodView):
             response['status'] = "success"
 
             #   Ensure that the book exists in the dictionary
-            if self.tool.Check(Books, BID):
+            if self.tool.Check(self.BOOKS, BID):
 
                 #   Remove the book from the dictionary
-                self.tool.Purge(Books, BID)
+                self.tool.Purge(self.BOOKS, BID)
+
 
                 response['message'] = "Book deleted successfully"
+                response['books'] = self.BOOKS
             else:
                 response['message'] = "Book does not exist"
 
