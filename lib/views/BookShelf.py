@@ -31,30 +31,25 @@ Books = [
 class BookMananger(MethodView):
 
     def __init__(self):
+
         self.tool = UtilityTools()
-        self.data = request.get_json()
-        self.GET = request.method == 'GET'
-        self.POST = request.method == 'POST'
-        self.PUT = request.method == 'PUT'
-        self.DELETE = request.method == 'DELETE'
     
-    methods = ['GET', 'POST', 'PUT', 'DELETE']
-    data = request.get_json()
     def FetchBooks(self):
 
-        response = {}
+        if request.method == 'GET':
+            response = {}
 
-        #   Ensure that the request method is GET
-        if self.GET:
+            #   Ensure that the request method is GET
+            if self.GET:
 
-            response['books'] = Books
-            response['status'] = "success"
-            response['message'] = "Books fetched successfully"
+                response['books'] = Books
+                response['status'] = "success"
+                response['message'] = "Books fetched successfully"
 
-        else:
-            response['status'] = "Unsuccessful"
-            response['message'] = "An error Occured while attempting to process the request"
-        
+            else:
+                response['status'] = "Unsuccessful"
+                response['message'] = "An error Occured while attempting to process the request"
+            
         return jsonify(response)
     
     def CreateBook(self):
@@ -63,7 +58,7 @@ class BookMananger(MethodView):
         response = {}
 
         #   Ensure that the request method is POST
-        if self.POST:
+        if request.method == 'POST':
 
             #  Fetch the requested data
             data = request.get_json()

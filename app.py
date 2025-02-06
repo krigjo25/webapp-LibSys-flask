@@ -40,7 +40,6 @@ def after_request(response):
     response.headers['Cache-Control'] = "no-cache, no-store, must-revalidate"
     return response
 
-
 Books = [
     {
         'id': ID.uuid4().hex,
@@ -168,8 +167,9 @@ def DeleteBook(BID):
 def ping_pong():
     return jsonify('pong!')
 
-app.add_url_rule('/', view_func=BookMananger().as_view('fetch_books', methods=['GET']))
-app.add_url_rule('/<BID>', view_func=BookMananger().as_view('update_book', methods=['GET','PUT', 'DELETE']))    
+#   Register the application routes
+#app.add_url_rule('/', view_func=BookMananger().as_view('fetch_books', methods=['GET']))
+#app.add_url_rule('/<BID>', view_func=BookMananger().as_view('update_book', methods=['GET','PUT', 'DELETE']))    
 
 #   Run the program
 if __name__ == '__main__':
