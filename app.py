@@ -42,7 +42,8 @@ def after_request(response):
     return response
 
 
-"""Books = [
+
+Books = [
     {
         'id': ID.uuid4().hex,
         'title': 'The Alchemist',
@@ -53,6 +54,51 @@ def after_request(response):
         'title': 'The Secret',
         'author': 'Rhonda Byrne',
     }]
+
+@app.route('/', methods=['GET'])
+def FetchBooks():
+
+    response = {}
+
+    #   Ensure that the request method is GET
+    if request.method == 'GET':
+        response['status'] = "success"
+        response['books'] = Books
+        response['message'] = "Books fetched successfully"
+
+    else:
+        response['status'] = "Unsuccessful"
+        response['message'] = "An error Occured while attempting to process the request"
+
+    return jsonify(response)
+
+@app.route('/', methods=['POST'])
+def CreateBook():
+
+    response = {}
+
+    #   Ensure that the request method is POST
+    if request.method == 'POST':
+
+        #   Initialize the response and fetch the request data
+        response['status'] = "success"
+        data = request.get_json()
+
+        #   Initialize the book and append it to the dictionary
+        dictionary = {
+            'id': ID.uuid4().hex,
+            'title': data.get('title'),
+            'author': data.get('author')}
+        
+        Books.append(dictionary)
+        
+        response['message'] = 'Book added successfully'
+
+    else:
+        response['status'] = "Unsuccessful"
+        response['message'] = "An error Occured while attempting to process the request"
+
+    return jsonify(response)
 
 @app.route('/<BID>', methods=['PUT'])
 def UpdateBook(BID):
@@ -92,15 +138,36 @@ def UpdateBook(BID):
 
     return jsonify(response)
 
+@app.route('/<BID>', methods=['DELETE'])
+def DeleteBook(BID):
+    
+    response = {}
+
+    #   Ensure that the request method is DELETE
+    if request.method == 'DELETE':
+
+        response['status'] = "success"
+
+        #   Ensure that the book exists in the dictionary
+        if UtilityTools.Check(Books, BID):
+
+            #   Remove the book from the dictionary
+            UtilityTools.Purge(Books, BID)
+
+            response['message'] = "Book deleted successfully"
+        else:
+            response['message'] = "Book does not exist"
+
+    response['status'] = "An error Occured while attempting to process the request"
+    response['message'] = "A bad request were sent to the server"
+
+    return jsonify(response)
 
 #   Register the application routes
 @app.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
-"""
-app.add_url_rule('/', view_func=Mananger.as_view('get', methods=['GET']))
-app.add_url_rule('/add', view_func=Mananger.as_view('post', methods=['POST']))
-app.add_url_rule('/<BID>', view_func=Mananger.as_view('update', methods=['GET','PUT', 'DELETE']))    
+
 
 #   Run the program
 if __name__ == '__main__':

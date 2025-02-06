@@ -10,6 +10,19 @@
       <button @click="ResetBook">Reset Book</button>
     </div>
   </form>
+<<<<<<< HEAD
+=======
+  <form>
+    <legend>Modify a Book</legend>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" v-model="Book.title" placeholder="Title">
+    <label for="author">Author</label>
+    <input type="text" id="author" name="author" v-model="Book.author" placeholder="Author">
+    <div>
+      <button @click="ResetBook">Reset Book</button>
+    </div>
+  </form>
+>>>>>>> 25adf6f (IC PUT functionallity finished)
   <h2>Books</h2>
     <table>
         <thead>
