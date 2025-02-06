@@ -28,9 +28,10 @@ Books = [
     }
 ]
 
-class Book(MethodView):
+class BookMananger(MethodView):
 
     def __init__(self):
+        self.tool = UtilityTools()
         self.data = request.get_json()
         self.GET = request.method == 'GET'
         self.POST = request.method == 'POST'
@@ -87,7 +88,6 @@ class Book(MethodView):
     def UpdateBook(self, BID):
 
         response = {}
-
         #   Ensure that the request method is PUT (Update)
         if request.method == 'PUT':
 
@@ -98,7 +98,7 @@ class Book(MethodView):
 
 
             #   Ensure that the book exists in the dictionary
-            if UtilityTools.Check(Books, BID):
+            if self.tool.Check(Books, BID):
                 
                 dictionary = {
                     'id': BID,
@@ -107,7 +107,7 @@ class Book(MethodView):
                 }
 
                 #   Remove the old book from the dictionary
-                UtilityTools.Purge(Books, BID)
+                self.tool.Purge(Books, BID)
 
                 #   Add the updated book to the dictionary
                 Books.append(dictionary)
@@ -131,10 +131,10 @@ class Book(MethodView):
             response['status'] = "success"
 
             #   Ensure that the book exists in the dictionary
-            if UtilityTools.Check(Books, BID):
+            if self.tool.Check(Books, BID):
 
                 #   Remove the book from the dictionary
-                UtilityTools.Purge(Books, BID)
+                self.tool.Purge(Books, BID)
 
                 response['message'] = "Book deleted successfully"
             else:

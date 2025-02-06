@@ -15,7 +15,7 @@ from flask_cors import CORS
 from lib.config.config import DevelopmentConfig
 from lib.utility_tools.tools import UtilityTools
 #   Import the application views
-from lib.views.BookShelf import BookShelf
+from lib.views.BookShelf import BookMananger
 
 #   Load the environment variables from the .env file
 load_dotenv()
@@ -168,8 +168,8 @@ def DeleteBook(BID):
 def ping_pong():
     return jsonify('pong!')
 
-#app.add_url_rule('/', view_func=BookShelf().as_view('index.html'))
-
+app.add_url_rule('/', view_func=BookMananger().as_view('fetch_books', methods=['GET']))
+app.add_url_rule('/<BID>', view_func=BookMananger().as_view('update_book', methods=['GET','PUT', 'DELETE']))    
 
 #   Run the program
 if __name__ == '__main__':
