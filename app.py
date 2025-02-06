@@ -84,11 +84,13 @@ def CreateBook():
         response['status'] = "success"
         data = request.get_json()
 
-        Books.append({
+        #   Initialize the book and append it to the dictionary
+        dictionary = {
             'id': ID.uuid4().hex,
             'title': data.get('title'),
-            'author': data.get('author'),
-            })
+            'author': data.get('author')}
+        
+        Books.append(dictionary)
         
         response['message'] = 'Book added successfully'
 
@@ -109,6 +111,7 @@ def UpdateBook(BID):
         #   Initialize the response and fetch the request data
         response['status'] = "success"
         data = request.get_json()
+        print(BID,data)
 
 
         #   Ensure that the book exists in the dictionary
@@ -144,7 +147,7 @@ def DeleteBook(BID):
     if request.method == 'DELETE':
 
         response['status'] = "success"
-        
+
         #   Ensure that the book exists in the dictionary
         if UtilityTools.Check(Books, BID):
 

@@ -13,11 +13,10 @@
   <form>
     <legend>Modify a Book</legend>
     <label for="title">Title</label>
-    <input type="text" id="title" name="title" v-model="uBook.title" placeholder="Title">
+    <input type="text" id="title" name="title" v-model="Book.title" placeholder="Title">
     <label for="author">Author</label>
-    <input type="text" id="author" name="author" v-model="uBook.author" placeholder="Author">
+    <input type="text" id="author" name="author" v-model="Book.author" placeholder="Author">
     <div>
-      <button @click="SubmitChanges">Modify Book</button>
       <button @click="ResetBook">Reset Book</button>
     </div>
   </form>
@@ -34,7 +33,7 @@
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
                 <td>
-                    <button @click="SubmitChanges(book.title, book.author, book.id)">Update</button>
+                    <button @click="SubmitChanges(book.id)">Update</button>
                     <button @click="ConfirmDelete(book.id)">Delete</button>
 
                 </td>
@@ -56,13 +55,11 @@ export default {
         title: '',
         author: '',
       },
-      uBook: 
+      Book:
       {
-        id: '',
-        title: '',
-        author: '',
+        title: "",
+        author: "",
       },
-      dBook:{},
       books: [],
     };
   },
@@ -119,12 +116,12 @@ export default {
         });
     },
 
-    SubmitChanges(title, author, ID) 
+    SubmitChanges(ID) 
     {
       // Initialize the playload
       const playload = {
-        title: title,
-        author: author,
+        title: this.Book.title,
+        author: this.Book.author,
       }
       // Add a book
       this.UpdateBook(playload, ID);
