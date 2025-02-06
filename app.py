@@ -80,10 +80,9 @@ def CreateBook():
     #   Ensure that the request method is POST
     if request.method == 'POST':
 
-
+        #   Initialize the response and fetch the request data
         response['status'] = "success"
         data = request.get_json()
-
 
         Books.append({
             'id': ID.uuid4().hex,
@@ -107,6 +106,7 @@ def UpdateBook(BID):
     #   Ensure that the request method is PUT (Update)
     if request.method == 'PUT':
 
+        #   Initialize the response and fetch the request data
         response['status'] = "success"
         data = request.get_json()
 
@@ -133,7 +133,6 @@ def UpdateBook(BID):
         response['status'] = "Unsuccessful"
         response['message'] = "An error Occured while attempting to process the request"
 
-
     return jsonify(response)
 
 @app.route('/<BID>', methods=['DELETE'])
@@ -143,7 +142,9 @@ def DeleteBook(BID):
 
     #   Ensure that the request method is DELETE
     if request.method == 'DELETE':
+
         response['status'] = "success"
+        
         #   Ensure that the book exists in the dictionary
         if UtilityTools.Check(Books, BID):
 
@@ -158,6 +159,7 @@ def DeleteBook(BID):
     response['message'] = "A bad request were sent to the server"
 
     return jsonify(response)
+
 #   Register the application routes
 @app.route('/ping', methods=['GET'])
 def ping_pong():
