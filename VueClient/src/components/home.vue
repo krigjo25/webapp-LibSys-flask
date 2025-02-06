@@ -68,7 +68,7 @@ export default {
   },
   methods: {
 
-    // Add a book
+    // Create a bok and send a Post Request
     CreateBook(playload)
     {
       // Initialize the path
@@ -101,6 +101,7 @@ export default {
       this.initForm();
     },
 
+    // Update a book and send Put Request
     UpdateBook(playload, ID)
     {
       //  Initialize the path
@@ -130,6 +131,7 @@ export default {
       this.initForm();
     },
 
+    // Delete a book and send a delete request
     DeleteBook(ID)
     {
       // Initialize the path
@@ -152,6 +154,8 @@ export default {
       this.DeleteBook(ID);
       
     },
+
+    // Fetch all books and send a get request
     fetchBooks() 
     {
       //  Initialize the path
@@ -159,13 +163,14 @@ export default {
       axios.get(path)
         .then((res) => {
           this.books = res.data.books;
-          
+
         })
         .catch((error) => {
           console.error(error);
         });
     },
 
+    // Reset the form
     ResetForm() 
     {
       this.initForm();

@@ -21,19 +21,20 @@ class UtilityTools(object):
                 return True
         return False
 
-def Purge(arg:dict, ID:str):
-    """
-        *  Delete the book from the dictionary
+    def Purge(arg:list, ID:str):
+        """
+            *  Delete the book from the dictionary
 
-        param: BID
-        return: None
-    """
-    for element in arg:
+            param: BID
+            return: None
+        """
 
-        #   Ensure that the element exists in the dictionary
-        if element['id'] == ID:
+        for i in arg:
 
-            #   Remove the element from the dictionary
-            arg.remove(element)
+            #   Ensure that the element exists in the dictionary
+            if i['id'] == ID:
 
-            return arg
+                #   Remove the element from the dictionary
+                arg.remove(i)
+
+        return arg

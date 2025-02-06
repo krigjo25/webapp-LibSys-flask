@@ -53,85 +53,111 @@ Books = [
         'title': 'The Secret',
         'author': 'Rhonda Byrne',
         'read': False
-    }
-]
+    }]
 
-@app.route('/', methods=['GET', 'POST'])
-def get_books():
-    response = {"status": "success"}
+@app.route('/', methods=['GET'])
+def FetchBooks():
 
+    response = {}
+
+    #   Ensure that the request method is GET
+    if request.method == 'GET':
+        response['status'] = "success"
+        response['books'] = Books
+        response['message'] = "Books fetched successfully"
+
+    else:
+        response['status'] = "Unsuccessful"
+        response['message'] = "An error Occured while attempting to process the request"
+
+    return jsonify(response)
+
+@app.route('/', methods=['POST'])
+def CreateBook():
+
+    response = {}
+
+    #   Ensure that the request method is POST
     if request.method == 'POST':
-        post_data = request.get_json()
+
+
+        response['status'] = "success"
+        data = request.get_json()
 
 
         Books.append({
             'id': ID.uuid4().hex,
-            'title': post_data.get('title'),
-            'author': post_data.get('author'),
+            'title': data.get('title'),
+            'author': data.get('author'),
             })
         
         response['message'] = 'Book added successfully'
 
     else:
-        response['books'] = Books
-    print(response)
+        response['status'] = "Unsuccessful"
+        response['message'] = "An error Occured while attempting to process the request"
+
     return jsonify(response)
 
-@app.route('/<book_id>', methods=['PUT', 'DELETE'])
+@app.route('/<BID>', methods=['PUT'])
 def UpdateBook(BID):
 
-    response = {'status' : "success"}
+    response = {}
 
+    #   Ensure that the request method is PUT (Update)
     if request.method == 'PUT':
+
+        response['status'] = "success"
         data = request.get_json()
-        print("test")
 
 
-        if CheckBook(BID):
-            DeleteBook(BID)
-            Books.append({
-                'id': ID.uuid4().hex,
+        #   Ensure that the book exists in the dictionary
+        if UtilityTools.Check(Books, BID):
+            
+            dictionary = {
+                'id': BID,
                 'title': data.get('title'),
                 'author': data.get('author')
-            })
-            response['message'] = 'Book updated successfully'
-    
-    if request.method == 'DELETE':
+            }
 
-        if CheckBook(BID):
-            DeleteBook(BID)
+            #   Remove the old book from the dictionary
+            UtilityTools.Purge(Books, BID)
+
+            #   Add the updated book to the dictionary
+            Books.append(dictionary)
+            response['message'] = 'Book updated successfully'
+        else:
+            response['message'] = "Book does not exist"
+
+    else:
+        response['status'] = "Unsuccessful"
+        response['message'] = "An error Occured while attempting to process the request"
+
+
+    return jsonify(response)
+
+@app.route('/<BID>', methods=['DELETE'])
+def DeleteBook(BID):
+    
+    response = {}
+
+    #   Ensure that the request method is DELETE
+    if request.method == 'DELETE':
+        response['status'] = "success"
+        #   Ensure that the book exists in the dictionary
+        if UtilityTools.Check(Books, BID):
+
+            #   Remove the book from the dictionary
+            UtilityTools.Purge(Books, BID)
+
             response['message'] = "Book deleted successfully"
         else:
             response['message'] = "Book does not exist"
 
+    response['status'] = "An error Occured while attempting to process the request"
+    response['message'] = "A bad request were sent to the server"
+
     return jsonify(response)
-
-def CheckBook(BID:str):
-    
-    """
-        *  Ensure that the book exists in the dictionary
-
-        param: BID
-        return: True or False
-    """
-        
-    for book in Books:
-        if book['id'] == BID:
-            return True
-    return False
-
-def DeleteBook(BID:str):
-    """
-        *  Delete the book from the dictionary
-
-        param: BID
-        return: None
-    """
-    for book in Books:
-        if book['id'] == BID:
-            Books.remove(book)
-            return
-        
 #   Register the application routes
 @app.route('/ping', methods=['GET'])
 def ping_pong():
