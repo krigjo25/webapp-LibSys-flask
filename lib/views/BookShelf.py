@@ -125,16 +125,7 @@ class BookMananger(MethodView):
         if request.method == 'DELETE':
 
             response['status'] = "success"
-
-            #   Ensure that the book exists in the dictionary
-
-            #   Remove the book from the dictionary
-            
-
             response['message'] = "Book deleted successfully"
             response['books'] = self.tool.Purge(self.BOOKS, BID)
-
-        response['status'] = "An error Occured while attempting to process the request"
-        response['message'] = "A bad request were sent to the server"
 
         return jsonify(response)

@@ -4,5 +4,6 @@
 .venv
 __pycache__
 flasksession
+
 #   Dirty secrets and configurations
-.env
+
