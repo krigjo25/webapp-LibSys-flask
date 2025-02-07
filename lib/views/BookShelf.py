@@ -89,8 +89,6 @@ class BookMananger(MethodView):
             #   Initialize the response and fetch the request data
             response['status'] = "success"
             data = request.get_json()
-            print(BID, data)
-
 
             #   Ensure that the book exists in the dictionary
             if self.tool.Purge(self.BOOKS, BID):
