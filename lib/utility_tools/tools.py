@@ -4,7 +4,7 @@ import uuid as ID
 class UtilityTools(object):
 
 
-    def Check(Books:dict, BID:str):
+    def Check(self, Books:list, BID:str):
     
         """
             *  Ensure that the element exists in the dictionary
@@ -22,7 +22,7 @@ class UtilityTools(object):
                 return True
         return False
 
-    def Purge(arg:list, ID:str):
+    def Purge(self, arg:list, ID:str):
         """
             *  Delete the book from the dictionary
 
@@ -30,13 +30,15 @@ class UtilityTools(object):
             return: None
         """
 
-        for i in arg:
+        #   Ensure that the element exists in the dictionary
+        if self.Check(arg, ID):
+            for i in arg:
 
-            #   Ensure that the element exists in the dictionary
-            if i['id'] == ID:
+                #   Ensure that the element exists in the dictionary
+                if i['id'] == ID:
 
-                #   Remove the element from the dictionary
-                arg.remove(i)
+                    #   Remove the element from the dictionary
+                    arg.remove(i)
 
         return arg
     

@@ -23,7 +23,8 @@ BOOKS = [
     {
         'id': ID.uuid4().hex,
         'title': 'The Secret',
-        'author': 'Rhonda Byrne'}]
+        'author': 'Rhonda Byrne'
+    }]
 
 class BookMananger(MethodView):
 
@@ -69,7 +70,6 @@ class BookMananger(MethodView):
             }
 
             self.BOOKS.append(book)
-            print(self.BOOKS)
 
             response = {
                 'status': "success", 
@@ -127,16 +127,12 @@ class BookMananger(MethodView):
             response['status'] = "success"
 
             #   Ensure that the book exists in the dictionary
-            if self.tool.Check(self.BOOKS, BID):
 
-                #   Remove the book from the dictionary
-                self.tool.Purge(self.BOOKS, BID)
+            #   Remove the book from the dictionary
+            
 
-
-                response['message'] = "Book deleted successfully"
-                response['books'] = self.BOOKS
-            else:
-                response['message'] = "Book does not exist"
+            response['message'] = "Book deleted successfully"
+            response['books'] = self.tool.Purge(self.BOOKS, BID)
 
         response['status'] = "An error Occured while attempting to process the request"
         response['message'] = "A bad request were sent to the server"

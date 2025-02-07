@@ -10,8 +10,6 @@
       <button @click="ResetBook">Reset Book</button>
     </div>
   </form>
-<<<<<<< HEAD
-=======
   <form>
     <legend>Modify a Book</legend>
     <label for="title">Title</label>
@@ -22,7 +20,6 @@
       <button @click="ResetBook">Reset Book</button>
     </div>
   </form>
->>>>>>> 25adf6f (IC PUT functionallity finished)
   <h2>Books</h2>
     <table>
         <thead>
@@ -67,7 +64,7 @@ export default {
     CreateBook(playload)
     {
       // Initialize the path
-      const path = 'http://localhost:5000/add';
+      const path = 'http://localhost:5000/';
 
       // Send a post request to the server
       axios.post(path, playload)
