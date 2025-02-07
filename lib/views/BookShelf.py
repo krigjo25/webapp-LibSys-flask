@@ -31,8 +31,7 @@ class BookMananger(MethodView):
     def __init__(self, books = BOOKS, *args, **kwargs):
 
         self.tool = UtilityTools()
-        self.BOOKS = books
-        print(kwargs)
+        self.BOOKS = BOOKS
     
     def get(self):
 

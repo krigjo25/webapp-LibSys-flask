@@ -22,13 +22,9 @@ Session(app)
 #   Enable the CORS for the application
 CORS(app, resources={r"/*": {"origins": '*'}})
 
-
-#   Application webworkers
-
+#   Ensure that the responses are not cached
 @app.after_request
 def after_request(response):
-    """ Ensures that the responses are not cached """
-
     response.headers['Expires'] = 0
     response.headers['Pragma'] = "no-cache"
     response.headers['Cache-Control'] = "no-cache, no-store, must-revalidate"
