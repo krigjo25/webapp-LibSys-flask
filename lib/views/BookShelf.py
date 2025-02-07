@@ -57,7 +57,6 @@ class BookMananger(MethodView):
 
         #   Ensure that the request method is POST
         if request.method == 'POST':
-            print("test")
 
             #  Fetch the requested data
             data = request.get_json()
@@ -72,7 +71,8 @@ class BookMananger(MethodView):
 
             response = {
                 'status': "success", 
-                'message': "Book added successfully"
+                'message': "Book added successfully",
+                'books': self.BOOKS
                 }
         else:
             response['status'] = "Unsuccessful"
@@ -93,16 +93,13 @@ class BookMananger(MethodView):
 
 
             #   Ensure that the book exists in the dictionary
-            if self.tool.Check(self.BOOKS, BID):
+            if self.tool.Purge(self.BOOKS, BID):
                 
                 dictionary = {
                     'id': BID,
                     'title': data.get('title'),
                     'author': data.get('author')
                 }
-
-                #   Remove the old book from the dictionary
-                self.tool.Purge(self.BOOKS, BID)
 
                 #   Add the updated book to the dictionary
                 self.BOOKS.append(dictionary)
