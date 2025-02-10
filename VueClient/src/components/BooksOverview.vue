@@ -1,40 +1,32 @@
 <template>
   <form>
-    <legend>Add a Book</legend>
-    <label for="title">Title</label>
-    <input type="text" id="title" name="title" v-model="Book.title" placeholder="Title">
-    <label for="author">Author</label>
-    <input type="text" id="author" name="author" v-model="Book.author" placeholder="Author">
-    <div>
-      <button @click="SubmitBook">Add Book</button>
-      <button @click="ResetBook">Reset Book</button>
-    </div>
-  </form>
-  <form>
     <legend>Modify a Book</legend>
     <label for="title">Title</label>
     <input type="text" id="title" name="title" v-model="Book.title" placeholder="Title">
     <label for="author">Author</label>
     <input type="text" id="author" name="author" v-model="Book.author" placeholder="Author">
     <div>
-      <button @click="ResetBook">Reset Book</button>
+      <button type="submit" value="submit" @click="SubmitBook"><i class="bi bi-plus-circle-fill"></i></button>
+      <button type="reset" value= "reset"  @click="ResetBook"><i class="bi bi-arrow-counterclockwise"></i></button>
     </div>
   </form>
-  <h2>Books</h2>
+  
     <table>
         <thead>
+          <h2>Books</h2>
             <tr>
                 <th>Name</th>
                 <th>Author</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(book, index) in books" :key="index">
+            <tr v-for="(book, i) in books" :key="i">
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
                 <td>
-                    <button @click="SubmitChanges(book.id)">Update</button>
-                    <button @click="ConfirmDelete(book.id)">Delete</button>
+                    <button type="submit" value="submit" @click="SubmitChanges(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button type="reset" value= "reset" @click="ConfirmDelete(book.id)"><i class="bi bi-x-circle-fill"></i></button>
+                    <button @click="View(book.id)"><i class="bi bi-info-circle"></i></button>
 
                 </td>
             </tr>
