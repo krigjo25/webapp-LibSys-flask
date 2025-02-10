@@ -1,33 +1,38 @@
 <template>
   <form>
-    <legend>Modify a Book</legend>
+    <legend>{{Book.Form}}</legend>
     <label for="title">Title</label>
     <input type="text" id="title" name="title" v-model="Book.title" placeholder="Title">
     <label for="author">Author</label>
     <input type="text" id="author" name="author" v-model="Book.author" placeholder="Author">
     <div>
-      <button type="submit" value="submit" @click="SubmitBook"><i class="bi bi-plus-circle-fill"></i></button>
-      <button type="reset" value= "reset"  @click="ResetBook"><i class="bi bi-arrow-counterclockwise"></i></button>
+      <button type="reset" value= "reset"  @click="ResetBook">Reset Book</button>
     </div>
   </form>
-  
-    <table>
+  <table>
         <thead>
           <h2>Books</h2>
+          <button type="submit" value="submit" @click="SubmitBook"><i class="bi bi-plus-circle-fill"></i>Add a Book</button>
             <tr>
-                <th>Name</th>
-                <th>Author</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Genre</th>
+              <th>Release</th>
+              <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(book, i) in books" :key="i">
+            <tr v-for="(book, i) in books" :key="i" @click="View(book.id)">
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
+                
+                <td>{{ book.genre }}</td>
+                <td>{{ book.release }}</td>
+                
                 <td>
+                  <button @click="ShowInfo(book.id)"><i class="bi bi-info-circle"></i></button>
                     <button type="submit" value="submit" @click="SubmitChanges(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
                     <button type="reset" value= "reset" @click="ConfirmDelete(book.id)"><i class="bi bi-x-circle-fill"></i></button>
-                    <button @click="View(book.id)"><i class="bi bi-info-circle"></i></button>
-
                 </td>
             </tr>
         </tbody>
