@@ -2,8 +2,8 @@
 
 #   Directories to ignore
 .venv
-__pycache__
-flasksession
+__pycache__/
+flask_session/
 
 #   Dirty secrets and configurations
 
