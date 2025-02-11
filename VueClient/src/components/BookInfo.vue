@@ -22,8 +22,8 @@
                         <td>{{ info.rating }}</td>
                         <td>{{ info.description }}</td>
                     </tr>
-                      <button @click="SubmitChanges(book.id)">Update</button>
-                      <button @click="ConfirmDelete(book.id)">Delete</button>
+                      <button @click="SubmitChanges(book.id)"><i class="bi bi-update"></i>Update</button>
+                      <button @click="ConfirmDelete(book.id)"><i class="bi bi-update"></i>Delete</button>
   
                   </td>
               </tr>

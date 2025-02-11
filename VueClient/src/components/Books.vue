@@ -8,12 +8,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="book in books" :key="book._id">
+            <tr v-for="book in books" :key="book.id">
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
                 <td>
-                    <button @click="ConfirmDelete(book._id)">Delete</button>
-                    <button @click="EditBook(book._id)">Edit</button>
+                  <button @click="BookInfo(book.id)"><i class="bi bi-info-circle"></i></button>
+                  <button @click="EditBook(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
+                  <button @click="ConfirmDelete()"><i class="bi bi-x-circle-fill"></i></button>
+            
+                    
                 </td>
             </tr>
         </tbody>
@@ -28,14 +31,17 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      
-      Book:
-      {
-        title: "",
-        author: "",
-      },
       books: [],
     };
+  },
+
+  props: 
+  {
+    data: 
+    {
+      type: Object,
+      required: true
+    }
   },
   methods: {
 
@@ -57,18 +63,18 @@ export default {
         });
     },
 
-    SubmitBook() 
+    SubmitEvent(book) 
     {
       // Initialize the playload
       const playload = 
       {
-        title: this.Book.title,
-        author: this.Book.author,
+        title: book.title,
+        author: book.author,
       }
-      console.log(playload)
+      console.log(playload, "test")
       
       // Add a book
-      this.CreateBook(this.Book);
+      this.CreateBook(playload);
       
       this.initForm();
     },
@@ -95,8 +101,8 @@ export default {
     {
       // Initialize the playload
       const playload = {
-        title: this.Book.title,
-        author: this.Book.author,
+        title: this.book.title,
+        author: this.book.author,
       }
       // Add a book
       this.UpdateBook(playload, ID);
@@ -124,7 +130,6 @@ export default {
     ConfirmDelete(ID)
     {
       this.DeleteBook(ID);
-      
     },
 
     // Fetch all books and send a get request
@@ -140,20 +145,6 @@ export default {
         .catch((error) => {
           console.error(error);
         });
-    },
-
-    // Reset the form
-    ResetForm() 
-    {
-      this.initForm();
-      this.fetchBooks();
-    },
-
-    initForm() 
-    {
-      // Reset the form
-      this.Book.title = '';
-      this.Book.author = '';
     },
   },
   created() {
