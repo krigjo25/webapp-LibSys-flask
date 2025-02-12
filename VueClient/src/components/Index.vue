@@ -1,6 +1,6 @@
 <template>
   <Form :book ="this.Book" @add-book="SubmitEvent" />
-  <BookTable :data="Book"  />
+  <BookTable :data="this.Book"  />
   </template>
 
 <script>
@@ -29,9 +29,6 @@ export default {
 
       this.Book = book;
       CreateBook(book);
-    },
-    CreateBook(playload)
-    {
     },
   },
   components: {
