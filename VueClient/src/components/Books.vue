@@ -13,8 +13,8 @@
                 <td>{{ book.author }}</td>
                 <td>
                   <button @click="BookInfo(book.id)"><i class="bi bi-info-circle"></i></button>
-                  <button @click="EditBook(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
-                  <button @click="ConfirmDelete()"><i class="bi bi-x-circle-fill"></i></button>
+                  <button @click="UpsertEvent(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
+                  <button @click="ConfirmDelete(book.id)"><i class="bi bi-x-circle-fill"></i></button>
             
                     
                 </td>
@@ -35,12 +35,21 @@ export default {
     };
   },
 
-  props: 
-  {
-    data: 
-    {
+  props:{
+    data: {
       type: Object,
-      required: true
+      required: true,}
+
+  },
+  watch:
+  {
+    data: function(data, oldData)
+    {
+      if (data)
+      {
+        this.UpsertEvent(data);
+      }
+
     }
   },
   methods: {
@@ -63,22 +72,6 @@ export default {
         });
     },
 
-    SubmitEvent(book) 
-    {
-      // Initialize the playload
-      const playload = 
-      {
-        title: book.title,
-        author: book.author,
-      }
-      console.log(playload, "test")
-      
-      // Add a book
-      this.CreateBook(playload);
-      
-      this.initForm();
-    },
-
     // Update a book and send Put Request
     UpdateBook(playload, ID)
     {
@@ -97,16 +90,33 @@ export default {
         });
     },
 
-    SubmitChanges(ID) 
+    UpsertEvent(data) 
     {
       // Initialize the playload
-      const playload = {
-        title: this.book.title,
-        author: this.book.author,
-      }
-      // Add a book
-      this.UpdateBook(playload, ID);
-      this.initForm();
+      if (data) 
+      {
+          const playload = 
+        {
+          title: data.title,
+          author: data.author,
+        }
+
+        if (data.id && data.title && data.author) 
+        {
+          // Update a book
+          this.UpdateBook(playload, data.id);
+        } 
+        else if (data.title && data.author)
+        {
+          // Add a book
+          this.CreateBook(playload);
+        }
+        else
+        {
+          this.$emit('update-book', data);
+        }
+      } 
+
     },
 
     // Delete a book and send a delete request
@@ -140,7 +150,6 @@ export default {
       axios.get(path)
         .then((res) => {
           this.books = res.data.books;
-          console.log(this.books);
         })
         .catch((error) => {
           console.error(error);
