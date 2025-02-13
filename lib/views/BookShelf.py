@@ -10,7 +10,7 @@ from flask.views import MethodView
 
 #   Importing custom libraries
 from lib.utility_tools.tools import UtilityTools
-
+from lib.config.logger import MethodWatcher
 #   Loading environment variables
 load_dotenv()
 
@@ -45,6 +45,10 @@ class BookMananger(MethodView):
 
     def __init__(self, books = BOOKS, *args, **kwargs):
 
+        #   Initialize the logger
+        self.logger = MethodWatcher()
+        self.logger.FileHandler()
+
         self.tool = UtilityTools()
         self.BOOKS = BOOKS
     
@@ -55,13 +59,17 @@ class BookMananger(MethodView):
         #   Ensure that the request method is GET
         if request.method == 'GET':
 
-            response['books'] = self.BOOKS
+            response['code'] = 200
             response['status'] = "success"
-            response['message'] = "Books fetched successfully"
+            response['books'] = self.BOOKS
+
+            self.logger.info(f"Status : {response['code']}")
 
         else:
             response['status'] = "Unsuccessful"
             response['message'] = "An error Occured while attempting to process the request"
+
+            self.logger.error(f"Headers : {request.headers}\n Error : {response['message']} \n Status : {response['status']}")
         
         return jsonify(response)
     
@@ -86,12 +94,18 @@ class BookMananger(MethodView):
 
             response = {
                 'status': "success", 
+                'books': self.BOOKS,
+                'code': 201,
                 'message': "Book added successfully",
-                'books': self.BOOKS
                 }
+
+            self.logger.info(f"Status : {response['code']}")
         else:
             response['status'] = "Unsuccessful"
+            response['code'] = 400
             response['message'] = "An error Occured while attempting to process the request"
+
+            self.logger.error(f"Status : {response['code']} Method : {request.method} Headers : {request.headers}")
         
         return jsonify(response)
     
@@ -116,13 +130,16 @@ class BookMananger(MethodView):
 
                 #   Add the updated book to the dictionary
                 self.BOOKS.append(dictionary)
-                response['message'] = 'Book updated successfully'
+                response['message'] = "Book updated successfully"
+
+                self.logger.info(f"Status : {response['code']}")
             else:
                 response['message'] = "Book does not exist"
 
         else:
             response['status'] = "Unsuccessful"
             response['message'] = "An error Occured while attempting to process the request"
+            self.logger.error(f"Status : {response['code']} Method : {request.method} Headers : {request.headers}")
 
         return jsonify(response)
 
@@ -136,5 +153,6 @@ class BookMananger(MethodView):
             response['status'] = "success"
             response['message'] = "Book deleted successfully"
             response['books'] = self.tool.Purge(self.BOOKS, BID)
+            
 
         return jsonify(response)

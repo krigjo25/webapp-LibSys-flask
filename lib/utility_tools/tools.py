@@ -1,7 +1,18 @@
+#   Utility tools for the application
 
+#   Import the necessary dependencies
 import uuid as ID
 
+#   Importing custom dependencies
+from lib.config.logger import UtilityWatcher
+
 class UtilityTools(object):
+
+    def __init__(self):
+
+        #   Initializing the logger
+        self.log = UtilityWatcher()
+        self.log.FileHandler()
 
 
     def Check(self, Books:list, BID:str):
@@ -18,8 +29,10 @@ class UtilityTools(object):
 
             #   Ensure that the element exists in the dictionary
             if book['id'] == BID:
-
+                self.log.info(f"Book with ID: {BID} exists in the dictionary.")
                 return True
+
+            self.log.warning(f"Book with ID: {BID} does not exist in the dictionary.")
         return False
 
     def Purge(self, arg:list, ID:str):
@@ -39,26 +52,6 @@ class UtilityTools(object):
 
                     #   Remove the element from the dictionary
                     arg.remove(i)
+            self.log.info(f"Book with ID: {ID} has been removed from the dictionary.")
 
         return arg
-    
-        """
-            *  Initialize the book dictionary
-
-            param: data
-            return: dictionary
-        """
-
-        book = [
-            {
-            'id': ID.uuid4().hex,
-            'title': 'The Alchemist',
-            'author': 'Paulo Coelho',
-            },
-            {
-                'id': ID.uuid4().hex,
-                'title': 'The Secret',
-                'author': 'Rhonda Byrne',
-
-            }]
-        return book

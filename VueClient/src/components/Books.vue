@@ -155,6 +155,9 @@ export default {
           console.error(error);
         });
     },
+    ShowInfo()
+    {
+    },
   },
   created() {
     this.fetchBooks();
