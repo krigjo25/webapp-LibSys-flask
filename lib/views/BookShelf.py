@@ -11,6 +11,7 @@ from flask.views import MethodView
 #   Importing custom libraries
 from lib.utility_tools.tools import UtilityTools
 from lib.config.logger import MethodWatcher
+
 #   Loading environment variables
 load_dotenv()
 
@@ -153,6 +154,6 @@ class BookMananger(MethodView):
             response['status'] = "success"
             response['message'] = "Book deleted successfully"
             response['books'] = self.tool.Purge(self.BOOKS, BID)
-            
+
 
         return jsonify(response)
