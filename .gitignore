@@ -1,9 +1,15 @@
 #   Files to ignore
+*.env
+*.log
+
 
 #   Directories to ignore
 .venv
 __pycache__/
+node_modules/
 flask_session/
 
-#   Dirty secrets and configurations
+
+#   Exceptions
+!*.env.example 
 

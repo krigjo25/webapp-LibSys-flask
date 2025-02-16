@@ -8,13 +8,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="book in books" :key="book.id">
+            <tr v-for="book in books.books" :key="book.id">
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
                 <td>
                   <button @click="BookInfo(book.id)"><i class="bi bi-info-circle"></i></button>
                   <button @click="UpsertEvent(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
-                  <button @click="ConfirmDelete(book.id)"><i class="bi bi-x-circle-fill"></i></button>
+                  <button @click="DeleteBook(book.id)"><i class="bi bi-x-circle-fill"></i></button>
             
                     
                 </td>
@@ -23,144 +23,145 @@
     </table>
 </template>
 
-<script>
+<script e>
 
 //  Importing required dependencies
 import axios from 'axios';
+import { reactive, watch, computed, onMounted,ref } from 'vue';
 
-export default {
-  data() {
-    return {
-      books: [],
-    };
-  },
 
-  props:{
-    data: {
-      type: Object,
-      required: true,}
+const books = reactive({
+    books: ref([]),
+});
 
-  },
-  watch:
-  {
-    data: function(data, oldData)
-    {
-      if (data)
-      {
-        this.UpsertEvent(data);
-      }
+//  Fetch the books from the server
+const Response = async () =>
+{
+    //  Initialize the path
+    const path = 'http://localhost:5000/';
+    axios.get(path)
+        .then((res) => {
 
-    }
-  },
-  methods: {
+            books.books = res.data.books;
+            console.log('Books fetched successfully', books.books);
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+}
 
-    // Create a bok and send a Post Request
-    CreateBook(playload)
-    {
-      // Initialize the path
-      const path = 'http://localhost:5000/';
+// Create a bok and send a Post Request
+async function CreateBook(playload)
+{
+    // Initialize the path
+    const path = 'http://localhost:5000/';
 
-      // Send a post request to the server
-      axios.post(path, playload)
+    // Send a post request to the server
+    await axios.post(path, playload)
         .then(() => {
-          this.fetchBooks();
-          console.log('Book added successfully');
+            Response();
         })
         .catch((error) => {
-          console.error(error);
-          this.fetchBooks();
+            console.error(error);
         });
-    },
+};
 
     // Update a book and send Put Request
-    UpdateBook(playload, ID)
-    {
-      //  Initialize the path
-      const path = `http://localhost:5000/${ID}`;
+async function UpdateBook(playload, ID)
+{
+    //  Initialize the path
+    const path = `http://localhost:5000/${ID}`;
 
-      // Send a post request to the server
-      axios.put(path, playload)
+    // Send a post request to the server
+    await axios.put(path, playload)
         .then(() => {
-          this.fetchBooks();
-          console.log('Book updated successfully', playload);
+            Response();
+            console.log('Book updated successfully', playload);
         })
         .catch((error) => {
-          console.error(error);
-          this.fetchBooks();
+            console.error(error);
         });
-    },
+};
 
-    UpsertEvent(data) 
+async function UpsertEvent(data) 
+{
+    // Initialize the playload
+    if (data) 
     {
-      // Initialize the playload
-      if (data) 
-      {
-          const playload = 
+        const playload = 
         {
-          title: data.title,
-          author: data.author,
+            title: data.title,
+            author: data.author,
         }
 
         if (data.id && data.title && data.author) 
         {
-          // Update a book
-          this.UpdateBook(playload, data.id);
+              // Update a book
+            UpdateBook(playload, data.id);
         } 
         else if (data.title && data.author)
         {
-          // Add a book
-          this.CreateBook(playload);
+            // Add a book
+            CreateBook(playload);
         }
         else
         {
-          this.$emit('update-book', data);
+            $emit('update-book', data);
         }
       } 
 
-    },
+};
 
     // Delete a book and send a delete request
-    DeleteBook(ID)
+async function DeleteBook(ID)
     {
-      // Initialize the path
-      const path = `http://localhost:5000/${ID}`;
+        // Initialize the path
+        const path = `http://localhost:5000/${ID}`;
 
-      // Send a delete request to the server
-      axios.delete(path)
-        .then(() => {
-          this.fetchBooks();
-          console.log('Book deleted successfully');
-        })
-        .catch((error) => {
-          console.error(error);
-          this.fetchBooks();
-        });
-    },
+        // Send a delete request to the server
+        await axios.delete(path)
+            .then(() => {
+                Response();
+                console.log('Book deleted successfully');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
-    ConfirmDelete(ID)
-    {
-      this.DeleteBook(ID);
-    },
+export default {
 
-    // Fetch all books and send a get request
-    fetchBooks() 
-    {
-      //  Initialize the path
-      const path = 'http://localhost:5000/';
-      axios.get(path)
-        .then((res) => {
-          this.books = res.data.books;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    ShowInfo()
-    {
-    },
+  props:
+  {
+    data: {
+    type    : Object}
   },
-  created() {
-    this.fetchBooks();
+  emit : ['update-book'],
+
+  // Initialize the data
+  setup(props, { emit }) {
+
+    //  Watch if the data is changed
+    watch(props.data)
+    {
+        if (props.data)
+        {
+            UpsertEvent(data);
+        }
+    }
+
+    // Initialize the data
+    onMounted(Response);
+
+    return {
+        books,
+
+        CreateBook,
+        DeleteBook,
+        UpdateBook,
+        UpsertEvent,
+        
+    };
   },
 };
 </script>
