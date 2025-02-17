@@ -42,13 +42,16 @@ BOOKS = [
 
     }]
 
+logger = MethodWatcher()
+logger.FileHandler()
+
 class BookMananger(MethodView):
 
     def __init__(self, books = BOOKS, *args, **kwargs):
 
         #   Initialize the logger
-        self.logger = MethodWatcher()
-        self.logger.FileHandler()
+        self.logger = logger
+        
 
         self.tool = UtilityTools()
         self.BOOKS = BOOKS

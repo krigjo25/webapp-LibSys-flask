@@ -1,56 +1,74 @@
 <template>
   <form>
-    <legend></legend>
+    <legend>{{ title}}</legend>
     <label for="title">Title</label>
-    <input type="text" id="title" name="title" placeholder="Title" v-model="book.title">
+    <input type="text" id="title" name="title" placeholder="Title" v-model="Book.title">
     <label for="author">Author</label>
-    <input type="text" id="author" name="author" placeholder="Author" v-model="book.author">
+    <input type="text" id="author" name="author" placeholder="Author" v-model="Book.author">
     <div>
-      <button type="submit" value="submit" @click="SubmitBook()"><i class="bi bi-plus-circle-fill"></i></button>
+      <button type="submit" value="submit" @click="UpdateEvent"><i class="bi bi-plus-circle-fill"></i></button>
       <button type="reset" value= "reset" @click="Reset"><i class="bi bi-arrow-counterclockwise"></i></button>
     </div>
   </form>
 </template>
+  
 
-<script>
-export default {
-  props: {
-    book: {
+<script setup>
+
+//  Importing required dependencies
+import { defineProps, defineEmits } from 'vue';
+import { reactive, watch, computed, ref } from 'vue';
+
+function UpdateEvent()
+{
+  emit('shared-data', Book);
+}
+
+function Reset()
+{
+  Book.value.title = "";
+  Book.value.author = "";
+}
+
+const props = defineProps(
+  {
+    book: 
+    {
       type: Object,
       required: true
-    }
-  },
-  watch: {
-    book: function(book, oldBook) {
-      if (book) {
-        this.book = book;
-        this.SubmitBook();
-      }
-      console.log(book);
-    }
-  },
-  methods: {
-    Reset() {
-      this.$emit('Reset');
     },
-    SubmitBook()
+    formTitle: 
     {
-      const book = this.book;
-      this.$emit('upsert-book', book);
-    },
-        // Reset the form
-    Reset() 
-    {
-      this.initForm();
-      this.fetchBooks();
-    },
+      type: String,
+      default: "Add a book",
+    }
+  }
+);
 
-    initForm() 
+const emit = defineEmits(['shared-data']);
+
+const Book = reactive
+(
     {
-      // Reset the form
-      this.Book.title = '';
-      this.Book.author = '';
-    },
-  },
-};
+        id: null,
+        title: null,
+        author: null
+    }
+);
+
+const title = computed(() => props.formTitle);
+
+
+
+watch(
+  () => props.book,
+  (newVal) =>
+  {
+    if (newVal)
+    {
+      Book.value.id = newVal.id;
+
+    }
+  }, 
+);
 </script>

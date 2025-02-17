@@ -12,7 +12,7 @@
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
                 <td>
-                  <button @click="BookInfo(book.id)"><i class="bi bi-info-circle"></i></button>
+                  <button @click="BookInfo(book)"><i class="bi bi-info-circle"></i></button>
                   <button @click="UpsertEvent(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
                   <button @click="DeleteBook(book.id)"><i class="bi bi-x-circle-fill"></i></button>
             
@@ -23,16 +23,11 @@
     </table>
 </template>
 
-<script e>
+<script setup>
 
 //  Importing required dependencies
 import axios from 'axios';
-import { reactive, watch, computed, onMounted,ref } from 'vue';
-
-
-const books = reactive({
-    books: ref([]),
-});
+import { reactive, watch, computed, defineEmits, onMounted,ref } from 'vue';
 
 //  Fetch the books from the server
 const Response = async () =>
@@ -66,11 +61,11 @@ async function CreateBook(playload)
         });
 };
 
-    // Update a book and send Put Request
-async function UpdateBook(playload, ID)
+// Update a book and send Put Request
+async function UpdateBook(playload)
 {
     //  Initialize the path
-    const path = `http://localhost:5000/${ID}`;
+    const path = `http://localhost:5000/${playload.id}`;
 
     // Send a post request to the server
     await axios.put(path, playload)
@@ -85,28 +80,32 @@ async function UpdateBook(playload, ID)
 
 async function UpsertEvent(data) 
 {
-    // Initialize the playload
+    console.log(data)    // Initialize the playload
     if (data) 
     {
         const playload = 
         {
+            id: data.id,
             title: data.title,
             author: data.author,
         }
 
+        //  Ensure the data's integerty
         if (data.id && data.title && data.author) 
         {
               // Update a book
-            UpdateBook(playload, data.id);
+            UpdateBook(playload);
         } 
+
         else if (data.title && data.author)
         {
-            // Add a book
             CreateBook(playload);
         }
+
         else
         {
-            $emit('update-book', data);
+            console.log(playload.id)
+            emit('book-id', playload.id);
         }
       } 
 
@@ -127,41 +126,35 @@ async function DeleteBook(ID)
             .catch((error) => {
                 console.error(error);
             });
-    };
+};
 
-export default {
+const emit = defineEmits(['update-book']);
 
-  props:
-  {
-    data: {
-    type    : Object}
-  },
-  emit : ['update-book'],
+const books = reactive({books: []});
 
-  // Initialize the data
-  setup(props, { emit }) {
-
-    //  Watch if the data is changed
-    watch(props.data)
+const props = defineProps(
     {
-        if (props.data)
+        data: 
         {
-            UpsertEvent(data);
+            type: Object,
+            required: true
         }
     }
+);
 
-    // Initialize the data
-    onMounted(Response);
+//  Watch if the data is changed
+watch(
+    () => props.data.value, 
+    (newVal) => 
+    {
+        console.log('Data changed', newVal);
+        if (newVal) {
+            console.log('Upsert Event', newVal);
+            UpsertEvent(newVal);
+    }
+},);
 
-    return {
-        books,
+// Initialize the data
+onMounted(Response);
 
-        CreateBook,
-        DeleteBook,
-        UpdateBook,
-        UpsertEvent,
-        
-    };
-  },
-};
 </script>

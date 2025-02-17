@@ -1,48 +1,41 @@
 <template>
-  <Form :book ="Book" @upsert-book="SubmitEvent" />
-  <BookTable :data="data"  @update-book="UpdateEvent"/>
+  <Form :book="Book" @shared-data="SubmitBook"/>
+  <BookTable :data="data" @book-id="UpdateEvent"/>
 </template>
 
-<script>
-
-//  Importing Components
-import Form from './Form.vue';
+<script setup>
+  //  Importing Components
+  import Form from './Form.vue';
 import BookTable from './Books.vue';
 
-export default {
-  components: {
-    
-    Form,
-    BookTable,
-  },
-  data() {
-    return {
-      
-      Book:
-      {
-        title: "",
-        author: "",
+//  Importing required dependencies
+import { reactive, ref } from 'vue';
 
-      },
-      data: null,
+const Book = reactive
+(
+    {
+        title: null,
+        author: null,
+    }
+);
 
-    };
-  },
-  methods:
+const data = reactive
+(
   {
-    SubmitEvent(book) 
-    {
-      this.data = book;
-    },
-
-    UpdateEvent(book)
-    {
-      this.Book.id = book;
-      this.data = this.Book;
-    },
-
-    
-
-  },
-};
+      title: null,
+      author: null,
+  }
+);
+function SubmitBook(payload)
+{
+  data.id = payload.id;
+  data.title = payload.title;
+  data.author = payload.author;
+  console.log("Submitting :", data);
+}
+function UpdateEvent(payload)
+{
+    Book.id = payload.id;
+    console.log("Submitting :", Book);
+}
 </script>
