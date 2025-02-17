@@ -47,7 +47,7 @@ const props = defineProps(
 
 const emit = defineEmits(['shared-data']);
 
-const Book = reactive
+const Book = ref
 (
     {
         id: null,
@@ -59,7 +59,7 @@ const Book = reactive
 const title = computed(() => props.formTitle);
 
 
-
+console.log("Book", Book.value);
 watch(
   () => props.book,
   (newVal) =>
@@ -67,6 +67,7 @@ watch(
     if (newVal)
     {
       Book.value.id = newVal.id;
+      console.log("Book ID: ", Book.value.id);
 
     }
   }, 
