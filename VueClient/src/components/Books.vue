@@ -61,24 +61,26 @@
     };
 
     // Update a book and send Put Request
-    async function UpdateBook(playload)
+    async function UpdateBook(payload)
     {
         //  Initialize the path
-        const path = `http://localhost:5000/${playload.id}`;
+        const path = `http://localhost:5000/${payload.id}`;
 
         // Send a post request to the server
-        await axios.put(path, playload)
+        await axios.put(path, payload)
             .then(() => {
-                Response();
-                console.log('Book updated successfully', playload);
+                console.log('Book updated successfully', payload);
             })
             .catch((error) => {
                 console.error(error);
             });
+        
+        Response();
     };
 
     async function UpsertEvent(data) 
     {
+        
         if (data) 
         {
             const playload = 
@@ -93,6 +95,7 @@
             {
                 // Update a book
                 UpdateBook(playload);
+                console.log('Data:', data);
             } 
 
             else if (data.title && data.author && !data.id)
@@ -141,12 +144,10 @@
     //  Watch if the data is changed
     watch(
         () => props.data, 
-        (newVal) => 
+        (data) => 
         {
-            console.log('Data changed :', newVal);
-            if (newVal) {
-                console.log('Upsert Event', newVal);
-                UpsertEvent(newVal);
+            if (data) {
+                UpsertEvent(data);
         }
     },
     {

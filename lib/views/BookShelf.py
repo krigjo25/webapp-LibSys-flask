@@ -1,11 +1,11 @@
 #  Index view
 
 #   Importing required dependencies
-import uuid as ID
+import os, uuid as ID
 
 #   Importing  required dependencies
 from dotenv import load_dotenv
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from flask.views import MethodView
 
 #   Importing custom libraries
@@ -55,6 +55,8 @@ class BookMananger(MethodView):
 
         self.tool = UtilityTools()
         self.BOOKS = BOOKS
+
+        self.orgins = '*'
     
     def get(self):
 
@@ -104,6 +106,7 @@ class BookMananger(MethodView):
                 }
 
             self.logger.info(f"Status : {response['code']}")
+
         else:
             response['status'] = "Unsuccessful"
             response['code'] = 400

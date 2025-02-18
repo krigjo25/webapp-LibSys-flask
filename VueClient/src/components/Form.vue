@@ -2,9 +2,9 @@
   <form>
     <legend>{{ title}}</legend>
     <label for="title">Title</label>
-    <input type="text" id="title" name="title" placeholder="Title" v-model="Book.title">
+    <input type="text" id="title" name="title" placeholder="Title" v-model="buffer.title">
     <label for="author">Author</label>
-    <input type="text" id="author" name="author" placeholder="Author" v-model="Book.author">
+    <input type="text" id="author" name="author" placeholder="Author" v-model="buffer.author">
     <div>
       <button type="submit" value="submit" @click="UpdateEvent"><i class="bi bi-plus-circle-fill"></i></button>
       <button type="reset" value= "reset" @click="Reset"><i class="bi bi-arrow-counterclockwise"></i></button>
@@ -19,15 +19,17 @@
 import { defineProps, defineEmits } from 'vue';
 import { reactive, watch, computed, ref } from 'vue';
 
-function UpdateEvent()
-{
-  emit('shared-data', Book);
-}
+
 
 function Reset()
 {
-  Book.value.title = "";
-  Book.value.author = "";
+  buffer.value.title = "";
+  buffer.value.author = "";
+}
+
+function UpdateEvent()
+{
+  emit('shared-data', buffer);
 }
 
 const props = defineProps(
@@ -47,7 +49,7 @@ const props = defineProps(
 
 const emit = defineEmits(['shared-data']);
 
-const Book = ref
+const buffer = ref
 (
     {
         id: null,
@@ -58,18 +60,21 @@ const Book = ref
 
 const title = computed(() => props.formTitle);
 
-
-console.log("Book", Book.value);
 watch(
-  () => props.book,
-  (newVal) =>
+  () => props.book.id,
+  (book) =>
   {
-    if (newVal)
+    console.log("Data: ", book);
+    if (book)
     {
-      Book.value.id = newVal.id;
-      console.log("Book ID: ", Book.value.id);
+      buffer.value.id = book;
+      console.log("Book ID: ", buffer.value);
+      emit('shared-data', buffer);
 
     }
-  }, 
+  },
+  {
+    deep: true
+  }
 );
 </script>
