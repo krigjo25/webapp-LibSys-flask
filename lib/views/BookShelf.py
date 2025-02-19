@@ -128,11 +128,11 @@ class BookMananger(MethodView):
 
             #   Ensure that the book exists in the dictionary
             if self.tool.Purge(self.BOOKS, BID):
-                
+            
                 dictionary = {
                     'id': BID,
-                    'title': data.get('title'),
-                    'author': data.get('author')
+                    'title': data['title'],
+                    'author': data['author']
                 }
 
                 #   Add the updated book to the dictionary
@@ -142,6 +142,7 @@ class BookMananger(MethodView):
                 self.logger.info(f"Status : {response['code']}")
             else:
                 response['message'] = "Book does not exist"
+                self.logger.error(f"Bookd id : {BID} does not exist")
 
         else:
             response['status'] = "Unsuccessful"

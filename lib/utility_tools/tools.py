@@ -32,7 +32,7 @@ class UtilityTools(object):
                 self.log.info(f"Book with ID: {BID} exists in the dictionary.")
                 return True
 
-            self.log.warning(f"Book with ID: {BID} does not exist in the dictionary.")
+            self.log.warn(f"Book with ID: {BID} does not exist in the dictionary.")
         return False
 
     def Purge(self, arg:list, ID:str):
