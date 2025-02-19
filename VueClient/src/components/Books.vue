@@ -8,19 +8,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="book in books.books" :key="book.id">
+            <tr v-for="book in data.books" :key="book.id">
                 <td>{{ book.title }}</td>
-                <td>{{ book.author }}</td>
+                <td>{{ book.author[0] }}</td>
                 <td>
-                  <button @click="BookInfo(book)"><i class="bi bi-info-circle"></i></button>
+                  <button @click="BookInfo(book.id)"><i class="bi bi-info-circle"></i></button>
                   <button @click="UpsertEvent(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
                   <button @click="DeleteBook(book.id)"><i class="bi bi-x-circle-fill"></i></button>
-            
-                    
                 </td>
             </tr>
         </tbody>
     </table>
+    <div v-for="book in data.books" :key="book.id">
+        <Bookinfo v-if="book.selected" :data="book"/>
+    </div>
 </template>
 
 <script setup>
@@ -28,22 +29,21 @@
     import axios from 'axios';
     import { reactive, watch, computed, defineEmits, onMounted,ref } from 'vue';
 
-    //  Fetch the books from the server
-    const Response = async () =>
+    //  Importing Components
+    import Bookinfo from './BookInfo.vue';
+
+    //  Show book
+    function BookInfo(book)
     {
-        //  Initialize the path
-        const path = 'http://localhost:5000/';
-        axios.get(path)
-            .then((res) => {
+        for (let i = 0; i < data.books.length; i++) 
+        {
+            const selected = data.books[i];
 
-                books.books = res.data.books;
+            selected.selected =  (selected.id === book) ? true : ref(false);
 
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+            console.log('Selected:', selected.selected);
+        }
     }
-
     // Create a bok and send a Post Request
     async function CreateBook(playload)
     {
@@ -128,9 +128,26 @@
                 });
     };
 
+    //  Fetch the books from the server
+    const Response = async () =>
+    {
+        //  Initialize the path
+        const path = 'http://localhost:5000/';
+        axios.get(path)
+            .then((res) => {
+
+                data.books = res.data.books;
+                console.log('Books:', data.books);
+
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
     const emit = defineEmits(['book-id']);
 
-    const books = reactive({books: []});
+    const data = reactive({books:null});
 
     const props = defineProps(
         {
@@ -141,6 +158,7 @@
             }
         }
     );
+
     //  Watch if the data is changed
     watch(
         () => props.data, 
