@@ -14,16 +14,17 @@
 </template>
   
 <script setup>
-//  Importing required dependencies
-import { defineProps } from 'vue';
 
-//  Initializing reactive objects
-const props = defineProps(
-  {
-    data:{
-    type: Array,
-    required: true,
+  //  Importing required dependencies
+  import { defineProps } from 'vue';
+
+  //  Initializing reactive objects
+  const props = defineProps(
+    {
+      data:{
+      type: Array,
+      required: true,
+      }
     }
-  }
-);
+  );
 </script>

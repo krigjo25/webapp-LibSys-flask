@@ -1,8 +1,8 @@
 <template>
     <table>
         <thead>
-            <tr v-for="heading in data.headings" :key="heading">
-                <th>{{ heading }}</th>
+            <tr >
+                <th v-for="heading in data.headings" :key="heading">{{ heading }}</th>
             </tr>
         </thead>
         <tbody>
@@ -10,10 +10,7 @@
                 <td>{{ book.title }}</td>
                 <td>{{ book.author[0] }}</td>
                 <td>
-                    <!--Btn v-for="btn in buttons" :data="btn" /-->
-                    <button @click="BookInfo(book.id)"><i class="bi bi-info-circle"></i></button>
-                    <button @click="UpsertEvent(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
-                    <button @click="DeleteBook(book.id)"><i class="bi bi-x-circle-fill"></i></button>
+                    <Btn v-for="btn in buttons" :data="btn" @click="btn.action(book.id)" />
                 </td>
             </tr>
         </tbody>
@@ -33,18 +30,75 @@
     import Bookinfo from './BookInfo.vue';
     import Btn from './misc_components/Btn.vue';
 
+    const emit = defineEmits(['book-id']);
+
+    const props = defineProps(
+        {
+            data:
+            {
+                type: Object,
+                required: true
+            }
+        }
+    );
+
+    const data = reactive(
+        {
+        headings: ['Title', 'Author', 'Actions'],
+        books:null
+    });
+
+    const buttons = reactive([
+        {
+            type: 'button',
+            book: data.books,
+            action: BookInfo,
+            cls: 'bi bi-info-circle',
+        },
+        {
+            type: 'button',
+            book: data.books,
+            action: UpsertEvent,
+            cls: 'bi bi-arrow-clockwise',
+        },
+        {
+            type: 'button',
+            book: data.books,
+            action: DeleteBook,
+            cls: 'bi bi-x-circle-fill',
+        }
+    ]);
+
+        //  Fetch the books from the server
+    const Response = async () =>
+    {
+        //  Initialize the path
+        const path = 'http://localhost:5000/';
+        axios.get(path)
+            .then((res) => {
+
+                data.books = res.data.books;
+                console.log('Books:', data.books);
+
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+
     //  Show book
-    function BookInfo(book)
+    function BookInfo(id)
     {
         for (let i = 0; i < data.books.length; i++) 
         {
             const book = data.books[i];
 
-            book.selected =  (book.id === book) ? ref(true) : ref(false);
+            book.selected = (book.id === id) ? ref(true) : ref(false);
 
             console.log('Selected:', book.selected);
         }
-    }
+    };
+
     // Create a bok and send a Post Request
     async function CreateBook(playload)
     {
@@ -127,61 +181,6 @@
                     console.error(error);
                 });
     };
-
-    //  Fetch the books from the server
-    const Response = async () =>
-    {
-        //  Initialize the path
-        const path = 'http://localhost:5000/';
-        axios.get(path)
-            .then((res) => {
-
-                data.books = res.data.books;
-                console.log('Books:', data.books);
-
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    }
-
-    const emit = defineEmits(['book-id']);
-
-    const props = defineProps(
-        {
-            data:
-            {
-                type: Object,
-                required: true
-            }
-        }
-    );
-    const data = reactive(
-        {
-        headings: ['Title', 'Author', 'Actions'],
-        books:null
-    });
-
-    const buttons = reactive([
-        {
-            type: 'button',
-            book: data.books,
-            action: BookInfo,
-            cls: 'bi bi-info-circle',
-        },
-        {
-            type: 'button',
-            book: data.books,
-            function: UpsertEvent,
-            cls: 'bi bi-arrow-clockwise',
-        },
-        {
-            type: 'button',
-            book: data.books,
-            action: DeleteBook,
-            cls: 'bi bi-x-circle-fill',
-        }
-    ]);
 
     //  Watch if the data is changed
     watch(

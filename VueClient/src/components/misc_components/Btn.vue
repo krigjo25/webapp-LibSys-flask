@@ -1,5 +1,5 @@
 <template>
-    <button :type="data.type" @click="data.action">
+    <button :type="data.type">
         <i :class="data.cls"></i>
     </button>
 </template>

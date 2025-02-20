@@ -5,46 +5,46 @@
 
 <script setup>
 
-//  Importing Components
-import Form from './Form.vue';
-import BookTable from './Books.vue';
+  //  Importing Components
+  import Form from './Form.vue';
+  import BookTable from './Books.vue';
 
-//  Importing required dependencies
-import { reactive, watch } from 'vue';
+  //  Importing required dependencies
+  import { reactive, watch } from 'vue';
 
-function SubmitBook(payload)
-{
-  console.log("Submitting :", payload);
-  if (payload.id)
-  {
-      data.id = payload.id;
-  }
-  data.title = payload.title;
-  data.author = payload.author;
-}
-function UpdateEvent(payload)
-{
-    Book.id = payload;
-}
+  //  Initializing reactive objects
+  const Book = reactive
+  (
+      {
+        id    :null,
+        title :null,
+        author:null,
+      }
+  );
 
-//  Initializing reactive objects
-const Book = reactive
-(
+  const data = reactive(  
     {
-      id    :null,
-      title :null,
-      author:null,
-    }
-);
+      title: null,
+      author: null,
+  });
 
-const data = reactive(  
+  function SubmitBook(payload)
   {
-    title: null,
-    author: null,
-});
+    console.log("Submitting :", payload);
+    if (payload.id)
+    {
+        data.id = payload.id;
+    }
+    data.title = payload.title;
+    data.author = payload.author;
+  }
+  function UpdateEvent(payload)
+  {
+      Book.id = payload;
+  }
 
-watch(Book, (data) => {
-  console.log("Data: ", data);
-},
-);
+  watch(Book, (data) => {
+    console.log("Data: ", data);
+  },
+  );
 </script>
