@@ -1,5 +1,10 @@
 <template>
-  <Form :book="Book" @shared-data="SubmitBook"/>
+  <header>
+    <nav>
+      <router-link to="/bookmanager">Manage Books</router-link>
+    </nav>
+
+  </header>
   <BookTable :data="data" @book-id="UpdateEvent"/>
 </template>
 

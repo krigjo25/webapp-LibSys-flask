@@ -1,27 +1,18 @@
 <template>
-    <table>
-        <thead>
-            <tr >
-                <th v-for="heading in data.headings" :key="heading">{{ heading }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="book in data.books" :key="book.id">
-                <td>{{ book.title }}</td>
-                <td>{{ book.author[0] }}</td>
-                <td>
-                    <Btn v-for="btn in buttons" :data="btn" @click="btn.action(book.id)" />
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <main>
+        <section>
+            <div v-for="book in data.books" :key="book.id" @click="BookInfo(book.id)">
+                <img src="https://mrjoes.github.io/shared/posts/flask-admin-120/cb3.jpg" alt="book cover.jpg" />
+                <h3>{{ book.title }} | {{book.rating[0]}} </h3>
+            </div>
+        </section>
+    </main>
     <div v-for="book in data.books" :key="book.id">
         <Bookinfo v-if="book.selected" :data="book"/>
     </div>
 </template>
 
 <script setup>
-    
     //  Importing required dependencies
     import axios from 'axios';
     import { reactive, watch, computed, defineEmits, onMounted,ref } from 'vue';
