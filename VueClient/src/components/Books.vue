@@ -12,9 +12,10 @@
                 <td>{{ book.title }}</td>
                 <td>{{ book.author[0] }}</td>
                 <td>
-                  <button @click="BookInfo(book.id)"><i class="bi bi-info-circle"></i></button>
-                  <button @click="UpsertEvent(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
-                  <button @click="DeleteBook(book.id)"><i class="bi bi-x-circle-fill"></i></button>
+                    <!--Btn v-for="btn in buttons" :data="btn" /-->
+                    <button @click="BookInfo(book.id)"><i class="bi bi-info-circle"></i></button>
+                    <button @click="UpsertEvent(book.id)"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button @click="DeleteBook(book.id)"><i class="bi bi-x-circle-fill"></i></button>
                 </td>
             </tr>
         </tbody>
@@ -25,12 +26,14 @@
 </template>
 
 <script setup>
+    
     //  Importing required dependencies
     import axios from 'axios';
     import { reactive, watch, computed, defineEmits, onMounted,ref } from 'vue';
 
     //  Importing Components
     import Bookinfo from './BookInfo.vue';
+    import Btn from './misc_components/Btn.vue';
 
     //  Show book
     function BookInfo(book)
@@ -147,8 +150,6 @@
 
     const emit = defineEmits(['book-id']);
 
-    const data = reactive({books:null});
-
     const props = defineProps(
         {
             data:
@@ -158,6 +159,22 @@
             }
         }
     );
+    const data = reactive({books:null});
+
+    const buttons = reactive([
+        {
+            book: data.books,
+            cls: 'bi bi-info-circle',
+        },
+        {
+            book: data.books,
+            cls: 'bi bi-arrow-clockwise',
+        },
+        {
+            book: data.books,
+            cls: 'bi bi-x-circle-fill',
+        }
+    ]);
 
     //  Watch if the data is changed
     watch(
