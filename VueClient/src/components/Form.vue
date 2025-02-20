@@ -6,8 +6,7 @@
     <label for="author">Author</label>
     <input type="text" id="author" name="author" placeholder="Author" v-model="buffer.author">
     <div>
-      <button type="submit" value="submit" @click="UpdateEvent"><i class="bi bi-plus-circle-fill"></i></button>
-      <button type="reset" value= "reset" @click="Reset"><i class="bi bi-arrow-counterclockwise"></i></button>
+      <Btn v-for="btn in buttons":data="btn"/>
     </div>
   </form>
 </template>
@@ -19,7 +18,22 @@
 import { defineProps, defineEmits } from 'vue';
 import { reactive, watch, computed, ref } from 'vue';
 
+//  Importing Components
+import Btn from './misc_components/Btn.vue';
 
+const buttons = reactive([
+        {
+            type: 'submit',
+            action: UpdateEvent,
+            cls: 'bi bi-plus-circle-fill',
+        },
+        {
+            type: 'seset',
+            function: Reset,
+            cls: 'bi bi-arrow-counterclockwise',
+        },
+
+    ]);
 
 function Reset()
 {
@@ -49,7 +63,7 @@ const props = defineProps(
 
 const emit = defineEmits(['shared-data']);
 
-const buffer = ref
+const buffer = reactive
 (
     {
         id: null,
@@ -60,6 +74,7 @@ const buffer = ref
 
 const title = computed(() => props.formTitle);
 
+//  Watch if the book ID is changed
 watch(
   () => props.book.id,
   (book) =>
@@ -67,8 +82,8 @@ watch(
     console.log("Data: ", book);
     if (book)
     {
-      buffer.value.id = book;
-      console.log("Book ID: ", buffer.value);
+      buffer.id = book;
+      console.log("Book ID: ", buffer.id);
       emit('shared-data', buffer);
 
     }

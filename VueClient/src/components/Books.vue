@@ -1,10 +1,8 @@
 <template>
     <table>
         <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Actions</th>
+            <tr v-for="heading in data.headings" :key="heading">
+                <th>{{ heading }}</th>
             </tr>
         </thead>
         <tbody>
@@ -40,11 +38,11 @@
     {
         for (let i = 0; i < data.books.length; i++) 
         {
-            const selected = data.books[i];
+            const book = data.books[i];
 
-            selected.selected =  (selected.id === book) ? true : ref(false);
+            book.selected =  (book.id === book) ? ref(true) : ref(false);
 
-            console.log('Selected:', selected.selected);
+            console.log('Selected:', book.selected);
         }
     }
     // Create a bok and send a Post Request
@@ -113,8 +111,7 @@
         } 
 
     };
-
-        // Delete a book and send a delete request
+    // Delete a book and send a delete request
     async function DeleteBook(ID)
         {
             // Initialize the path
@@ -159,19 +156,29 @@
             }
         }
     );
-    const data = reactive({books:null});
+    const data = reactive(
+        {
+        headings: ['Title', 'Author', 'Actions'],
+        books:null
+    });
 
     const buttons = reactive([
         {
+            type: 'button',
             book: data.books,
+            action: BookInfo,
             cls: 'bi bi-info-circle',
         },
         {
+            type: 'button',
             book: data.books,
+            function: UpsertEvent,
             cls: 'bi bi-arrow-clockwise',
         },
         {
+            type: 'button',
             book: data.books,
+            action: DeleteBook,
             cls: 'bi bi-x-circle-fill',
         }
     ]);

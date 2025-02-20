@@ -10,25 +10,25 @@ import Form from './Form.vue';
 import BookTable from './Books.vue';
 
 //  Importing required dependencies
-import { ref, watch } from 'vue';
+import { reactive, watch } from 'vue';
 
 function SubmitBook(payload)
 {
-  console.log("Submitting :", payload.value);
-  if (payload.value.id)
+  console.log("Submitting :", payload);
+  if (payload.id)
   {
-      data.value.id = payload.value.id;
+      data.id = payload.id;
   }
-  data.value.title = payload.value.title;
-  data.value.author = payload.value.author;
+  data.title = payload.title;
+  data.author = payload.author;
 }
 function UpdateEvent(payload)
 {
-    Book.value.id = payload;
+    Book.id = payload;
 }
 
 //  Initializing reactive objects
-const Book = ref
+const Book = reactive
 (
     {
       id    :null,
@@ -37,7 +37,7 @@ const Book = ref
     }
 );
 
-const data = ref(  
+const data = reactive(  
   {
     title: null,
     author: null,
