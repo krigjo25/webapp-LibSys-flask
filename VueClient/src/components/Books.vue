@@ -2,7 +2,7 @@
     <main>
         <section>
             <div v-for="book in data.books" :key="book.id" @click="BookInfo(book.id)">
-                <img src="https://mrjoes.github.io/shared/posts/flask-admin-120/cb3.jpg" alt="book cover.jpg" />
+                <img osrc="https://mrjoes.github.io/shared/posts/flask-admin-120/cb3.jpg" alt="book cover.jpg" />
                 <h3>{{ book.title }} | {{book.rating[0]}} </h3>
             </div>
         </section>
