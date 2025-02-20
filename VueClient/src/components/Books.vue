@@ -95,7 +95,6 @@
 
             book.selected = (book.id === id) ? ref(true) : ref(false);
 
-            console.log('Selected:', book.selected);
         }
     };
 

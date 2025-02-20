@@ -75,6 +75,8 @@
       }
   );
 
+  const title = computed(() => props.formTitle);
+
   function Reset()
   {
     buffer.title = "";
@@ -86,9 +88,6 @@
     emit('shared-data', buffer);
   }
 
-
-
-  const title = computed(() => props.formTitle);
 
   //  Watch if the book ID is changed
   watch(

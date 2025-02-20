@@ -57,13 +57,11 @@ class BookMananger(MethodView):
     def __init__(self, books = BOOKS, *args, **kwargs):
 
         #   Initialize the logger
-        self.logger = logger
-        
-
-        self.tool = UtilityTools()
-        self.BOOKS = BOOKS
-
         self.orgins = '*'
+        self.BOOKS = BOOKS
+        self.logger = logger
+        self.tool = UtilityTools()
+        
     
     def get(self):
 
@@ -76,13 +74,12 @@ class BookMananger(MethodView):
             response['status'] = "success"
             response['books'] = self.BOOKS
 
-            self.logger.info(f"Status : {response['code']}")
-
+            self.logger.info(f"Status : {response['code']}\nMethod : {request.method}\nBooks: {response['books']}")
         else:
             response['status'] = "Unsuccessful"
             response['message'] = "An error Occured while attempting to process the request"
 
-            self.logger.error(f"Headers : {request.headers}\n Error : {response['message']} \n Status : {response['status']}")
+            self.logger.error(f"Headers : {request.headers}\n Error : {response['message']} \n Status : {response['status']} Method : {request.method}")
         
         return jsonify(response)
     
@@ -100,7 +97,7 @@ class BookMananger(MethodView):
             book = {
                 'id': ID.uuid4().hex,
                 'title': data['title'],
-                'author': data['author']
+                'author': [i for i in data['author']]
             }
 
             self.BOOKS.append(book)
@@ -139,17 +136,17 @@ class BookMananger(MethodView):
                 dictionary = {
                     'id': BID,
                     'title': data['title'],
-                    'author': data['author']
+                    'author': str(data['author']).split(',')
                 }
 
                 #   Add the updated book to the dictionary
                 self.BOOKS.append(dictionary)
                 response['message'] = "Book updated successfully"
-
-                self.logger.info(f"Status : {response['code']}")
+                self.logger.info(f"Method :{request.method}\nData :{dictionary} ")
             else:
                 response['message'] = "Book does not exist"
-                self.logger.error(f"Bookd id : {BID} does not exist")
+                self.logger.error(f"Headers : {request.headers}\n Error : {response['message']} \n book.id : {BID} Method : {request.method}")
+            
 
         else:
             response['status'] = "Unsuccessful"
