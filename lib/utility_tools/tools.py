@@ -1,7 +1,7 @@
 #   Utility tools for the application
 
 #   Import the necessary dependencies
-import uuid as ID
+import os, uuid as ID
 
 #   Importing custom dependencies
 from lib.config.logger import UtilityWatcher
@@ -55,3 +55,17 @@ class UtilityTools(object):
             self.log.info(f"Book with ID: {ID} has been removed from the dictionary.")
 
         return arg
+    
+    def FetchImages(self):
+        """
+            *  Fetch the images from the directory
+
+            param: None
+            return: list
+        """
+
+        #   Initialize the path to the images
+        PATH = "VueClient/src/assets/img/"
+        for i in os.listdir(PATH):
+            print(i)
+        return

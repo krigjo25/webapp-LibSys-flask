@@ -17,35 +17,38 @@ load_dotenv()
 
 BOOKS = [
     {
-        'img':[''],
         'selected': False,
         'published': 1988,
         'id': ID.uuid4().hex,
         'title': "The Alchemist",
         'author': ['Paulo Coelho'],
         'publisher': "HarperCollins Publishers",
+        'img':"./src/assets/img/the_alchemist.jpeg",
         'genre': ['Adventure', 'Quest', 'Drama', 'Fantasy', 'Fiction', 'Philosophical fiction'],
         'description' :'The Alchemist is a novel by Brazilian author Paulo Coelho that was first published in 1988. Originally written in Portuguese, it became an international bestseller translated into some 70 languages as of 2016. An allegorical novel, The Alchemist follows a young Andalusian shepherd in his journey to the pyramids of Egypt, after having a recurring dream of finding a treasure there.',
 
-        'rating': [
+        'review': [
             {
-                'Books.com':4.5
+                'rating': 4.5,
+                'name':"Books.com",
+                
             }],
     },
     {
-        'img':[''],
         'published': 2006,
         'selected': False,
         'id': ID.uuid4().hex,
         'title': "The Secret",
         'author': ['Rhonda Byrne'],
         'publisher': "Atria Books Pty Ltd",
+        'img':"./src/assets/img/the_secret.jpeg",
         'genre': ['Self-help book', 'Personal development'],
         'description':'The Secret is a best-selling 2006 self-help book by Rhonda Byrne, based on the earlier film of the same name. It is based on the belief of the law of attraction, which claims that thoughts can change a person\'s life directly. The book has sold 30 million copies worldwide and has been translated into 50 languages.',
 
-        'rating': [
+        'review': [
             {
-                'Books.com':4.2
+                'rating': 4.2,
+                'name':"Books.com",
             }],
     }]
 
@@ -69,7 +72,8 @@ class BookMananger(MethodView):
 
         #   Ensure that the request method is GET
         if request.method == 'GET':
-
+            
+            self.tool.FetchImages()
             response['code'] = 200
             response['status'] = "success"
             response['books'] = self.BOOKS

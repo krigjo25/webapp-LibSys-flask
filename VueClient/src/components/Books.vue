@@ -2,8 +2,11 @@
     <main>
         <section>
             <div v-for="book in data.books" :key="book.id" @click="BookInfo(book.id)">
-                <img osrc="https://mrjoes.github.io/shared/posts/flask-admin-120/cb3.jpg" alt="book cover.jpg" />
-                <h3>{{ book.title }} | {{book.rating[0]}} </h3>
+                <img :src="book.img" alt="book cover.jpg" />
+                <div>
+                    <h3>{{ book.title }}</h3>
+                    <span v-for="review in book.review">| rating:{{review.rating}} by {{review.name}} </span>
+                </div>
             </div>
         </section>
     </main>
