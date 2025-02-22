@@ -5,7 +5,9 @@
     </nav>
 
   </header>
-  <BookTable :data="data" @book-id="UpdateEvent"/>
+  <main>
+    <BookTable :data="data" @book-id="UpdateEvent"/>
+    </main>
 </template>
 
 <script setup>

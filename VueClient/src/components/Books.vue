@@ -5,23 +5,23 @@
                 <img :src="book.img" alt="book cover.jpg" />
                 <div>
                     <h3>{{ book.title }}</h3>
-                    <span v-for="review in book.review">| rating:{{review.rating}} by {{review.name}} </span>
+                    <span>
+                        by <i v-for="author in book.author"> {{ author }} </i>
+                    </span>
                 </div>
             </div>
         </section>
     </main>
-    <div v-for="book in data.books" :key="book.id">
-        <Bookinfo v-if="book.selected" :data="book"/>
-    </div>
 </template>
 
 <script setup>
     //  Importing required dependencies
+    
     import axios from 'axios';
-    import { reactive, watch, computed, defineEmits, onMounted,ref } from 'vue';
+    import router from '../router/index.js';
+    import { reactive, watch, computed, defineEmits, onMounted, ref } from 'vue';
 
     //  Importing Components
-    import Bookinfo from './BookInfo.vue';
     import Btn from './misc_components/Btn.vue';
 
     const emit = defineEmits(['book-id']);
@@ -87,8 +87,13 @@
         {
             const book = data.books[i];
 
-            book.selected = (book.id === id) ? ref(true) : ref(false);
-
+            if (book.id === id) 
+            {
+             router.push(
+                { 
+                    name: 'BookDetails', 
+                    params: { id: id, } });
+            }
         }
     };
 

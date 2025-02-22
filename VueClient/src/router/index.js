@@ -9,13 +9,14 @@ const router = createRouter({
       component: () => import('../components/Index.vue')
     },
     {
-      path: '/BookInfo/:id',
-      name: 'Info',
+      
+      name: 'BookDetails',
+      path: '/Details',
       component: () => import('../components/BookInfo.vue')
     },
     {
-      path: '/ping',
-      name: 'Ping',
+      path: '/bookMananger',
+      name: 'Manager',
       component: () => import('../components/Ping.vue')
     },
 
