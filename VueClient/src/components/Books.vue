@@ -18,12 +18,15 @@
 <script setup>
     //  Importing required dependencies
     import axios from 'axios';
-    import {defineStore} from 'pinia';
-    import router from '../router/index.js';
-    
+    import { useRouter } from 'vue-router';
+    import { Response, data } from '../utils/response.js';
+    import { StoredData } from '../stores/sharingdata.js';
     import { reactive, watch, defineEmits, onMounted, ref } from 'vue';
 
+    const router = useRouter();
+    const shareData = StoredData();
     const emit = defineEmits(['book-id']);
+
     const props = defineProps(
         {
             data:
@@ -33,12 +36,6 @@
             }
         }
     );
-
-    const data = reactive(
-        {
-        headings: ['Title', 'Author', 'Actions'],
-        books:null
-    });
 
     const buttons = reactive([
         {
@@ -61,75 +58,22 @@
         }
     ]);
 
-    //  Fetch the books from the server
-    const Response = async () =>
-    {
-        //  Initialize the path
-        const path = 'http://localhost:5000/';
-        axios.get(path)
-            .then((res) => {
-
-                data.books = res.data.books;
-                console.log('Books:', data.books);
-
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    };
-
     //  Show book
     function BookInfo(id)
     {
+        if (!data.books) 
+        {return;}
         for (let i = 0; i < data.books.length; i++) 
         {
             const book = data.books[i];
-
             if (book.id === id) 
             {
-             router.push(
-                {
-                    name: 'BookDetails', 
-                    state: {
-                        data:{book}
-                    }
-                });
+
+            shareData.setData(book);
+            
+             router.push({name: 'BookDetails'});
             }
         }
-    };
-
-    // Create a bok and send a Post Request
-    async function CreateBook(playload)
-    {
-        // Initialize the path
-        const path = 'http://localhost:5000/';
-
-        // Send a post request to the server
-        await axios.post(path, playload)
-            .then(() => {
-                Response();
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
-    // Update a book and send Put Request
-    async function UpdateBook(payload)
-    {
-        //  Initialize the path
-        const path = `http://localhost:5000/${payload.id}`;
-
-        // Send a post request to the server
-        await axios.put(path, payload)
-            .then(() => {
-                console.log('Book updated successfully', payload);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-        
-        Response();
     };
 
     async function UpsertEvent(data) 
@@ -164,6 +108,41 @@
         } 
 
     };
+    // Create a bok and send a Post Request
+    async function CreateBook(playload)
+    {
+        // Initialize the path
+        const path = 'http://localhost:5000/';
+
+        // Send a post request to the server
+        await axios.post(path, playload)
+            .then(() => {
+                Response();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    // Update a book and send Put Request
+    async function UpdateBook(payload)
+    {
+        //  Initialize the path
+        const path = `http://localhost:5000/${payload.id}`;
+
+        // Send a post request to the server
+        await axios.put(path, payload)
+            .then(() => {
+                console.log('Book updated successfully', payload);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        
+        Response();
+    };
+
+    
     // Delete a book and send a delete request
     async function DeleteBook(ID)
         {
