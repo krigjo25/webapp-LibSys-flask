@@ -17,13 +17,17 @@
 
 <script setup>
     //  Importing required dependencies
-    import axios from 'axios';
-    import {defineStore} from 'pinia';
-    import router from '../router/index.js';
     
+    import axios from 'axios';
+    import router from '../router/index.js';
     import { reactive, watch, defineEmits, onMounted, ref } from 'vue';
 
+
+    //  Importing Components
+    import BookDetails from './BookInfo.vue';
+
     const emit = defineEmits(['book-id']);
+
     const props = defineProps(
         {
             data:
