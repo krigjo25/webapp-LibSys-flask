@@ -12,7 +12,7 @@ class DefaultConfig(object):
     SESSION_TYPE = 'filesystem'
     SESSION_PERMANENT = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite://')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///')
     
 
 class DevelopmentConfig(DefaultConfig):
@@ -20,10 +20,4 @@ class DevelopmentConfig(DefaultConfig):
     # The development configuration for the app
     # ...
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = None
-
-class ProductionConfig(DefaultConfig):
-    # ...
-    # The production configuration for the app
-    # ...
-    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"

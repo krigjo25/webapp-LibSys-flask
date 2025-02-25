@@ -5,8 +5,9 @@ import os, uuid as ID
 
 #   Importing  required dependencies
 from dotenv import load_dotenv
-from flask import jsonify, request, make_response
 from flask.views import MethodView
+from flask import jsonify, request
+from flask_admin.contrib.sqla import ModelView
 
 #   Importing custom libraries
 from lib.utility_tools.tools import UtilityTools
@@ -172,3 +173,27 @@ class BookMananger(MethodView):
 
 
         return jsonify(response)
+
+class BookView(ModelView):
+    
+    columns = ('title', 'author', 'published', 'genre', 'description', 'img', 'review')
+    column_labels = dict(title='Title', author='Author', published='Published', genre='Genre', description='Description', img='Image', review='Review')
+    column_searchable_list = ('title', 'author', 'genre')
+    column_filters = ('title', 'author', 'genre')
+    column_sortable_list = ('title', 'author', 'published', 'genre')
+    column_default_sort = ('title', True)
+    can_export = True
+    export_max_rows = 1000
+    export_types = ['csv', 'json', 'xls', 'xml']
+    form_args = dict(
+        title=dict(label='Title'),
+        author=dict(label='Author'),
+        published=dict(label='Published'),
+        genre=dict(label='Genre'),
+        description=dict(label='Description'),
+        img=dict(label='Image'),
+        review=dict(label='Review'),
+    )
+
+    def __onModelChange(self, form, model, is_created):
+        pass

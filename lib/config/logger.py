@@ -74,7 +74,7 @@ class Logger(object):
 
             #   Send message to the console
             self.log.info(f"{self.name} has been initialized.")
-            
+
             #   Set the flag
             self.file_handler = True
 
