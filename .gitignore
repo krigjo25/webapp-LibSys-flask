@@ -4,7 +4,8 @@
 
 
 #   Directories to ignore
-.venv
+.venv/
+instance/
 __pycache__/
 node_modules/
 flask_session/
