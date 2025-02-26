@@ -1,30 +1,38 @@
 #   Databases models for the app
-
+from core_files import db
 #   Importing the required modules
+
 from sqlalchemy import Column, Integer, String, REAL
-from flask_sqlalchemy import SQLAlchemy
 
-#   Initialize the database
-db = SQLAlchemy()
-session = db.session
-
-class Books(db.Model):
+class Book(db.Model):
     """
         *   Books model class
         *   Define the database schema
     """
 
     __tablename__ = "Books"
-
-    id = Column(Integer, primary_key=True)
-    title = Column(String(100), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    bookID = Column(String, unique=True)
+    title = Column(String(100), nullable=False, unique=True)
     author = Column(String(100), nullable=False)
     year = Column(Integer, nullable=False)
     genre = Column(String(100), nullable=False)
     description = Column(String(100), nullable=False)
     cover = Column(String(100), nullable=False)
     rating = Column(REAL, nullable=False)
-    reviews = Column(String(100), nullable=False)
+    reviewers = Column(String(100), nullable=False)
 
     def __repr__(self):
         return f""
+    
+    def toJson(self):
+        return {
+            'title': self.title,
+            'author': self.author,
+            'year': self.year,
+            'genre': self.genre,
+            'description': self.description,
+            'cover': self.cover,
+            'rating': self.rating,
+            'reviews': self.reviewers
+        }
