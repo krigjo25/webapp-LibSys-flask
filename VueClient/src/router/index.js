@@ -17,7 +17,7 @@ const router = createRouter({
     {
       path: '/bookMananger',
       name: 'Manager',
-      component: () => import('../components/Ping.vue')
+      component: () => import('../components/Manage.vue')
     },
 
   ]

@@ -1,5 +1,4 @@
 <template>
-    <Header />
     <section v-if="data.data" class="book-info">
       <div>
         <img :src="data.data.path" alt="book cover" />
@@ -28,11 +27,7 @@
 
   
   //  Importing required dependencies
-  import { useRouter } from 'vue-router';
   import { StoredData } from '../stores/sharingdata.js';
-
-  //  Importing components
-  import Header from './header_components/Header.vue';
   import { onMounted, onUnmounted, reactive } from 'vue';
   
   //  Initializing reactive objects
@@ -47,6 +42,4 @@
   onMounted(() => {
     data.data = sds.data;
   });
-
-  console.log(data.data);
 </script>

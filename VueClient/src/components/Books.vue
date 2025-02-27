@@ -1,8 +1,7 @@
 <template>
-    <main>
-        <section>
-            <div v-for="book in data.books" :key="book.id" @click="BookInfo(book.id)">
-                <img :src="book.img" alt="book cover.jpg" />
+        <section  v-for="book in data.books" :key="book.id">
+            <div @click="BookInfo(book.id)">
+                <img :src="book.path" alt="book cover.jpg" />
                 <div>
                     <h3>{{ book.title }}</h3>
                     <span>
@@ -10,18 +9,21 @@
                     </span>
                 </div>
             </div>
+            <div v-if="props.nav">
+                <Navigation :data="props.data"/>
+            </div>
         </section>
-        
-    </main>
 </template>
 
 <script setup>
     //  Importing required dependencies
-    import axios from 'axios';
     import { useRouter } from 'vue-router';
-    import { Response, data } from '../utils/response.js';
+    import { watch, defineEmits, onMounted } from 'vue';
+    import { Response, data } from '../assets/js/response.js';
     import { StoredData } from '../stores/sharingdata.js';
-    import { reactive, watch, defineEmits, onMounted, ref } from 'vue';
+    
+    //  Importing components
+    import Navigation from './misc_components/Navigation.vue';
 
     const router = useRouter();
     const shareData = StoredData();
@@ -33,36 +35,21 @@
             {
                 type: Object,
                 required: true
+            },
+            nav:
+            {
+                type: Boolean,
+                required: false
             }
         }
     );
-
-    const buttons = reactive([
-        {
-            type: 'button',
-            book: data.books,
-            action: BookInfo,
-            cls: 'bi bi-info-circle',
-        },
-        {
-            type: 'button',
-            book: data.books,
-            action: UpsertEvent,
-            cls: 'bi bi-arrow-clockwise',
-        },
-        {
-            type: 'button',
-            book: data.books,
-            action: DeleteBook,
-            cls: 'bi bi-x-circle-fill',
-        }
-    ]);
 
     //  Show book
     function BookInfo(id)
     {
         if (!data.books) 
         {return;}
+
         for (let i = 0; i < data.books.length; i++) 
         {
             const book = data.books[i];
@@ -107,57 +94,6 @@
             }
         } 
 
-    };
-    // Create a bok and send a Post Request
-    async function CreateBook(playload)
-    {
-        // Initialize the path
-        const path = 'http://localhost:5000/';
-
-        // Send a post request to the server
-        await axios.post(path, playload)
-            .then(() => {
-                Response();
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
-    // Update a book and send Put Request
-    async function UpdateBook(payload)
-    {
-        //  Initialize the path
-        const path = `http://localhost:5000/${payload.id}`;
-
-        // Send a post request to the server
-        await axios.put(path, payload)
-            .then(() => {
-                console.log('Book updated successfully', payload);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-        
-        Response();
-    };
-
-    
-    // Delete a book and send a delete request
-    async function DeleteBook(ID)
-        {
-            // Initialize the path
-            const path = `http://localhost:5000/${ID}`;
-
-            // Send a delete request to the server
-            await axios.delete(path)
-                .then(() => {
-                    Response();
-                    console.log('Book deleted successfully');
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
     };
 
     //  Watch if the data is changed

@@ -28,6 +28,7 @@ class Book(db.Model):
     
     def ConvertToDict(self):
         return {
+            'id': self.bookID,
             'title': self.title,
             'author': self.author,
             'year': self.year,

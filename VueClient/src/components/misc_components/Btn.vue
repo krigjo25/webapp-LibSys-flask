@@ -1,14 +1,11 @@
 <template>
-    <button :type="data.type">
-        <i :class="data.cls"></i>
+    <button :type="props.data.type" @click="props.data.action(data.id)">
+        <i :class="props.data.cls"></i>
     </button>
 </template>
 
 <script setup>
-    //  Importing required dependencies
-    import axios from 'axios';
-    import { defineProps } from 'vue';
-
     //  Importing Components
     const props = defineProps(['data']);
+
 </script>

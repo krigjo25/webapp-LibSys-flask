@@ -11,8 +11,8 @@ from flask import jsonify, request
 
 #   Importing custom libraries
 from lib.model.model import Book
-from lib.utility_tools.tools import UtilityTools
 from lib.config.logger import MethodWatcher
+from lib.utility_tools.tools import UtilityTools
 
 #   Loading environment variables
 load_dotenv()
@@ -30,7 +30,7 @@ class BookMananger(MethodView):
             books = Book().query.all()
         self.BOOKS = [book.ConvertToDict() for book in books]
         self.logger = logger
-        self.tool = UtilityTools()
+        self.tool = UtilityTools(self.BOOKS)
         
     
     def get(self):
@@ -103,7 +103,7 @@ class BookMananger(MethodView):
             data = request.get_json()
 
             #   Ensure that the book exists in the dictionary
-            if self.tool.Purge(self.BOOKS, BID):
+            if self.tool.Purge(BID):
             
                 dictionary = {
                     'id': BID,
@@ -111,7 +111,7 @@ class BookMananger(MethodView):
                     'author': str(data['author']).split(',')
                 }
 
-                #   Add the updated book to the dictionary
+                #   Add the new book to the dictionary
                 self.BOOKS.append(dictionary)
                 response['message'] = "Book updated successfully"
                 self.logger.info(f"Method :{request.method}\nData :{dictionary} ")
@@ -130,13 +130,14 @@ class BookMananger(MethodView):
     def delete(self, BID):
 
         response = {}
-
+        
         #   Ensure that the request method is DELETE
-        if request.method == 'DELETE':
-
+        if request.method == 'DELETE' and BID is not None:
+            print(BID)
             response['status'] = "success"
-            response['message'] = "Book deleted successfully"
-            response['books'] = self.tool.Purge(self.BOOKS, BID)
+            response['message'] = self.tool.Purge(BID)
+            response['books'] = self.BOOKS
+            
 
 
         return jsonify(response)

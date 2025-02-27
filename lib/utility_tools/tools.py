@@ -5,17 +5,18 @@ import os, uuid as ID
 
 #   Importing custom dependencies
 from lib.config.logger import UtilityWatcher
-
+from core_files import app, db
 class UtilityTools(object):
 
-    def __init__(self):
+    def __init__(self, books):
 
         #   Initializing the logger
         self.log = UtilityWatcher()
         self.log.FileHandler()
+        self.books = books
 
 
-    def Check(self, Books:list, BID:str):
+    def Check(self, BID:str):
     
         """
             *  Ensure that the element exists in the dictionary
@@ -25,7 +26,7 @@ class UtilityTools(object):
             return: True or False
         """
             
-        for book in Books:
+        for book in self.books:
 
             #   Ensure that the element exists in the dictionary
             if book['id'] == BID:
@@ -35,7 +36,7 @@ class UtilityTools(object):
             self.log.warn(f"Book with ID: {BID} does not exist in the dictionary.")
         return False
 
-    def Purge(self, arg:list, ID:str):
+    def Purge(self, ID:str):
         """
             *  Delete the book from the dictionary
 
@@ -44,18 +45,19 @@ class UtilityTools(object):
         """
 
         #   Ensure that the element exists in the dictionary
-        if self.Check(arg, ID):
-            for i in arg:
+        if self.Check(ID):
+            for i in self.books:
 
                 #   Ensure that the element exists in the dictionary
-                if i['id'] == ID:
+                if i['bookID'] == ID:
+                    
+                    with app.app_context():
+                        db.session.delete(i)
+                        db.session.commit()
+                    return "Book Deleted Successfully"
 
-                    #   Remove the element from the dictionary
-                    arg.remove(i)
-            self.log.info(f"Book with ID: {ID} has been removed from the dictionary.")
+        return "Book does not exist in the dictionary"
 
-        return arg
-    
     def FetchImages(self):
         """
             *  Fetch the images from the directory
