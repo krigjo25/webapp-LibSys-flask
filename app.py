@@ -6,7 +6,7 @@ from core_files import app, db, admin, logger
 #   Import application repositories
 from lib.model.model import Book
 from lib.admin.views import BooksView
-from lib.views.BookShelf import BookMananger
+from lib.endpoints.BookShelf import BookMananger
 from lib.model.preload import alchemist, secrets
 
 #   Endpoints
@@ -32,6 +32,7 @@ def after_request(response):
     return response
 
 with app.app_context():
+
     db.create_all()
     #db.session.add(alchemist)
     #db.session.add(secrets)

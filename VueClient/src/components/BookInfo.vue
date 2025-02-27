@@ -2,7 +2,7 @@
     <Header />
     <section v-if="data.data" class="book-info">
       <div>
-        <img :src="data.data.img" alt="book cover" />
+        <img :src="data.data.path" alt="book cover" />
       </div>
       <div>
         <h2>{{ data.data.title }}</h2>
@@ -14,7 +14,7 @@
         <section class="description">
           <p>{{ data.data.description }}</p>
           <div>
-            <p v-for="genre in data.data.genre">{{ genre }}</p>
+            <p v-for="genre in data.data.genre.split(',')">{{ genre }}</p>
           </div>
         </section>
       </div>

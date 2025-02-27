@@ -1,9 +1,10 @@
-#  Index view
+#  Book's endpoint
 
 #   Importing required dependencies
 import uuid as ID
 
 #   Importing  required dependencies
+from core_files import app
 from dotenv import load_dotenv
 from flask.views import MethodView
 from flask import jsonify, request
@@ -25,7 +26,9 @@ class BookMananger(MethodView):
 
         #   Initialize the logger
         self.orgins = '*'
-        self.BOOKS = Book().toJson()
+        with app.app_context():
+            books = Book().query.all()
+        self.BOOKS = [book.ConvertToDict() for book in books]
         self.logger = logger
         self.tool = UtilityTools()
         

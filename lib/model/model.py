@@ -1,4 +1,5 @@
-#   Databases models for the app
+#   Database tables for the app
+
 from core_files import db
 #   Importing the required modules
 
@@ -7,7 +8,7 @@ from sqlalchemy import Column, Integer, String, REAL
 class Book(db.Model):
     """
         *   Books model class
-        *   Define the database schema
+        *   Initialize the class model
     """
 
     __tablename__ = "Books"
@@ -18,21 +19,21 @@ class Book(db.Model):
     year = Column(Integer, nullable=False)
     genre = Column(String(100), nullable=False)
     description = Column(String(100), nullable=False)
-    cover = Column(String(100), nullable=False)
+    img_path = Column(String(100), nullable=False)
     rating = Column(REAL, nullable=False)
     reviewers = Column(String(100), nullable=False)
 
     def __repr__(self):
-        return f""
+        return f"<Book {__class__.__name__}"
     
-    def toJson(self):
+    def ConvertToDict(self):
         return {
             'title': self.title,
             'author': self.author,
             'year': self.year,
             'genre': self.genre,
             'description': self.description,
-            'cover': self.cover,
+            'path': self.img_path,
             'rating': self.rating,
             'reviews': self.reviewers
         }
