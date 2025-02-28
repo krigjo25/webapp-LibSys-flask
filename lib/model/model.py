@@ -12,8 +12,8 @@ class Book(db.Model):
     """
 
     __tablename__ = "Books"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    bookID = Column(String, unique=True)
+    id = Column(Integer, unique=True, autoincrement=True)
+    bookID = Column(String, primary_key=True, nullable=False)
     title = Column(String(100), nullable=False, unique=True)
     author = Column(String(100), nullable=False)
     year = Column(Integer, nullable=False)

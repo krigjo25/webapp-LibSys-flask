@@ -28,9 +28,10 @@ class BookMananger(MethodView):
         self.orgins = '*'
         with app.app_context():
             books = Book().query.all()
+            
         self.BOOKS = [book.ConvertToDict() for book in books]
         self.logger = logger
-        self.tool = UtilityTools(self.BOOKS)
+        self.tool = UtilityTools()
         
     
     def get(self):
@@ -84,8 +85,8 @@ class BookMananger(MethodView):
             self.logger.info(f"Status : {response['code']}")
 
         else:
-            response['status'] = "Unsuccessful"
             response['code'] = 400
+            response['status'] = "Unsuccessful"
             response['message'] = "An error Occured while attempting to process the request"
 
             self.logger.error(f"Status : {response['code']} Method : {request.method} Headers : {request.headers}")
@@ -133,10 +134,8 @@ class BookMananger(MethodView):
         
         #   Ensure that the request method is DELETE
         if request.method == 'DELETE' and BID is not None:
-            print(BID)
             response['status'] = "success"
             response['message'] = self.tool.Purge(BID)
-            response['books'] = self.BOOKS
             
 
 

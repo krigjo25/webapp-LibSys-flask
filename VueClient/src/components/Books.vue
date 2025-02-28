@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div v-if="props.nav">
-                <Navigation :data="props.data"/>
+                <Navigation :data="props.data" :id="book.id" />
             </div>
         </section>
 </template>
@@ -18,7 +18,7 @@
 <script setup>
     //  Importing required dependencies
     import { useRouter } from 'vue-router';
-    import { watch, defineEmits, onMounted } from 'vue';
+    import { watch, defineEmits, onMounted, reactive } from 'vue';
     import { Response, data } from '../assets/js/response.js';
     import { StoredData } from '../stores/sharingdata.js';
     
@@ -44,6 +44,8 @@
         }
     );
 
+
+    
     //  Show book
     function BookInfo(id)
     {
@@ -96,6 +98,7 @@
 
     };
 
+    watch
     //  Watch if the data is changed
     watch(
         () => props.data, 

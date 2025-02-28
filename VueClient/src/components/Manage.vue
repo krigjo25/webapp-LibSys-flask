@@ -9,11 +9,13 @@
 
   //  Importing required dependencies
   import { reactive, onMounted } from 'vue';
-  import { Response, data } from '../assets/js/response.js';
   import { CreateBook, RemoveBook, UpdateBook } from '../assets/js/crud.js';
+  
   //  Importing components
   import Books from './Books.vue';
   
+  //  Initializing reactive objects
+
 const buttons = reactive(
   { 
     nav : true,
@@ -23,13 +25,13 @@ const buttons = reactive(
         id: 1,
         type: 'submit',
         cls: 'bi bi-plus',
-        action: CreateBook
+        action: () => {}
       },
       {
         id: 2,
         type: 'button',
         cls: 'bi bi-arrow-clockwise',
-        action:() => {}
+        action:UpdateBook
       },
       {
         id: 3,
@@ -38,8 +40,6 @@ const buttons = reactive(
         action:RemoveBook,
       }
     ]});
-    console.log("manage id:", buttons.data[2].action);
 
 // Initialize the data
-onMounted(Response);
 </script>

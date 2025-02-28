@@ -3,18 +3,20 @@
 #   Import the necessary dependencies
 import os, uuid as ID
 
-#   Importing custom dependencies
-from lib.config.logger import UtilityWatcher
 from core_files import app, db
+from lib.model.model import Book
+from lib.config.logger import UtilityWatcher
+
+
+log = UtilityWatcher()
+log.FileHandler()
+
 class UtilityTools(object):
 
-    def __init__(self, books):
+    def __init__(self):
 
         #   Initializing the logger
-        self.log = UtilityWatcher()
-        self.log.FileHandler()
-        self.books = books
-
+        self.log = log
 
     def Check(self, BID:str):
     
@@ -30,6 +32,7 @@ class UtilityTools(object):
 
             #   Ensure that the element exists in the dictionary
             if book['id'] == BID:
+
                 self.log.info(f"Book with ID: {BID} exists in the dictionary.")
                 return True
 
@@ -43,20 +46,15 @@ class UtilityTools(object):
             param: BID
             return: None
         """
+        book = Book().query.get(ID)
 
         #   Ensure that the element exists in the dictionary
-        if self.Check(ID):
-            for i in self.books:
+        if book:
+            db.session.delete(book)
+            db.session.commit()
+            return "Book Deleted Successfully"
 
-                #   Ensure that the element exists in the dictionary
-                if i['bookID'] == ID:
-                    
-                    with app.app_context():
-                        db.session.delete(i)
-                        db.session.commit()
-                    return "Book Deleted Successfully"
-
-        return "Book does not exist in the dictionary"
+        return "Book was not found in the dictionary"
 
     def FetchImages(self):
         """

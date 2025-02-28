@@ -34,8 +34,7 @@ def after_request(response):
 with app.app_context():
 
     db.create_all()
-    #db.session.add(alchemist)
-    #db.session.add(secrets)
+    #db.session.add_all([alchemist, secrets])
     db.session.commit()
 
 #   Run the program
