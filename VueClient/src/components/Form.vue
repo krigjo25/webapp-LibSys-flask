@@ -1,110 +1,122 @@
 <template>
+  <h2>{{ data.title }}</h2>
   <form>
-    <!--Field v-for="fm in forms" :data="fm"\-->
-    <legend>{{ title }}</legend>
-    <label for="title">Title</label>
-    <input type="text" id="title" name="title" placeholder="Title" v-model="buffer.title">
-    <label for="author">Author</label>
-    <input type="text" id="author" name="author" placeholder="Author" v-model="buffer.author">
+    <Input :data="title" />
+    <Input :data="author" />
+    <Input :data="genre" />
+    <Input :data="published" />
+    <Input :data="description" />
+    <Input :data="publishedBy" />
+
     <div>
-      <Btn v-for="btn in buttons":data="btn" @click="btn.action"/>
+      <Btn v-for="btn in data.btn" :data="btn" @click="btn.action"/>
     </div>
   </form>
 </template>
-  
 
 <script setup>
 
-  //  Importing required dependencies
-  import { defineProps, defineEmits } from 'vue';
-  import { reactive, watch, computed, ref } from 'vue';
+import { reactive, watch } from 'vue';
+import { StoredData } from '../stores/sharingdata.js';
 
-  //  Importing Components
-  import Btn from './misc_components/Btn.vue';
-  import Entry from './misc_components/Inputs.vue';
+//  Importing components
+import Btn from './misc_components/Btn.vue';
+import Input from './misc_components/Inputs.vue';
 
-  const buttons = reactive([
-          {
-              type: 'submit',
-              action: UpdateEvent,
-              cls: 'bi bi-plus-circle-fill',
-          },
-          {
-              type: 'reset',
-              action: Reset,
-              cls: 'bi bi-arrow-counterclockwise',
-          },
+const buffer = reactive(
+  {
+    title         :null,
+    author        :null,
+    genre         :null,
+    published     :null,
+    description   :null,
+    published_by  :null,
+});
 
-  ]);
-
-  const form = reactive(
-    {
-      type: 'text',
-      modal: false,
-      label: "title",
-    },
-    {
-      type: 'text',
-      modal: false,
-      label: "author",
-    },
-  );
-
-  const props = defineProps(
-    {
-      book: 
+const data = reactive(
+  { 
+    btn:
+    [
       {
-        type: Object,
-        required: true
+        id: 1,
+        type: 'submit',
+        cls: 'bi bi-plus',
+        action: SubmitFrom
       },
-      formTitle: 
       {
-        type: String,
-        default: "Add a book",
-      }
-    }
-  );
+        id: 2,
+        type: 'button',
+        action:ResetForm,
+        cls: 'bi bi-arrow-clockwise',
+      },
+    ]
+});
 
-  const emit = defineEmits(['shared-data']);
+const title = {
+  name: 'title',
+  type: 'text',
+  placeholder: 'Title',
+  value: buffer.title
+};
 
-  const buffer = reactive(
-      {
-          id: null,
-          title: null,
-          author: null
-      }
-  );
+const author = {
+  name: 'author',
+  type: 'text',
+  placeholder: 'Author',
+  value: buffer.author
+};
 
-  const title = computed(() => props.formTitle);
+const genre = {
+  name: 'genre',
+  type: 'text',
+  placeholder: 'Genre',
+  value: buffer.genre
+};
 
-  function Reset()
+const published = {
+  name: 'published',
+  type: 'text',
+  placeholder: 'Published',
+  value: buffer.published
+};
+
+const description = {
+  name: 'description',
+  type: 'text',
+  placeholder: 'Description',
+  value: buffer.description
+};
+
+const publishedBy = {
+  name: 'published_by',
+  type: 'text',
+  placeholder: 'Published By',
+  value: buffer.published_by
+};
+
+function SubmitFrom()
+{
+  sharedData.setData(buffer);
+  router.push({name: 'Mananger'});
+}
+
+function ResetForm()
+{
+  buffer.title = ''
+  buffer.genre = ''
+  buffer.author = ''
+  buffer.published = ''
+  buffer.description = ''
+  buffer.published_by = ''
+}
+
+watch(
+  () => buffer,
+  (data) =>
   {
-    buffer.title = "";
-    buffer.author = "";
-  }
-
-  function UpdateEvent()
-  {
-    emit('shared-data', buffer);
-  }
-
-
-  //  Watch if the book ID is changed
-  watch(
-    () => props.book.id,
-    (book) =>
+    if (data)
     {
-      console.log("Data: ", book);
-      if (book)
-      {
-        buffer.id = book;
-        console.log("Book ID: ", buffer.id);
-        emit('shared-data', buffer);
-
-      }
-    },
-    {
-      deep: true
+      console.log(data);
     }
-  );
+  });
 </script>

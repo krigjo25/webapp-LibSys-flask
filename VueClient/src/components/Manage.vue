@@ -8,8 +8,10 @@
 <script setup>
 
   //  Importing required dependencies
-  import { reactive, onMounted } from 'vue';
-  import { CreateBook, RemoveBook, UpdateBook } from '../assets/js/crud.js';
+  import { useRouter } from 'vue-router';
+  import { reactive } from 'vue';
+  import { StoredData } from '../stores/sharingdata.js';
+  import {  RemoveBook, UpdateBook } from '../assets/js/crud.js';
   
   //  Importing components
   import Books from './Books.vue';
@@ -25,7 +27,7 @@ const buttons = reactive(
         id: 1,
         type: 'submit',
         cls: 'bi bi-plus',
-        action: () => {}
+        action: UpsertBook
       },
       {
         id: 2,
@@ -39,7 +41,17 @@ const buttons = reactive(
         cls: 'bi bi-trash',
         action:RemoveBook,
       }
-    ]});
+  ]});
 
-// Initialize the data
+  const router = useRouter();
+  const shareData = StoredData();
+
+function UpsertBook(arg)
+{
+  if (arg)
+  {
+    router.push({name: 'UpsertBook'});
+  }
+  router.push({name: 'UpsertBook'});
+}
 </script>

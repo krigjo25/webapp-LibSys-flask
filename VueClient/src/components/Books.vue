@@ -18,9 +18,11 @@
 <script setup>
     //  Importing required dependencies
     import { useRouter } from 'vue-router';
-    import { watch, defineEmits, onMounted, reactive } from 'vue';
-    import { Response, data } from '../assets/js/response.js';
     import { StoredData } from '../stores/sharingdata.js';
+    import { Response, data } from '../assets/js/response.js';
+    import { watch, defineEmits, onMounted, reactive } from 'vue';
+    
+    
     
     //  Importing components
     import Navigation from './misc_components/Navigation.vue';

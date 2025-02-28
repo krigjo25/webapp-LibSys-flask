@@ -19,6 +19,11 @@ const router = createRouter({
       name: 'Manager',
       component: () => import('../components/Manage.vue')
     },
+    {
+      path: '/upsert',
+      name: 'UpsertBook',
+      component: () => import('../components/Form.vue')
+    },
 
   ]
 })
