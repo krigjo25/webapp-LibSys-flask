@@ -28,12 +28,11 @@ class BookMananger(MethodView):
         self.orgins = '*'
         with app.app_context():
             books = Book().query.all()
-            
-        self.BOOKS = [book.ConvertToDict() for book in books]
+
         self.logger = logger
         self.tool = UtilityTools()
-        
-    
+        self.BOOKS = [book.ConvertToDict() for book in books]
+
     def get(self):
 
         response = {}
@@ -119,7 +118,6 @@ class BookMananger(MethodView):
             else:
                 response['message'] = "Book does not exist"
                 self.logger.error(f"Headers : {request.headers}\n Error : {response['message']} \n book.id : {BID} Method : {request.method}")
-            
 
         else:
             response['status'] = "Unsuccessful"
