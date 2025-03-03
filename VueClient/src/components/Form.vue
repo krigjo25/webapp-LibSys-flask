@@ -1,12 +1,7 @@
 <template>
   <h2>{{ data.title }}</h2>
   <form>
-    <Input :data="title" />
-    <Input :data="author" />
-    <Input :data="genre" />
-    <Input :data="published" />
-    <Input :data="description" />
-    <Input :data="publishedBy" />
+    <Input :data="inputs" @upsert-form="handleData"/>
 
     <div>
       <Btn v-for="btn in data.btn" :data="btn" @click="btn.action"/>
@@ -23,16 +18,6 @@ import { StoredData } from '../stores/sharingdata.js';
 import Btn from './misc_components/Btn.vue';
 import Input from './misc_components/Inputs.vue';
 
-const buffer = reactive(
-  {
-    title         :null,
-    author        :null,
-    genre         :null,
-    published     :null,
-    description   :null,
-    published_by  :null,
-});
-
 const data = reactive(
   { 
     btn:
@@ -41,7 +26,7 @@ const data = reactive(
         id: 1,
         type: 'submit',
         cls: 'bi bi-plus',
-        action: SubmitFrom
+        action: Submit
       },
       {
         id: 2,
@@ -51,6 +36,69 @@ const data = reactive(
       },
     ]
 });
+const handleData = (data) =>
+{
+  Object.assign(buffer, data);
+}
+const buffer = reactive({});
+const inputs = reactive(
+  {
+    title: 'Insert a Book',
+    data: 
+    [
+    {
+        name: 'Upload an image',
+        type: 'file',
+        value: null
+      },
+      {
+        name: 'title',
+        type: 'text',
+        placeholder: 'Title',
+        value: null
+      },
+      {
+        name: 'author',
+        type: 'text',
+        placeholder: 'Author',
+        value: null
+      },
+      {
+          name: 'genre',
+          type: 'text',
+          placeholder: 'Genre',
+          value: null
+      },
+      {
+          name: 'published',
+          type: 'text',
+          placeholder: 'Published',
+          value: null
+      },
+      {
+        name: 'description',
+        type: 'text',
+        placeholder: 'Description',
+        value: null
+      },
+      {
+        name: 'published_by',
+        type: 'text',
+        placeholder: 'Published By',
+        value: null
+      },
+      {
+        name: 'review',
+        type: 'text',
+        placeholder: 'Review',
+        value: {
+                name: null,
+                rating: null, 
+                
+            }
+      },
+    ]
+  });
 
 const title = {
   name: 'title',
@@ -59,45 +107,12 @@ const title = {
   value: buffer.title
 };
 
-const author = {
-  name: 'author',
-  type: 'text',
-  placeholder: 'Author',
-  value: buffer.author
-};
-
-const genre = {
-  name: 'genre',
-  type: 'text',
-  placeholder: 'Genre',
-  value: buffer.genre
-};
-
-const published = {
-  name: 'published',
-  type: 'text',
-  placeholder: 'Published',
-  value: buffer.published
-};
-
-const description = {
-  name: 'description',
-  type: 'text',
-  placeholder: 'Description',
-  value: buffer.description
-};
-
-const publishedBy = {
-  name: 'published_by',
-  type: 'text',
-  placeholder: 'Published By',
-  value: buffer.published_by
-};
-
-function SubmitFrom()
+const sharedData = StoredData();
+function Submit()
 {
   sharedData.setData(buffer);
   router.push({name: 'Mananger'});
+  console.log(sharedData.data);
 }
 
 function ResetForm()
@@ -110,13 +125,4 @@ function ResetForm()
   buffer.published_by = ''
 }
 
-watch(
-  () => buffer,
-  (data) =>
-  {
-    if (data)
-    {
-      console.log(data);
-    }
-  });
 </script>

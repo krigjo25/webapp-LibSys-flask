@@ -46,8 +46,6 @@
         }
     );
 
-
-    
     //  Show book
     function BookInfo(id)
     {
@@ -84,7 +82,7 @@
             {
                 // Update a book
                 UpdateBook(playload);
-                console.log('Data:', data);
+                console.log('Upsert :', data);
             } 
 
             else if (data.title && data.author && !data.id)
@@ -100,7 +98,6 @@
 
     };
 
-    watch
     //  Watch if the data is changed
     watch(
         () => props.data, 

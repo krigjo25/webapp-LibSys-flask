@@ -39,8 +39,6 @@ class BookMananger(MethodView):
 
         #   Ensure that the request method is GET
         if request.method == 'GET':
-            
-            self.tool.FetchImages()
 
             response['code'] = 200
             response['status'] = "success"

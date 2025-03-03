@@ -55,17 +55,3 @@ class UtilityTools(object):
             return "Book Deleted Successfully"
 
         return "Book was not found in the dictionary"
-
-    def FetchImages(self):
-        """
-            *  Fetch the images from the directory
-
-            param: None
-            return: list
-        """
-
-        #   Initialize the path to the images
-        PATH = "VueClient/src/assets/img/"
-        for i in os.listdir(PATH):
-            print(i)
-        return
