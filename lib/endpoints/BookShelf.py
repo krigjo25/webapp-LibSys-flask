@@ -73,6 +73,7 @@ class BookMananger(MethodView):
         
             self.logger.warn(f"END OF LIST")
 
+            #   Initialize a new book object
             book = Book(title = data['title'], genre = data['genre'],
                         img_path = data['image'], year = data['year'],
                         author = data['author'], bookID = ID.uuid4().hex,
