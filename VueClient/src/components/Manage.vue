@@ -9,16 +9,16 @@
 
   //  Importing required dependencies
   import { useRouter } from 'vue-router';
-  import { onMounted, reactive, watch } from 'vue';
-  import { StoredData } from '../stores/sharingdata.js';
-  import {  RemoveBook, UpdateBook, CreateBook } from '../assets/js/crud.js';
+  import { onMounted, reactive} from 'vue';
+  import { storedData } from '../stores/sharingdata.js';
+  import { removeBook, updateBook, createBook } from '../assets/js/crud.js';
   
   //  Importing components
   import Books from './Books.vue';
   
   //  Initializing reactive objects
   const router = useRouter();
-  const buffy = StoredData();
+  const buffy = storedData();
 
   const buttons = reactive(
     { 
@@ -29,31 +29,31 @@
           id: 1,
           type: 'submit',
           cls: 'bi bi-plus',
-          action: UpsertEvent
+          action: upsertEvent
         },
         {
           id: 2,
           type: 'button',
           cls: 'bi bi-arrow-clockwise',
-          action:UpsertEvent
+          action:upsertEvent
         },
         {
           id: 3,
           type: 'button',
           cls: 'bi bi-trash',
-          action:RemoveBook,
+          action:removeBook,
         }
     ]});
 
   //  Router push
-  function UpsertEvent()
+  function upsertEvent()
   {
     
     router.push({name: 'UpsertBook'});
   }
 
   //  Create or Update a book
-  async function UpsertBook(data) 
+  async function upsertBook(data) 
       {
           console.log('Upsert :', data);
           if (data) 
@@ -63,19 +63,19 @@
               if (data.id && data.title && data.author) 
               {
                   // Update a book
-                  UpdateBook(data);
+                  updateBook(data);
                   console.log('Upsert :', data);
               } 
 
               else if (!data.id)
               {
-                  CreateBook(data);
+                  createBook(data);
               }
           }
   };
 onMounted(() => {
 
-  UpsertBook(buffy.data);
+  upsertBook(buffy.data);
   });
 
 </script>

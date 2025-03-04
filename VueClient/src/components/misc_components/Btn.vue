@@ -5,6 +5,7 @@
 </template>
 
 <script setup>
+
     //  Importing Components
     const props = defineProps(['data', 'id']);
     

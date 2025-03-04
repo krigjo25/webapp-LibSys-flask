@@ -12,6 +12,7 @@ export const Response = async () =>
         const path = 'http://localhost:5000/';
         axios.get(path).then((res) => {
 
+                //  Assign the response data to the data object
                 data.books = res.data.books;
                 console.log('Response data :', data.books);
 

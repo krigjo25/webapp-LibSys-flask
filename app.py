@@ -14,7 +14,6 @@ with app.app_context():
     db.create_all()
     #db.session.add_all([alchemist, secrets])
     db.session.commit()
-
 #   Endpoints
 Mananger = BookMananger()
 app.add_url_rule('/', view_func=Mananger.as_view('get', methods=['GET', 'POST']))
@@ -38,6 +37,9 @@ def after_request(response):
     response.headers['Pragma'] = "no-cache"
     response.headers['Cache-Control'] = "no-cache, no-store, must-revalidate"
     return response
+
+
+
 
 #   Run the program
 if __name__ == '__main__': app.run()

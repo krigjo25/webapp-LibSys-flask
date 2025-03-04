@@ -26,6 +26,7 @@ class BookMananger(MethodView):
 
         #   Initialize the logger
         self.orgins = '*'
+        
         with app.app_context():
             books = Book().query.all()
 

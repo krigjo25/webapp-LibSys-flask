@@ -12,7 +12,7 @@
 <script setup>
 import { reactive} from 'vue';
 import { useRouter } from 'vue-router';
-import { StoredData } from '../stores/sharingdata.js';
+import { storedData } from '../stores/sharingdata.js';
 
 //  Importing components
 import Btn from './misc_components/Btn.vue';
@@ -29,21 +29,16 @@ const data = reactive(
         id: 1,
         type: 'submit',
         cls: 'bi bi-plus',
-        action: Submit
+        action: submit
       },
       {
         id: 2,
         type: 'reset',
-        action:ResetForm,
+        action:resetForm,
         cls: 'bi bi-arrow-clockwise',
       },
     ]
 });
-
-const handleData = (data) =>
-{
-  Object.assign(buffy, data);
-}
 
 const inputs = reactive(
   {
@@ -111,10 +106,15 @@ const inputs = reactive(
   });
 
 
-
-async function Submit()
+//  Handle  buffer data
+const handleData = (data) =>
 {
-  const bufferData = StoredData();
+  Object.assign(buffy, data);
+}
+
+async function submit()
+{
+  const bufferData = storedData();
 
   await bufferData.setData(buffy);
   console.log("Shared data",bufferData.data);
@@ -124,7 +124,7 @@ async function Submit()
   
 }
 
-function ResetForm()
+function resetForm()
 {
   buffy.title = ''
   buffy.genre = ''

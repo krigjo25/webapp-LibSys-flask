@@ -10,14 +10,14 @@ export const Response = async () =>
     {
         //  Initialize the path
         const path = 'http://localhost:5000/';
-        axios.get(path)
-            .then((res) => {
+        axios.get(path).then((res) => 
+            {
 
+                //  Assign the books to the data
                 data.books = res.data.books;
-                console.log('Books:', data.books);
 
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };

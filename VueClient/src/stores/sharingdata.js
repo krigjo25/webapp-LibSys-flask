@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const StoredData = defineStore('shareData', {
+export const storedData = defineStore('shareData', {
     state: () => ({
         data: null,
     }),

@@ -1,6 +1,6 @@
 <template>
         <section  v-for="book in data.books" :key="book.id">
-            <div @click="BookInfo(book.id)">
+            <div @click="bookInfo(book.id)">
                 <img :src="book.path" alt="book cover.jpg" />
                 <div>
                     <h3>{{ book.title }}</h3>
@@ -18,17 +18,17 @@
 <script setup>
     //  Importing required dependencies
     import { useRouter } from 'vue-router';
-    import { StoredData } from '../stores/sharingdata.js';
+    import { defineEmits, onMounted } from 'vue';
+    
+    import { storedData } from '../stores/sharingdata.js';
     import { Response, data } from '../assets/js/response.js';
-    import { watch, defineEmits, onMounted, reactive } from 'vue';
     
-    
-    
+
     //  Importing components
     import Navigation from './misc_components/Navigation.vue';
 
     const router = useRouter();
-    const shareData = StoredData();
+    const shareData = storedData();
     const emit = defineEmits(['book-id']);
 
     const props = defineProps(
@@ -46,9 +46,10 @@
         }
     );
 
-    //  Show book
-    function BookInfo(id)
+    //  Function to get the book's information
+    function bookInfo(id)
     {
+        //  Ensure that the data is not empty
         if (!data.books) 
         {return;}
 
@@ -64,53 +65,6 @@
             }
         }
     };
-
-    async function UpsertEvent(data) 
-    {
-        
-        if (data) 
-        {
-            const playload = 
-            {
-                id: data.id,
-                title: data.title,
-                author: data.author,
-            }
-
-            //  Ensure the data's integerty
-            if (data.id && data.title && data.author) 
-            {
-                // Update a book
-                UpdateBook(playload);
-                console.log('Upsert :', data);
-            } 
-
-            else if (data.title && data.author && !data.id)
-            {
-                CreateBook(playload);
-            }
-
-            else
-            {
-                emit('book-id', data);
-            }
-        } 
-
-    };
-
-    //  Watch if the data is changed
-    watch(
-        () => props.data, 
-        (data) => 
-        {
-            if (data) {
-                UpsertEvent(data);
-        }
-    },
-    {
-        deep: true
-    }
-    );
 
     // Initialize the data
     onMounted(Response);

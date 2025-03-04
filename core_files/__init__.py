@@ -8,8 +8,8 @@ from flask_cors import CORS
 from flask_admin import Admin
 from dotenv import load_dotenv
 from flask_session import Session
-
 from flask_sqlalchemy import SQLAlchemy
+
 from lib.config.logger import AppWatcher
 from lib.config.config import DevelopmentConfig
 
