@@ -9,6 +9,12 @@ from lib.admin.views import BooksView
 from lib.endpoints.BookShelf import BookMananger
 from lib.model.preload import alchemist, secrets
 
+#   Initialize the database and add the preloaded data
+with app.app_context():
+    db.create_all()
+    #db.session.add_all([alchemist, secrets])
+    db.session.commit()
+
 #   Endpoints
 Mananger = BookMananger()
 app.add_url_rule('/', view_func=Mananger.as_view('get', methods=['GET', 'POST']))
@@ -16,12 +22,14 @@ app.add_url_rule('/<BID>', view_func=Mananger.as_view('update', methods=['PUT', 
 
 #   Add the model to the admin interface
 admin.add_view(BooksView(Book, db.session))
+
 #   Log the application configurations
+logger.warn('Application Configurations START')
 
 for key, value in app.config.items():
-    logger.warn(f"{key} : {value}")
+    logger.info(f"{key} : {value}")
 
-logger.info('Application Configurations END')
+logger.warn('Application Configurations END')
 
 #   Disable the cache
 @app.after_request
@@ -31,12 +39,5 @@ def after_request(response):
     response.headers['Cache-Control'] = "no-cache, no-store, must-revalidate"
     return response
 
-with app.app_context():
-
-    db.create_all()
-    #db.session.add_all([alchemist, secrets])
-    db.session.commit()
-
 #   Run the program
-if __name__ == '__main__':
-    app.run()
+if __name__ == '__main__': app.run()

@@ -26,6 +26,7 @@ app.config.from_object(DevelopmentConfig)
 
 #   Initialize the database connection
 db = SQLAlchemy(app)
+
 #   Initialize the Admin interface
 admin = Admin(app, name = 'BookShelf CRUD', template_mode = 'bootstrap4')
 

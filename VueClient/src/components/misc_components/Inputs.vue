@@ -11,7 +11,7 @@
 <script setup>
 
     //  Importing required dependencies
-    import {reactive, watch, ref, defineEmits } from 'vue';
+    import {reactive, watch, defineEmits } from 'vue';
 
     const emit = defineEmits(['upsert-form']);
 
@@ -26,9 +26,7 @@
     
     const data = props.data.data;
     const buffer = reactive({});
-
-    console.log("Inputs", data.value);
-
+    console.log(data)
     watch(data, (n, o) => {
 
         //  Initialize variables
@@ -37,6 +35,7 @@
         const rewiew = 'rewiew';
         const file = 'Upload an image';
         const array = ['.jpg', '.png', '.jpeg', '.gif'];
+
         //  Loop through the new data
         for (let i = 0; i < n.length; i++) 
         {
@@ -47,26 +46,26 @@
                 buffer[n[i].name] = n[i].value;
                 
             }
-            else if (n[i].name == file)
+            else if (n[i].name == file )
             {
-
+                const element = n[i].value || 'null';
                 //  Ensure that the file includes an acceptable image
                 for (let j = 0; j < array.length; j++) 
                 {
-                    const element = n[i].value || 'null';
-                    if (element.includes('jpg')) 
+                    if (element.includes(array[j])) 
                     {
-                        buffer.path = n[i].value;
+                        buffer['image'] = n[i].value;
                     }
-                    else {
-                        n[i].value = null;
+                    else
+                    {
+                        buffer['image'] = null;
                     }
                 }
-            }
-            
-
-
         }
+            else {
+                buffer[n[i].name] =n[i].value = null;
+            }
+            console.log("collected data :",buffer);
         emit('upsert-form', buffer);
-    });
+    }});
 </script>

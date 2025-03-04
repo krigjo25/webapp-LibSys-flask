@@ -4,7 +4,7 @@
 import uuid as ID
 
 #   Importing  required dependencies
-from core_files import app
+from core_files import app, db
 from dotenv import load_dotenv
 from flask.views import MethodView
 from flask import jsonify, request
@@ -64,13 +64,23 @@ class BookMananger(MethodView):
             #  Fetch the requested data
             data = request.get_json()
 
-            book = {
-                'id': ID.uuid4().hex,
-                'title': data['title'],
-                'author': [i for i in data['author']]
-            }
+            #   Log the data which is retrieved
+            self.logger.warn(f"Data retrieved")
 
-            self.BOOKS.append(book)
+            for key, value in data.items():
+                self.logger.info(f"{key} : {value}")
+        
+            self.logger.warn(f"END OF LIST")
+
+            book = Book(title = data['title'], genre = data['genre'],
+                        img_path = data['image'], year = data['year'],
+                        author = data['author'], bookID = ID.uuid4().hex,
+                        rating = data['review']['rating'], description = data['description'])
+    
+            with app.app_context():
+                db.session.add(book)
+                db.session.commit()
+
 
             response = {
                 'status': "success", 
@@ -79,7 +89,7 @@ class BookMananger(MethodView):
                 'message': "Book added successfully",
                 }
 
-            self.logger.info(f"Status : {response['code']}")
+            self.logger.info(f"Status : {response['code']} ")
 
         else:
             response['code'] = 400
