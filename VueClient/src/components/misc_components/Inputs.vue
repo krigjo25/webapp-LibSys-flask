@@ -4,7 +4,9 @@
     <div v-for="dt in data">
         
         <label :for="dt.name">{{ dt.name}} :</label>
-        <input :type="dt.type" :id="dt.id" :name="dt.name" :placeholder="dt.placeholder" v-model="dt.value"/>
+        
+        <input v-if="dt.type != 'textarea'" :type="dt.type" :id="dt.id" :name="dt.name" :placeholder="dt.placeholder" v-model="dt.value"/>
+        <textarea v-if="dt.type == 'textarea'" :type="dt.type" :id="dt.id" :name="dt.name" :placeholder="dt.placeholder" v-model="dt.value" maxlength="255"></textarea>
     </div>
 </template>
 
@@ -25,7 +27,6 @@
     const buffer = reactive({});
     const data = props.data.data;
     const emit = defineEmits(['upsert-form']);
-    console.log("data :",props.data.bookid);
 
 
     //  Watch for changes in the data

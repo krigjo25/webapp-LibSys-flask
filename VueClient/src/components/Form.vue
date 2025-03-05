@@ -53,51 +53,48 @@ const inputs = reactive(
         value: null,
         type: 'file',
         name: 'Upload an image',
-        placeholder: computed( () => {bufferData? bufferData.path : 'Upload an image'}),
       },
       {
         
         type: 'text',
         name: 'title',
-        placeholder: computed( () => {
-          console.log("computing", bufferData.title)
-          bufferData.title ? bufferData.title : 'Title'}),
+        placeholder: computed( () => {return bufferData ? bufferData.title : 'Title'}),
         value: null
       },
       {
         name: 'author',
         type: 'text',
-        placeholder: computed( () => {bufferData ? bufferData.author : 'Author'}),
+        placeholder: computed( () => {return bufferData? bufferData.author : 'Author'}),
         value: null
       },
       {
         name: 'year',
         type: 'number',
-        placeholder: computed( () => {bufferData ? bufferData.year : new Date().getFullYear()}),
+        placeholder: computed( () => {return bufferData ? bufferData.year : new Date().getFullYear()}),
         value: null
       },
       {
           name: 'genre',
           type: 'text',
-          placeholder: computed( () => {bufferData ? bufferData.genre : 'Genre'}),
+          placeholder: computed( () => {return bufferData ? bufferData.genre : 'Genre'}),
           value: null
       },
       {
           name: 'published',
           type: 'text',
-          placeholder: computed( () => {bufferData ? bufferData.published : 'Published'}),
+          placeholder: computed( () => {return  bufferData ? bufferData.published : 'Published'}),
           value: null
       },
       {
         name: 'description',
-        type: 'text',
-        placeholder: computed( () => {bufferData ? bufferData.description : 'Description'}),
+        type: 'textarea',
+        placeholder: computed( () => {return  bufferData ? bufferData.description : 'Description'}),
         value: null
       },
       {
         name: 'published_by',
         type: 'text',
-        placeholder: computed( () => {bufferData ? bufferData.published_by : 'Published By'}),
+        placeholder: computed( () => {return bufferData ? bufferData.published_by : 'Published By'}),
         value: null
       },
       {
