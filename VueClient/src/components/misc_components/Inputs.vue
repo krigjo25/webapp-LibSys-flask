@@ -4,7 +4,7 @@
     <div v-for="dt in data">
         
         <label :for="dt.name">{{ dt.name}} :</label>
-        <input :type="dt.type" :id="dt.id" :name="dt.name" :placeholder="dt.name" v-model="dt.value"/>
+        <input :type="dt.type" :id="dt.id" :name="dt.name" :placeholder="dt.placeholder" v-model="dt.value"/>
     </div>
 </template>
 

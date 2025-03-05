@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
+import { reactive } from 'vue';
 
 export const storedData = defineStore('shareData', {
     state: () => ({
-        data: null,
+        data: reactive({}),
     }),
     actions: {
         setData(data) {

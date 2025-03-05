@@ -31,15 +31,15 @@
   import { onMounted, onUnmounted, reactive } from 'vue';
   
   //  Initializing reactive objects
-  const sds = storedData();
+  const book = storedData();
   const data = reactive({
     data: null,
   });
 
   onUnmounted(() => {
-    sds.clearData(null);
+    book.clearData(null);
   });
   onMounted(() => {
-    data.data = sds.data;
+    data.data = book.data;
   });
 </script>

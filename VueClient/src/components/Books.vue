@@ -10,7 +10,8 @@
                 </div>
             </div>
             <div v-if="props.nav">
-                <Navigation :data="props.data" :id="book.id" />
+                {{ book }}
+                <Navigation :data="props.data" :book="book" />
             </div>
         </section>
 </template>
@@ -66,6 +67,7 @@
         }
     };
 
+    console.log("Books", data.books);
     // Initialize the data
     onMounted(Response);
 

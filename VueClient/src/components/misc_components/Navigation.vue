@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <Btn v-for="btn in props.data" :key="props.id" :data="btn" :id="props.id"/>
+        <Btn v-for="btn in props.data" :key="props.book.id" :data="btn" :book="props.book"/>
     </nav>
 </template>
 
@@ -9,5 +9,6 @@
     //  Importing Components
     import Btn from './Btn.vue';
 
-    const props = defineProps(['data', 'id']);
+    const props = defineProps(['data', 'book']);
+    console.log("btn", props.book)
 </script>

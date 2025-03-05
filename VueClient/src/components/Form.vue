@@ -10,8 +10,9 @@
 </template>
 
 <script setup>
-import { reactive} from 'vue';
+
 import { useRouter } from 'vue-router';
+import { reactive, computed } from 'vue';
 import { storedData } from '../stores/sharingdata.js';
 
 //  Importing components
@@ -21,7 +22,9 @@ import Input from './misc_components/Inputs.vue';
 //  Initializing reactive objects
 const router = useRouter();
 const buffy = reactive({});
-const bufferData = storedData();
+const bufferData = storedData().data;
+console.log("bufferData form ", bufferData)
+
 const data = reactive(
   { 
     btn:
@@ -40,58 +43,61 @@ const data = reactive(
       },
     ]
 });
-
 const inputs = reactive(
   {
-    title: 'Insert a Book',
-    bookid: bufferData.id || null,
+    title: computed( () => {'Insert A book'}),
+    bookid: computed( () => {bufferData ? bufferData.id : null}),
     data: 
     [
-    {
-        name: 'Upload an image',
+      {
+        value: null,
         type: 'file',
-        value: null
+        name: 'Upload an image',
+        placeholder: computed( () => {bufferData? bufferData.path : 'Upload an image'}),
       },
       {
-        name: 'title',
+        
         type: 'text',
-        placeholder: 'Title',
+        name: 'title',
+        placeholder: computed( () => {
+          console.log("computing", bufferData.title)
+          bufferData.title ? bufferData.title : 'Title'}),
         value: null
       },
       {
         name: 'author',
         type: 'text',
-        placeholder: 'Author',
+        placeholder: computed( () => {bufferData ? bufferData.author : 'Author'}),
         value: null
       },
       {
         name: 'year',
         type: 'number',
-        placeholder: '2025',
+        placeholder: computed( () => {bufferData ? bufferData.year : new Date().getFullYear()}),
         value: null
       },
       {
           name: 'genre',
           type: 'text',
-          placeholder: 'Genre',
+          placeholder: computed( () => {bufferData ? bufferData.genre : 'Genre'}),
           value: null
       },
       {
           name: 'published',
           type: 'text',
-          placeholder: 'Published',
+          placeholder: computed( () => {bufferData ? bufferData.published : 'Published'}),
           value: null
       },
       {
         name: 'description',
         type: 'text',
-        placeholder: 'Description',
+        placeholder: computed( () => {bufferData ? bufferData.description : 'Description'}),
         value: null
       },
       {
         name: 'published_by',
         type: 'text',
-        placeholder: 'Published By',
+        placeholder: computed( () => {bufferData ? bufferData.published_by : 'Published By'}),
         value: null
       },
       {
@@ -99,15 +105,15 @@ const inputs = reactive(
         type: 'text',
         placeholder: 'Review',
         value: {
-                name: null,
+                name:null,
                 rating: null, 
                 
             }
       },
     ]
-  });
+});
 
-
+console.log("inputs ",inputs)
 //  Handle  buffer data
 const handleData = (data) =>
 {
