@@ -1,5 +1,13 @@
 #  The first Vue project
 <template>
+
+  <nav>
+    <Btn :data="{
+          type: 'submit',
+          cls: 'bi bi-plus',
+          action: upsertEvent
+        }"/>
+  </nav>
   <div>
     <Books :nav="buttons.nav" :data="buttons.data"/>
   </div>
@@ -15,6 +23,7 @@
   
   //  Importing components
   import Books from './Books.vue';
+  import Btn from './misc_components/Btn.vue';
   
   //  Initializing reactive objects
   const router = useRouter();
@@ -25,12 +34,6 @@
       nav : true,
       data:
       [
-        {
-          id: 1,
-          type: 'submit',
-          cls: 'bi bi-plus',
-          action: upsertEvent
-        },
         {
           id: 2,
           type: 'button',
@@ -46,9 +49,11 @@
     ]});
 
   //  Router push
-  function upsertEvent()
+  function upsertEvent(id = null)
   {
-    
+
+    buffy.id = id;
+    console.log(buffy.id);
     router.push({name: 'UpsertBook'});
   }
 
@@ -60,11 +65,10 @@
           {
 
               //  Ensure the data's integerty
-              if (data.id && data.title && data.author) 
+              if (data.id) 
               {
                   // Update a book
                   updateBook(data);
-                  console.log('Upsert :', data);
               } 
 
               else if (!data.id)

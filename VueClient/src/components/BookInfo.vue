@@ -27,11 +27,11 @@
 
   
   //  Importing required dependencies
-  import { StoredData } from '../stores/sharingdata.js';
+  import { storedData } from '../stores/sharingdata.js';
   import { onMounted, onUnmounted, reactive } from 'vue';
   
   //  Initializing reactive objects
-  const sds = StoredData();
+  const sds = storedData();
   const data = reactive({
     data: null,
   });

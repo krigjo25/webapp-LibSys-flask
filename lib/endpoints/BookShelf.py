@@ -28,11 +28,11 @@ class BookMananger(MethodView):
         self.orgins = '*'
         
         with app.app_context():
-            books = Book().query.all()
+            self.books = Book().query.all()
 
         self.logger = logger
         self.tool = UtilityTools()
-        self.BOOKS = [book.ConvertToDict() for book in books]
+        self.BOOKS = [book.ConvertToDict() for book in self.books]
 
     def get(self):
 
@@ -57,7 +57,6 @@ class BookMananger(MethodView):
     def post(self):
 
         #   Initialize the json response
-        response = {}
 
         #   Ensure that the request method is POST
         if request.method == 'POST':
@@ -67,10 +66,8 @@ class BookMananger(MethodView):
 
             #   Log the data which is retrieved
             self.logger.warn(f"Data retrieved")
-
             for key, value in data.items():
                 self.logger.info(f"{key} : {value}")
-        
             self.logger.warn(f"END OF LIST")
 
             #   Initialize a new book object
@@ -83,68 +80,89 @@ class BookMananger(MethodView):
                 db.session.add(book)
                 db.session.commit()
 
-
-            response = {
-                'status': "success", 
-                'books': self.BOOKS,
-                'code': 201,
-                'message': "Book added successfully",
-                }
-
-            self.logger.info(f"Status : {response['code']} ")
+            response = self.response(200)
 
         else:
-            response['code'] = 400
-            response['status'] = "Unsuccessful"
-            response['message'] = "An error Occured while attempting to process the request"
+            response = self.response(405)
 
-            self.logger.error(f"Status : {response['code']} Method : {request.method} Headers : {request.headers}")
-        
-        return jsonify(response)
+        return response
     
     def put(self, BID):
 
-        response = {}
         #   Ensure that the request method is PUT (Update)
         if request.method == 'PUT':
 
+            #   fetch the current book
+            book = Book().query.get(BID)
             #   Initialize the response and fetch the request data
-            response['status'] = "success"
+            
             data = request.get_json()
 
-            #   Ensure that the book exists in the dictionary
-            if self.tool.Purge(BID):
-            
-                dictionary = {
-                    'id': BID,
-                    'title': data['title'],
-                    'author': str(data['author']).split(',')
-                }
+            #   Update the book object
+            for key, value in data.items():
 
-                #   Add the new book to the dictionary
-                self.BOOKS.append(dictionary)
-                response['message'] = "Book updated successfully"
-                self.logger.info(f"Method :{request.method}\nData :{dictionary} ")
-            else:
-                response['message'] = "Book does not exist"
-                self.logger.error(f"Headers : {request.headers}\n Error : {response['message']} \n book.id : {BID} Method : {request.method}")
+                #   Ensure the integerty for the value, and book
+                if value is not None and hasattr(book, key) and key != 'id':
+                    setattr(book, key, value)
+
+                db.session.commit()
+            
+            #   Success response
+            response = self.response(200, book = book.ConvertToDict())
+            self.logger.info(f"Data retrieved: {data} ")
 
         else:
-            response['status'] = "Unsuccessful"
-            response['message'] = "An error Occured while attempting to process the request"
+            response = self.response(405)
             self.logger.error(f"Status : {response['code']} Method : {request.method} Headers : {request.headers}")
 
-        return jsonify(response)
+        return response
 
     def delete(self, BID):
-
-        response = {}
         
         #   Ensure that the request method is DELETE
         if request.method == 'DELETE' and BID is not None:
-            response['status'] = "success"
-            response['message'] = self.tool.Purge(BID)
             
+            if self.tool.Purge(BID):
+                
+                response = self.response(200, BID)
+            else:
+               
+               response = self.response(404)
+
+        else:
+            response = self.response(405)
+
+        return response
+
+    def response(self, status:int = 200, message:str = None, BID:str = None, book:dict = None):
+
+        response = {}
+        match status:
+
+            case 200:
+                response['books'] = self.BOOKS
+                response['status'] = status
+
+                if not message:
+                    response['message'] = "The operation was sucssessfull !"
+    
+                if book:
+                    response['books'] = [i for i in book]
+            case 404:
+                response['status'] = status
+                if not message:
+                    response['message'] = "Checked everywhere, the book was not found."
+
+                self.logger.error(f"  Method : {request.method} | Book ID : {BID}")
+
+            case 405:
+                response['status'] = status
+                if not message:
+
+                    response['message'] = "Something smells fishy, ensure the request method is correct."
+                
+                self.logger.warn(f"Headers : {request.headers}\n  Method : {request.method} | Book ID : {BID}")
 
 
-        return jsonify(response)
+
+        return jsonify({'status': status, 'message': message})

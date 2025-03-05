@@ -25,8 +25,8 @@
     const buffer = reactive({});
     const data = props.data.data;
     const emit = defineEmits(['upsert-form']);
-    
-    console.log(data)
+    console.log("data :",props.data.bookid);
+
 
     //  Watch for changes in the data
     watch(data, (n, o) => {
@@ -36,6 +36,9 @@
         const rewiew = 'rewiew';
         const file = 'Upload an image';
         const array = ['.jpg', '.png', '.jpeg', '.gif'];
+
+        //  Ensure that the book id is pushed to the buffer
+        buffer["id"] = props.data.bookid;
 
         //  Loop through the new data
         for (let i = 0; i < n.length; i++) 

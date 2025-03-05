@@ -21,6 +21,7 @@ import Input from './misc_components/Inputs.vue';
 //  Initializing reactive objects
 const router = useRouter();
 const buffy = reactive({});
+const bufferData = storedData();
 const data = reactive(
   { 
     btn:
@@ -43,6 +44,7 @@ const data = reactive(
 const inputs = reactive(
   {
     title: 'Insert a Book',
+    bookid: bufferData.id || null,
     data: 
     [
     {
@@ -114,10 +116,8 @@ const handleData = (data) =>
 
 async function submit()
 {
-  const bufferData = storedData();
 
   await bufferData.setData(buffy);
-  console.log("Shared data",bufferData.data);
   
   //ResetForm();
   router.push({name: 'Manager'});
