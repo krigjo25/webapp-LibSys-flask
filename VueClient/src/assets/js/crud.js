@@ -38,7 +38,6 @@ export async function updateBook(payload)
 {
     //  Initialize the path
     const path = `http://localhost:5000/${payload.id}`;
-
     // Send a post request to the server
     await axios.put(path, payload).then(() => 
         {

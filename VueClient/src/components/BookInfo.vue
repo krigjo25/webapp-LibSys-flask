@@ -13,8 +13,8 @@
         <section class="description">
           <p>{{ data.data.description }}</p>
           <div>
-            <p v-if="data.data.genre != null && data.data.genre.length > 1" v-for="genre in data.data.genre.split(',')">{{ genre }}</p>
-            <p v-else v-for="genre in data.data.genre">{{ data.data.genre }}</p>
+            <p v-if="data.data.genre != null && data.data.genre.length > 1" v-for="genre in data.data.genre">{{ genre }}</p>
+            <p v-else v-for="genre in data.data.genre">{{ genre }}</p>
           </div>
         </section>
       </div>
@@ -42,6 +42,5 @@
   });
   onMounted(() => {
     data.data = book.data;
-    console.log(book.data);
   });
 </script>

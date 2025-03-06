@@ -37,8 +37,6 @@ class BookMananger(MethodView):
 
     def get(self):
 
-        
-
         #   Ensure that the request method is GET
         if request.method == 'GET':
             response = self.response(books=self.BOOKS)
@@ -67,7 +65,7 @@ class BookMananger(MethodView):
             #   Ensure that the data is not None
             if data is None: 
                 self.logger.error(f"{request.headers} | {request.method}")
-                response = self.response(404)
+                response = self.response(500)
                 return response
 
             #   Initialize a new book object
@@ -77,6 +75,8 @@ class BookMananger(MethodView):
 
                 #   Ensure the integerty for the value, and book
                 if value is not None and hasattr(book, key) and key != 'id':
+                    
+                    
                     setattr(book, key, value)
 
             try:
@@ -97,7 +97,10 @@ class BookMananger(MethodView):
     
     def put(self, BID):
 
+        review = 'reviewers'
+        seperator = ','
         #   Ensure that the request method is PUT (Update)
+
         if request.method == 'PUT':
 
             #   fetch the current book
@@ -106,21 +109,32 @@ class BookMananger(MethodView):
             
             data = request.get_json()
 
+            
             #   Update the book object
             for key, value in data.items():
-                
+
                 #   Ensure the integerty for the value, and book
                 if value is not None and hasattr(book, key) and key != 'id':
+
+                    #   Ensure the key is reviewers
+                    if key == "reviewers":
+                        
+                        review = str(value).split(seperator)
+                        self.logger.info(f"Data retrieved test: {review} ")
+                        setattr(book, 'rating', review[1])
+                        setattr(book, 'reviewers', review[0])
+
                     setattr(book, key, value)
 
                 db.session.commit()
             
             #   Success response
-            response = self.response(200, book = self.BOOKS)
             self.logger.info(f"Data retrieved: {data} ")
+            response = self.response(200, books = self.BOOKS)
+            
 
         else:
-            response = self.response(405)
+            response = self.response(500)
             self.logger.error(f"Status : {response['code']} Method : {request.method} Headers : {request.headers}")
 
         return response
@@ -147,7 +161,6 @@ class BookMananger(MethodView):
 
             #   Request successful
             case 200:
-                print("biijs", books)
                 response['books'] = books
                 response['status'] = status
 
@@ -165,14 +178,14 @@ class BookMananger(MethodView):
                 if not message:
                     response['message'] = "Successfully added a new entry to the database."
 
-                self.logger.error(f"  Method : {request.method} | Book ID : {BID}")
+                self.logger.error(f"\tMethod : {request.method} | Book ID : {BID}")
             #   Not Found
             case 404:
                 response['status'] = status
                 if not message:
                     response['message'] = "Checked everywhere, the book was not found."
 
-                self.logger.error(f"  Method : {request.method} | Book ID : {BID}")
+                self.logger.error(f"\tMethod : {request.method} | Book ID : {BID}")
 
             #   Method not allowed
             case 405:

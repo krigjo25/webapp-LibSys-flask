@@ -10,5 +10,4 @@
     import Btn from './Btn.vue';
 
     const props = defineProps(['data', 'book']);
-    console.log("btn", props.book)
 </script>

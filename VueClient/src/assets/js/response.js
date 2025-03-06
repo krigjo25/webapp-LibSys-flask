@@ -14,8 +14,6 @@ export const Response = async () =>
 
                 //  Assign the response data to the data object
                 data.books = res.data.books;
-                console.log(res.data);
-                console.log('Response data :', data.books);
 
         }).catch((error) => {
             console.error(error);

@@ -24,7 +24,6 @@ const router = useRouter();
 const buffy = reactive({});
 const buffer = storedData();
 const bufferData = buffer.data;
-console.log("bufferData form ", bufferData)
 
 const data = reactive(
   { 
@@ -77,7 +76,7 @@ const inputs = reactive(
       {
           name: 'genre',
           type: 'text',
-          placeholder: computed( () => {return bufferData ? bufferData.genre : 'Genre'}),
+          placeholder: computed( () => {return bufferData ? bufferData.genre : 'Genre, Genre'}),
           value: null
       },
       {
@@ -93,7 +92,7 @@ const inputs = reactive(
         value: null
       },
       {
-        name: 'review',
+        name: 'reviewers',
         type: 'text',
         placeholder: computed( () => {return bufferData ? bufferData.reviews.name : 'Review by, rating'}),
         value: null
@@ -109,7 +108,6 @@ const handleData = (data) =>
 
 async function submit()
 {
-  console.log("emitted value ", buffy)
   await buffer.setData(buffy);
   
   //ResetForm();

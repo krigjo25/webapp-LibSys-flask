@@ -66,7 +66,6 @@
         }
     };
 
-    console.log("Books.vue", data.books);
     // Initialize the data
     onMounted(Response);
 

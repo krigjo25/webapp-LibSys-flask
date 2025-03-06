@@ -14,25 +14,29 @@ class Book(db.Model):
     __tablename__ = "Books"
     id = Column(Integer, unique=True, autoincrement=True)
     bookID = Column(String, primary_key=True, nullable=False)
-    title = Column(String(100), nullable=True, unique=True)
-    author = Column(String(100), nullable=True)
+    
     year = Column(Integer, nullable=True)
     genre = Column(String(100), nullable=True)
-    description = Column(String(100), nullable=True)
+    author = Column(String(100), nullable=True)
     img_path = Column(String(100), nullable=True)
-    rating = Column(REAL, nullable=True)
     reviewers = Column(String(100), nullable=True)
-
+    description = Column(String(100), nullable=True)
+    rating = Column(REAL, nullable=True, default=0.0)
+    title = Column(String(100), nullable=True, unique=True)
+    
     def __repr__(self):
         return f"<Book title : {self.title} Book id : {self.bookID} row : {self.id}>"
     
     def ConvertToDict(self):
+
+        seperator = ","
+
         return {
             'id': self.bookID,
             'title': self.title,
             'author': self.author,
             'year': self.year,
-            'genre': self.genre,
+            'genre': str(self.genre).split(seperator),
             'description': self.description,
             'path': self.img_path,
             'reviews': [{'name':self.reviewers,
