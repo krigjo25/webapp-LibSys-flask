@@ -67,7 +67,7 @@
         }
     };
 
-    console.log("Books", data.books);
+    console.log("Books.vue", data.books);
     // Initialize the data
     onMounted(Response);
 

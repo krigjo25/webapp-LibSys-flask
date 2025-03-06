@@ -22,7 +22,8 @@ import Input from './misc_components/Inputs.vue';
 //  Initializing reactive objects
 const router = useRouter();
 const buffy = reactive({});
-const bufferData = storedData().data;
+const buffer = storedData();
+const bufferData = buffer.data;
 console.log("bufferData form ", bufferData)
 
 const data = reactive(
@@ -45,8 +46,8 @@ const data = reactive(
 });
 const inputs = reactive(
   {
-    title: computed( () => {'Insert A book'}),
-    bookid: computed( () => {bufferData ? bufferData.id : null}),
+    title: computed( () => {return 'Insert A book'}),
+    bookid: computed( () => {return bufferData ? bufferData.id : null}),
     data: 
     [
       {
@@ -111,6 +112,7 @@ const inputs = reactive(
 });
 
 console.log("inputs ",inputs)
+
 //  Handle  buffer data
 const handleData = (data) =>
 {
@@ -119,8 +121,8 @@ const handleData = (data) =>
 
 async function submit()
 {
-
-  await bufferData.setData(buffy);
+  console.log("emitted value ", buffy)
+  await buffer.setData(buffy);
   
   //ResetForm();
   router.push({name: 'Manager'});

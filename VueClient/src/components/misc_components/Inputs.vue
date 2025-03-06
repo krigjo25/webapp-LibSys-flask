@@ -44,37 +44,41 @@
         //  Loop through the new data
         for (let i = 0; i < n.length; i++) 
         {
-            //  Ensure that no genre or rewiews is pushed to the buffer
-            if (genre != n[i].name  && n[i].name != rewiew && n[i].name != file) 
+            switch(n[i].name)
             {
-                //  Push the data to the buffer
-                buffer[n[i].name] = n[i].value;
+                case genre:
+                    //  Ensure that the genre is pushed to the buffer
+                    buffer['genre'] = null;
+                    break;
                 
-            }
-            else if (n[i].name == file )
-            {
-                const element = n[i].value || 'null';
+                case rewiew:
+                    //  Ensure that the rewiew is pushed to the buffer
+                    buffer['rewiew'] = null;
+                    break;
 
-                //  Ensure that the file includes an acceptable image
-                for (let j = 0; j < array.length; j++) 
-                {
+                case file:
                     //  Ensure that the file includes an acceptable image
-                    if (element.includes(array[j])) 
+                    for (let j = 0; j < array.length; j++) 
                     {
-                        buffer['image'] = n[i].value;
-                    }
-                    else
-                    {
+                        const element = n[i].value || 'null';
+                        //  Ensure that the file includes an acceptable image
+                        if (element.endsWith(array[j])) 
+                        {
+                            buffer['image'] = n[i].value;
+                            break;
+                        }
+                        
                         buffer['image'] = null;
+
                     }
-                }
+                    break;
+
+                default:
+                    buffer[n[i].name] = n[i].value;
+                    break;
             }
-            else {
-                buffer[n[i].name] =n[i].value = null;
-            }
-           
-        emit('upsert-form', buffer);
     }
+    emit('upsert-form', buffer);
     console.log("collected data :",buffer);
     });
 </script>

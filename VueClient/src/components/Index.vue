@@ -27,21 +27,6 @@
       author: null,
   });
 
-  function SubmitBook(payload)
-  {
-    console.log("Submitting :", payload);
-    if (payload.id)
-    {
-        data.id = payload.id;
-    }
-    data.title = payload.title;
-    data.author = payload.author;
-  }
-  function UpdateEvent(payload)
-  {
-      Book.id = payload;
-  }
-
   watch(Book, (data) => {
     console.log("Data: ", data);
   },

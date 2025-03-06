@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Response } from './response.js';
+import { Response, data } from './response.js';
 
 // Create a bok and send a Post Request
 export async function createBook(playload)
@@ -19,8 +19,9 @@ export async function createBook(playload)
 // Delete a book and send a delete request
 export async function removeBook(ID)
 {
+    console.log('ID', ID);
     // Initialize the path
-    const path = `http://localhost:5000/${ID}`;
+    const path = `http://localhost:5000/${ID.id}`;
     
     // Send a delete request to the server
     await axios.delete(path).then(() => 

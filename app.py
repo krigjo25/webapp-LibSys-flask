@@ -1,11 +1,9 @@
 # Entry point for the application
 
 # Importing the required libraries
-from core_files import app, db, admin, logger
+from core_files import app, db, logger
 
 #   Import application repositories
-from lib.model.model import Book
-from lib.admin.views import BooksView
 from lib.endpoints.BookShelf import BookMananger
 from lib.model.preload import alchemist, secrets
 
@@ -19,9 +17,6 @@ with app.app_context():
 Mananger = BookMananger()
 app.add_url_rule('/', view_func=Mananger.as_view('get', methods=['GET', 'POST']))
 app.add_url_rule('/<BID>', view_func=Mananger.as_view('update', methods=['PUT', 'DELETE']))    
-
-#   Add the model to the admin interface
-admin.add_view(BooksView(Book, db.session))
 
 #   Log the application configurations
 logger.warn('Application Configurations START')

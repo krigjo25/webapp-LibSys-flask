@@ -17,7 +17,7 @@
 
   //  Importing required dependencies
   import { useRouter } from 'vue-router';
-  import { onMounted, reactive, watch} from 'vue';
+  import { onMounted, reactive} from 'vue';
   import { storedData } from '../stores/sharingdata.js';
   import { removeBook, updateBook, createBook } from '../assets/js/crud.js';
   
@@ -59,26 +59,14 @@
   //  Create or Update a book
   async function upsertBook(data) 
       {
-          if (data) 
-          {
+        console.log("UpsertData", data)
 
-              //  Ensure the data's integerty
-              if (data.id) 
-              {
-                  // Update a book
-                  updateBook(data);
-              } 
-
-              else if (!data.id)
-              {
-                  createBook(data);
-              }
-          }
+        //  Ensure the data's integerty
+        data.id ? updateBook(data) : createBook(data);
   };
 
-watch(buffy, (n, o) => {
-  console.log("buffy", n)
-  upsertBook(n.data);
+onMounted(() => {
+  upsertBook(buffy.data);
 });
 
 </script>

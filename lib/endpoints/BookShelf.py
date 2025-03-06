@@ -56,29 +56,37 @@ class BookMananger(MethodView):
     
     def post(self):
 
-        #   Initialize the json response
+        #  Fetch the requested data
+        data = request.get_json()
+
+        #   Log the data which is retrieved
+        self.logger.warn(f"Data retrieved")
+
+        for key, value in data.items():
+            self.logger.info(f"{key} : {value}")
+        self.logger.warn(f"END OF LIST")
 
         #   Ensure that the request method is POST
         if request.method == 'POST':
 
-            #  Fetch the requested data
-            data = request.get_json()
-
-            #   Log the data which is retrieved
-            self.logger.warn(f"Data retrieved")
-            for key, value in data.items():
-                self.logger.info(f"{key} : {value}")
-            self.logger.warn(f"END OF LIST")
+            #   Ensure that the data is not None
+            if data is None: 
+                self.logger.error(f"{request.headers} | {request.method}")
+                response = self.response(404)
+                return response
 
             #   Initialize a new book object
-            book = Book(title = data['title'], genre = data['genre'],
-                        img_path = data['image'], year = data['year'],
-                        author = data['author'], bookID = ID.uuid4().hex,
-                        rating = data['review']['rating'], description = data['description'])
-    
-            with app.app_context():
-                db.session.add(book)
-                db.session.commit()
+            book = Book(bookID = ID.uuid4().hex)
+            db.session.add(book)
+
+            for key, value in data.items():
+
+                #   Ensure the integerty for the value, and book
+                if value is not None and hasattr(book, key) and key != 'id':
+                    setattr(book, key, value)
+
+            #   Commit the changes to the database
+            db.session.commit()
 
             response = self.response(200)
 
@@ -100,7 +108,7 @@ class BookMananger(MethodView):
 
             #   Update the book object
             for key, value in data.items():
-
+                
                 #   Ensure the integerty for the value, and book
                 if value is not None and hasattr(book, key) and key != 'id':
                     setattr(book, key, value)
@@ -121,13 +129,10 @@ class BookMananger(MethodView):
         
         #   Ensure that the request method is DELETE
         if request.method == 'DELETE' and BID is not None:
-            
-            if self.tool.Purge(BID):
                 
+                self.tool.Purge(BID)
                 response = self.response(200, BID)
-            else:
-               
-               response = self.response(404)
+
 
         else:
             response = self.response(405)
