@@ -1,5 +1,5 @@
 <template>
-    <BookTable :data="data" @book-id="UpdateEvent"/>
+    <BookTable :data="data"/>
 </template>
 
 <script setup>
@@ -9,7 +9,7 @@
 
 
   //  Importing required dependencies
-  import { reactive, watch } from 'vue';
+  import { reactive } from 'vue';
 
   //  Initializing reactive objects
   const Book = reactive
@@ -26,9 +26,4 @@
       title: null,
       author: null,
   });
-
-  watch(Book, (data) => {
-    console.log("Data: ", data);
-  },
-  );
 </script>

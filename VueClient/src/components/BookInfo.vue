@@ -6,14 +6,15 @@
       <div>
         <h2>{{ data.data.title }}</h2>
         <small>by 
-          <i v-for="author in data.data.author"> {{ author }} </i> - Published {{ data.data.published }} by 
+          <i v-for="author in data.data.author"> {{ author }} </i> - Published {{ data.data.year }} by 
           <i v-for="publisher in data.data.publisher"> {{ publisher }} </i>
         </small>
-        <span v-for="review in data.data.review">| rating:{{review.rating}} by {{review.name}} </span>
+        <span v-if="data.data.reviews" v-for="review in data.data.reviews">| rating:{{review.rating}} by {{review.name}} </span>
         <section class="description">
           <p>{{ data.data.description }}</p>
           <div>
-            <p v-for="genre in data.data.genre.split(',')">{{ genre }}</p>
+            <p v-if="data.data.genre != null && data.data.genre.length > 1" v-for="genre in data.data.genre.split(',')">{{ genre }}</p>
+            <p v-else v-for="genre in data.data.genre">{{ data.data.genre }}</p>
           </div>
         </section>
       </div>
@@ -41,5 +42,6 @@
   });
   onMounted(() => {
     data.data = book.data;
+    console.log(book.data);
   });
 </script>

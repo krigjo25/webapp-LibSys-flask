@@ -81,12 +81,6 @@ const inputs = reactive(
           value: null
       },
       {
-          name: 'published',
-          type: 'text',
-          placeholder: computed( () => {return  bufferData ? bufferData.published : 'Published'}),
-          value: null
-      },
-      {
         name: 'description',
         type: 'textarea',
         placeholder: computed( () => {return  bufferData ? bufferData.description : 'Description'}),
@@ -101,17 +95,11 @@ const inputs = reactive(
       {
         name: 'review',
         type: 'text',
-        placeholder: 'Review',
-        value: {
-                name:null,
-                rating: null, 
-                
-            }
+        placeholder: computed( () => {return bufferData ? bufferData.reviews.name : 'Review by, rating'}),
+        value: null
       },
     ]
 });
-
-console.log("inputs ",inputs)
 
 //  Handle  buffer data
 const handleData = (data) =>

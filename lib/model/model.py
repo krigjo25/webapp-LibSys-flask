@@ -35,6 +35,6 @@ class Book(db.Model):
             'genre': self.genre,
             'description': self.description,
             'path': self.img_path,
-            'rating': self.rating,
-            'reviews': self.reviewers
+            'reviews': [{'name':self.reviewers,
+                        'rating': self.rating}]
         }

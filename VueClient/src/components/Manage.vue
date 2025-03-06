@@ -59,14 +59,15 @@
   //  Create or Update a book
   async function upsertBook(data) 
       {
-        console.log("UpsertData", data)
-
         //  Ensure the data's integerty
         data.id ? updateBook(data) : createBook(data);
   };
 
 onMounted(() => {
-  upsertBook(buffy.data);
+  if (buffy.data)
+  {
+    upsertBook(buffy.data);
+  }
 });
 
 </script>

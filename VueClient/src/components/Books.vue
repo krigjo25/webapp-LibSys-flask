@@ -10,7 +10,6 @@
                 </div>
             </div>
             <div v-if="props.nav">
-                {{ book }}
                 <Navigation :data="props.data" :book="book" />
             </div>
         </section>

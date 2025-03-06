@@ -8,7 +8,8 @@ from core_files import app, db
 from dotenv import load_dotenv
 from flask.views import MethodView
 from flask import jsonify, request
-
+from sqlalchemy.exc import IntegrityError
+from typing import List, Optional
 #   Importing custom libraries
 from lib.model.model import Book
 from lib.config.logger import MethodWatcher
@@ -36,23 +37,17 @@ class BookMananger(MethodView):
 
     def get(self):
 
-        response = {}
+        
 
         #   Ensure that the request method is GET
         if request.method == 'GET':
+            response = self.response(books=self.BOOKS)
+            return response
 
-            response['code'] = 200
-            response['status'] = "success"
-            response['books'] = self.BOOKS
-
-            self.logger.info(f"Status : {response['code']}\nMethod : {request.method}\nBooks: {response['books']}")
-        else:
-            response['status'] = "Unsuccessful"
-            response['message'] = "An error Occured while attempting to process the request"
-
-            self.logger.error(f"Headers : {request.headers}\n Error : {response['message']} \n Status : {response['status']} Method : {request.method}")
+        response = self.response(405, message="Method not allowed")
+        self.logger.error(f"Headers : {request.headers}\n Error : {response['message']} \n Status : {response['status']} Method : {request.method}")
+        return response
         
-        return jsonify(response)
     
     def post(self):
 
@@ -77,7 +72,6 @@ class BookMananger(MethodView):
 
             #   Initialize a new book object
             book = Book(bookID = ID.uuid4().hex)
-            db.session.add(book)
 
             for key, value in data.items():
 
@@ -85,10 +79,16 @@ class BookMananger(MethodView):
                 if value is not None and hasattr(book, key) and key != 'id':
                     setattr(book, key, value)
 
-            #   Commit the changes to the database
-            db.session.commit()
+            try:
+                #   Commit the changes to the database
+                db.session.add(book)
+                db.session.commit()
 
-            response = self.response(200)
+            except IntegrityError as e:
+                self.logger.error(f"Error : {e}")
+                return self.response(405, message="Already exists within the database")
+
+            response = self.response(201)
 
         else:
             response = self.response(405)
@@ -116,7 +116,7 @@ class BookMananger(MethodView):
                 db.session.commit()
             
             #   Success response
-            response = self.response(200, book = book.ConvertToDict())
+            response = self.response(200, book = self.BOOKS)
             self.logger.info(f"Data retrieved: {data} ")
 
         else:
@@ -139,20 +139,34 @@ class BookMananger(MethodView):
 
         return response
 
-    def response(self, status:int = 200, message:str = None, BID:str = None, book:dict = None):
+    def response(self, status:int = 200, message:Optional[str] = None, BID:Optional[str] = None, books:Optional[List] = None):
 
         response = {}
-        match status:
 
+        match (status):
+
+            #   Request successful
             case 200:
-                response['books'] = self.BOOKS
+                print("biijs", books)
+                response['books'] = books
                 response['status'] = status
 
                 if not message:
                     response['message'] = "The operation was sucssessfull !"
     
-                if book:
-                    response['books'] = [i for i in book]
+                if not books:
+                    response['message'] = "Books was not found !"
+
+                self.logger.warn(f"Headers : {request.headers}\n  Method : {request.method} | response : {response}")
+
+            case 201:
+
+                response['status'] = status
+                if not message:
+                    response['message'] = "Successfully added a new entry to the database."
+
+                self.logger.error(f"  Method : {request.method} | Book ID : {BID}")
+            #   Not Found
             case 404:
                 response['status'] = status
                 if not message:
@@ -160,6 +174,7 @@ class BookMananger(MethodView):
 
                 self.logger.error(f"  Method : {request.method} | Book ID : {BID}")
 
+            #   Method not allowed
             case 405:
                 response['status'] = status
                 if not message:
@@ -167,7 +182,14 @@ class BookMananger(MethodView):
                     response['message'] = "Something smells fishy, ensure the request method is correct."
                 
                 self.logger.warn(f"Headers : {request.headers}\n  Method : {request.method} | Book ID : {BID}")
+            case 500:
+                response['status'] = status
+
+                if not message:
+                    response['message'] = "An error occured while attempting to process the request"
+                self.logger.warn(f"Headers : {request.headers}\n  Method : {request.method} | Book ID : {BID}")
 
 
 
-        return jsonify({'status': status, 'message': message})
+
+        return jsonify(response)
