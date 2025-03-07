@@ -37,9 +37,9 @@ pip install -r requirements.txt
 ```sh
 flask run --debug ( opens up the development environment)
 ```
-#Credits
+# Credits
 
-The project was initialized using [testdriven](https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/)'s tutorial
+This project was initialized using the [testdriven](https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/)'s tutorial.
 
 Sincerely,
 @krigjo25
