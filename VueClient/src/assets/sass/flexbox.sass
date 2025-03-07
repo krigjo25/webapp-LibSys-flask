@@ -23,14 +23,12 @@ flex-column-reverse
     flex-direction: column-reverse
 
 flex-wrap-column
-    wrap: wrap
-    display: flex
-    flex-direction: column
+    flex-wrap: wrap
+    @extend flex-column
 
 flex-wrap-column-reverse
-    wrap: wrap
-    display: flex
-    flex-direction: column-reverse
+    flex-wrap: wrap
+    @extend flex-column
 
 .flex-row 
     @extend flex-row
@@ -39,15 +37,21 @@ flex-wrap-column-reverse
     @extend flex-row
     justify-content: center
 
-.flex-wrap-row-center
-    @extend flex-wrap-row
-    justify-content: center
 
 .flex-wrap-row
     @extend flex-wrap-row
 
 .flex-wrap-reversed-row
     @extend flex-wrap-reversed-row
+
+.flex-wrap-row-center
+    @extend flex-wrap-row
+    justify-content: center
+
+.flex-wrap-row-align-center-justify-space-between
+    align-items: center
+    @extend flex-wrap-row
+    justify-content: space-between
 
 .flex-wrap-row-space-evenly
     @extend flex-wrap-row
@@ -61,6 +65,9 @@ flex-wrap-column-reverse
     @extend flex-wrap-row
     justify-content: space-evenly
     inline-size: 100% // remove this line if you want to use the default value
+.flex-wrap-row-align-flex-end
+    @extend flex-wrap-row
+    align-items: flex-end
 
 .flex-wrap-row-space-between
     @extend flex-wrap-row
@@ -100,3 +107,12 @@ flex-wrap-column-reverse
 
 .flex-wrap-column-reverse
     @extend flex-column
+
+.flex-wrap-column-align-space-around
+    @extend flex-wrap-column
+    align-content: space-around
+
+.flex-wrap-row-align-center-justify-space-between
+    align-items: center
+    @extend flex-wrap-row
+    justify-content: space-between

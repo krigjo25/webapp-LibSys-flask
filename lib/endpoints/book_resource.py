@@ -11,9 +11,9 @@ from flask import jsonify, request
 from sqlalchemy.exc import IntegrityError
 from typing import List, Optional
 #   Importing custom libraries
-from lib.model.model import Book
-from lib.config.logger import MethodWatcher
-from lib.utility_tools.tools import UtilityTools
+from lib.modal.db_init import Book
+from lib.config.log_config import MethodWatcher
+from lib.utils.maintance import UtilityTools
 
 #   Loading environment variables
 load_dotenv()
@@ -69,8 +69,8 @@ class BookMananger(MethodView):
                 return response
 
             #   Initialize a new book object
-            book = Book(bookID = ID.uuid4().hex)
-
+            
+            book = Book()
             for key, value in data.items():
 
                 #   Ensure the integerty for the value, and book

@@ -4,8 +4,8 @@
 from core_files import app, db, logger
 
 #   Import application repositories
-from lib.endpoints.BookShelf import BookMananger
-from lib.model.preload import alchemist, secrets
+from lib.endpoints.book_resource import BookMananger
+from lib.modal.test_data import alchemist, secrets
 
 #   Initialize the database and add the preloaded data
 with app.app_context():

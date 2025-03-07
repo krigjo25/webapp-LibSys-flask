@@ -19,12 +19,12 @@
   //  Importing required dependencies
   import { useRouter } from 'vue-router';
   import { onMounted, reactive} from 'vue';
-  import { storedData } from '../stores/sharingdata.js';
-  import { removeBook, updateBook, createBook } from '../assets/js/crud.js';
+  import { storedData } from '../stores/formStore.js';
+  import { removeBook, updateBook, createBook } from '../assets/js/bookCrud.js';
   
   //  Importing components
   import Books from './Books.vue';
-  import Btn from './misc_components/Btn.vue';
+  import Btn from './misc_components/ActionButton.vue';
   
   //  Initializing reactive objects
   const router = useRouter();

@@ -5,13 +5,12 @@ import os
 
 from flask import Flask
 from flask_cors import CORS
-from flask_admin import Admin
 from dotenv import load_dotenv
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 
-from lib.config.logger import AppWatcher
-from lib.config.config import DevelopmentConfig
+from lib.config.log_config import AppWatcher
+from lib.config.env_config import DevelopmentConfig
 
 #   Load the environment variables from the .env file
 load_dotenv()
@@ -26,9 +25,6 @@ app.config.from_object(DevelopmentConfig)
 
 #   Initialize the database connection
 db = SQLAlchemy(app)
-
-#   Initialize the Admin interface
-admin = Admin(app, name = 'BookShelf CRUD', template_mode = 'bootstrap4')
 
 #   Initialize the session
 Session(app)

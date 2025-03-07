@@ -35,7 +35,7 @@
 
   
   //  Importing required dependencies
-  import { storedData } from '../stores/sharingdata.js';
+  import { storedData } from '../stores/formStore.js';
   import { onMounted, onUnmounted, reactive } from 'vue';
   
   //  Initializing reactive objects

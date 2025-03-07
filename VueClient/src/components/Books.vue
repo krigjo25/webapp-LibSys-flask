@@ -25,8 +25,8 @@
     import { useRouter } from 'vue-router';
     import { defineEmits, onMounted } from 'vue';
     
-    import { storedData } from '../stores/sharingdata.js';
-    import { Response, data } from '../assets/js/response.js';
+    import { storedData } from '../stores/formStore.js';
+    import { Response, data } from '../assets/js/apiService.js';
     
 
     //  Importing components

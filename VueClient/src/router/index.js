@@ -11,18 +11,19 @@ const router = createRouter({
     {
       
       name: 'BookDetails',
-      path: '/Details',
-      component: () => import('../components/BookInfo.vue')
+      path: '/BookDetails',
+      component: () => import('../components/BookDetails.vue')
     },
     {
-      path: '/bookMananger',
-      name: 'Manager',
-      component: () => import('../components/Manage.vue')
+      path: '/BookPanel',
+      name: 'BookPanel',
+      component: () => import('../components/BookPanel.vue')
     },
     {
-      path: '/upsert',
+      
       name: 'UpsertBook',
-      component: () => import('../components/Form.vue')
+      path: '/upsertBook',
+      component: () => import('../components/UpsertForm.vue')
     },
 
   ]

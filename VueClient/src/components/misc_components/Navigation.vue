@@ -7,7 +7,7 @@
 <script setup>
 
     //  Importing Components
-    import Btn from './Btn.vue';
+    import Btn from './ActionButton.vue';
 
     const props = defineProps(['data', 'book']);
 </script>

@@ -7,6 +7,6 @@
 <script setup>
 
 //  Importing Components
-import Nav from './Nav.vue';
+import Nav from './Navigation_route.vue';
 
 </script>

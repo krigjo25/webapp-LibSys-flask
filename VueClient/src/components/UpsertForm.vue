@@ -1,6 +1,6 @@
 <template>
   <h2>{{ data.title }}</h2>
-  <form>
+  <form class="flex-wrap-column-align-space-around">
     <Input :data="inputs" @upsert-form="handleData"/>
 
     <div>
@@ -13,11 +13,11 @@
 
 import { useRouter } from 'vue-router';
 import { reactive, computed } from 'vue';
-import { storedData } from '../stores/sharingdata.js';
+import { storedData } from '../stores/formStore.js';
 
 //  Importing components
-import Btn from './misc_components/Btn.vue';
-import Input from './misc_components/Inputs.vue';
+import Btn from './misc_components/ActionButton.vue';
+import Input from './misc_components/InputField.vue';
 
 //  Initializing reactive objects
 const router = useRouter();
@@ -111,7 +111,7 @@ async function submit()
   await buffer.setData(buffy);
   
   //ResetForm();
-  router.push({name: 'Manager'});
+  router.push({name: 'BookPanel'});
   
 }
 

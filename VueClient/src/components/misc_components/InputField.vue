@@ -1,7 +1,7 @@
 
 <template>
     <legend>{{ props.data.title }}</legend>
-    <div v-for="dt in data">
+    <div v-for="dt in data" class="flex-wrap-row-align-center-justify-space-between">
         
         <label :for="dt.name">{{ dt.name}} :</label>
         
