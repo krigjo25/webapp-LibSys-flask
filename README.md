@@ -1,11 +1,4 @@
 # Library Management System
-A web-based library management system was developed using SQLite as the database,<br>
-Flask as the backend framework, and Vue.js and Sass for the frontend user interface.
-
-The application was implemented as an assignment at GETacademy
-Please respect, and keep the [Academic Honesty Policy](https://cs50.harvard.edu/x/2023/honesty/) in mind.<br>
-A demo of the application can be watched at [Demo]()
-
 A web-based library management system has been developed employing SQLite as the database,<br>
 Flask for the backend framework, and Vue.js with Sass for the frontend user interface.<br>
 
