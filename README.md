@@ -1,14 +1,19 @@
 # Library Management System
-A Library management system using flask
+A web-based library management system was developed using SQLite as the database,<br>
+Flask as the backend framework, and Vue.js and Sass for the frontend user interface.
 
 The application was implemented as an assignment at GETacademy
 Please respect, and keep the [Academic Honesty Policy](https://cs50.harvard.edu/x/2023/honesty/) in mind.<br>
 A demo of the application can be watched at [Demo]()
 
-## Technologies
-- flask,
-- vue.js,
-- SQLite.
+A web-based library management system has been developed employing SQLite as the database,<br>
+Flask for the backend framework, and Vue.js with Sass for the frontend user interface.<br>
+This system was implemented as an assignment at GETacademy. In accordance with<br>
+[the Academic Honesty Policy](https://cs50.harvard.edu/x/2023/honesty/), please maintain academic integrity. ~~A demonstration
+of the application can be accessed at [youtube]()~~.
+
+
+
 
 ## Installation
 1. Clone the repository:
