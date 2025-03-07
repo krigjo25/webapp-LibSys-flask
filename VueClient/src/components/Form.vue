@@ -99,7 +99,7 @@ const inputs = reactive(
       },
     ]
 });
-console.log(bufferData)
+
 //  Handle  buffer data
 const handleData = (data) =>
 {
