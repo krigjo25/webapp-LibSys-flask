@@ -1,9 +1,14 @@
-# LibSys
+# Library Management System
 A Library management system using flask
 
 The application was implemented as an assignment at GETacademy
 Please respect, and keep the [Academic Honesty Policy](https://cs50.harvard.edu/x/2023/honesty/) in mind.<br>
 A demo of the application can be watched at [Demo]()
+
+## Technologies
+- flask,
+- vue.js,
+- SQLite.
 
 ## Installation
 1. Clone the repository:
