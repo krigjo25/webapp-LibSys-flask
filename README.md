@@ -8,7 +8,9 @@ A demo of the application can be watched at [Demo]()
 
 A web-based library management system has been developed employing SQLite as the database,<br>
 Flask for the backend framework, and Vue.js with Sass for the frontend user interface.<br>
-This system was implemented as an assignment at GETacademy. In accordance with [the Academic Honesty Policy](https://cs50.harvard.edu/x/2023/honesty/), please maintain academic integrity.<br>
+
+This system was implemented as an assignment at GETacademy. 
+In accordance with [the Academic Honesty Policy](https://cs50.harvard.edu/x/2023/honesty/), please maintain academic integrity.<br>
 ~~A demonstrationof the application can be accessed at [youtube]()~~.
 
 
