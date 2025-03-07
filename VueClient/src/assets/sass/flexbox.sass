@@ -2,70 +2,77 @@ flex-row
     display: flex
     flex-direction: row
 
+flex-row-reverse
+    display: flex
+    flex-direction: row-reverse
+
+flex-wrap-row
+    flex-wrap: wrap
+    @extend flex-row
+
+flex-wrap-reversed-row
+    @extend flex-wrap-row
+    flex-direction: row-reverse
+
 flex-column
     display: flex
     flex-direction: column
 
-flex-wrap-row
+flex-column-reverse
     display: flex
-    flex-wrap: wrap
-    flex-direction: row
+    flex-direction: column-reverse
 
-flex-wrap-row-space-evenly
-    @extend flex-wrap-row
-    justify-content: space-evenly
-
-flex-nowrap-row
+flex-wrap-column
+    wrap: wrap
     display: flex
-    flex-wrap: nowrap
-    flex-direction: row
+    flex-direction: column
 
-flex-wrap-reversed-row
+flex-wrap-column-reverse
+    wrap: wrap
     display: flex
-    flex-wrap: wrap
-    flex-direction: row-reverse
+    flex-direction: column-reverse
 
 .flex-row 
     @extend flex-row
 
-.flex-wrap-row
-    @extend flex-wrap-row
+.flex-row-justify-center
+    @extend flex-row
+    justify-content: center
 
-.flex-column
-    @extend flex-column
-
-.flex-wrap-column
-    wrap: wrap
-    @extend flex-column
-
-.flex-wrap-row
-    @extend flex-wrap-row-space-evenly
-
-.flex-reversed-row
-    @extend flex-wrap-reversed-row
-
-.justify-center
-    justify-content: space-evenly
-
-.justify-center-row
+.flex-wrap-row-center
     @extend flex-wrap-row
     justify-content: center
 
-.justify-flexstart-row
+.flex-wrap-row
     @extend flex-wrap-row
-    justify-content: flex-start
+
+.flex-wrap-reversed-row
+    @extend flex-wrap-reversed-row
 
 .flex-wrap-row-space-evenly
     @extend flex-wrap-row
     justify-content: space-evenly
-    
-.justify-content-space-evently
+
+.flex-wrap-row-flex-start
+    @extend flex-wrap-row
+    justify-content: flex-start
+
+.flex-wrap-row-space-evently
+    @extend flex-wrap-row
     justify-content: space-evenly
     inline-size: 100% // remove this line if you want to use the default value
 
-.justify-content-space-evently-row
+.flex-wrap-row-space-between
     @extend flex-wrap-row
-    justify-content: space-evenly
+    justify-content: space-between
+
+.flex-wrap-row-space-between
+    @extend flex-wrap-row
+    justify-content: space-around
+
+.flex-wrap-column-space-between
+    @extend flex-wrap-column
+    justify-content: space-between
 
 .align-content-center-row
     @extend flex-wrap-row
@@ -79,6 +86,17 @@ flex-wrap-reversed-row
     @extend flex-wrap-row
     align-items: flex-end
 
-.wrap-row-space-between
-    @extend flex-wrap-row
-    justify-content: space-between
+
+.flex-column
+    @extend flex-column
+
+.flex-column-align-items-center
+    @extend flex-column
+    align-items: center
+
+.flex-wrap-column
+    wrap: wrap
+    @extend flex-column
+
+.flex-wrap-column-reverse
+    @extend flex-column

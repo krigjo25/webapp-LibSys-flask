@@ -1,16 +1,17 @@
 #  The first Vue project
 <template>
 
-  <nav>
+  <nav class="flex-wrap-row-space-evently">
     <Btn :data="{
           type: 'submit',
+          name: 'Create book',
           cls: 'bi bi-plus',
           action: upsertEvent
         }"/>
   </nav>
-  <div>
+  <section class="flex-wrap-row-space-evenly">
     <Books :nav="buttons.nav" :data="buttons.data"/>
-  </div>
+  </section>
 </template>
 
 <script setup>

@@ -1,6 +1,7 @@
 <template>
     <button :type="props.data.type" @click="props.data.action(book)">
         <i :class="props.data.cls"></i>
+        {{ props.data.name }}
     </button>
 </template>
 

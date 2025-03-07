@@ -1,6 +1,6 @@
 <template>
-    <nav>
-        <router-link to="/">Home</router-link>
-        <router-link to="/bookMananger">Managing panel</router-link>
+    <nav class="">
+        <router-link class="green" to="/">Home</router-link>
+        <router-link class="green" to="/bookMananger">Managing panel</router-link>
     </nav>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header class="flex-wrap-row-center">
         <Nav />
     </header>
 </template>

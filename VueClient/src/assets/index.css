@@ -65,65 +65,77 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-flex-row, .flex-row {
+flex-row, .flex-row-justify-center, .flex-row, flex-wrap-row, .align-items-flex-end-row, .align-items-center-row, .align-content-center-row, .flex-wrap-row-space-between, .flex-wrap-row-space-evently, .flex-wrap-row-flex-start, .flex-wrap-row-space-evenly, .flex-wrap-row, .flex-wrap-row-center, flex-wrap-reversed-row, .flex-wrap-reversed-row {
   display: flex;
   flex-direction: row;
 }
 
-flex-column, .flex-wrap-column, .flex-column {
+flex-row-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+flex-wrap-row, .align-items-flex-end-row, .align-items-center-row, .align-content-center-row, .flex-wrap-row-space-between, .flex-wrap-row-space-evently, .flex-wrap-row-flex-start, .flex-wrap-row-space-evenly, .flex-wrap-row, .flex-wrap-row-center, flex-wrap-reversed-row, .flex-wrap-reversed-row {
+  flex-wrap: wrap;
+}
+
+flex-wrap-reversed-row, .flex-wrap-reversed-row {
+  flex-direction: row-reverse;
+}
+
+flex-column, .flex-wrap-column-reverse, .flex-wrap-column, .flex-column-align-items-center, .flex-column {
   display: flex;
   flex-direction: column;
 }
 
-flex-wrap-row, .wrap-row-space-between, .align-items-flex-end-row, .align-items-center-row, .align-content-center-row, .justify-content-space-evently-row, .flex-wrap-row-space-evenly, .justify-flexstart-row, .justify-center-row, .flex-wrap-row, flex-wrap-row-space-evenly {
+flex-column-reverse {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  flex-direction: column-reverse;
 }
 
-flex-wrap-row-space-evenly, .flex-wrap-row {
-  justify-content: space-evenly;
-}
-
-flex-nowrap-row {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-}
-
-flex-wrap-reversed-row, .flex-reversed-row {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row-reverse;
-}
-
-.flex-wrap-column {
+flex-wrap-column, .flex-wrap-column-space-between {
   wrap: wrap;
+  display: flex;
+  flex-direction: column;
 }
 
-.justify-center {
-  justify-content: space-evenly;
+flex-wrap-column-reverse {
+  wrap: wrap;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
-.justify-center-row {
+.flex-row-justify-center {
   justify-content: center;
 }
 
-.justify-flexstart-row {
-  justify-content: flex-start;
+.flex-wrap-row-center {
+  justify-content: center;
 }
 
 .flex-wrap-row-space-evenly {
   justify-content: space-evenly;
 }
 
-.justify-content-space-evently {
+.flex-wrap-row-flex-start {
+  justify-content: flex-start;
+}
+
+.flex-wrap-row-space-evently {
   justify-content: space-evenly;
   inline-size: 100%;
 }
 
-.justify-content-space-evently-row {
-  justify-content: space-evenly;
+.flex-wrap-row-space-between {
+  justify-content: space-between;
+}
+
+.flex-wrap-row-space-between {
+  justify-content: space-around;
+}
+
+.flex-wrap-column-space-between {
+  justify-content: space-between;
 }
 
 .align-content-center-row {
@@ -138,8 +150,24 @@ flex-wrap-reversed-row, .flex-reversed-row {
   align-items: flex-end;
 }
 
-.wrap-row-space-between {
-  justify-content: space-between;
+.flex-column-align-items-center {
+  align-items: center;
+}
+
+.flex-wrap-column {
+  wrap: wrap;
+}
+
+body {
+  place-content: center;
+}
+
+section .description p {
+  inline-size: 32vw;
+  text-align: justify;
+}
+section .genre p {
+  padding: 1vw;
 }
 
 .bi-info-circle {
@@ -164,17 +192,17 @@ flex-wrap-reversed-row, .flex-reversed-row {
 }
 
 #app {
-  max-width: 1280px;
+  padding: 2vw;
   margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
 }
-
-a,
-.green {
-  text-decoration: none;
-  color: hsl(160, 100%, 37%);
+#app a {
+  padding: 1vw;
+}
+#app .green {
   transition: 0.4s;
+  text-decoration: none;
+  color: rgb(0, 179, 119);
 }
 
 @media (hover: hover) {
@@ -183,13 +211,16 @@ a,
   }
 }
 @media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
+  main {
+    place-content: center;
   }
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
+  }
+  #app section section {
+    margin-block: 1vh;
+  }
+  #app header, #app main, #app footer {
+    padding: 1vh;
   }
 }/*# sourceMappingURL=index.css.map */

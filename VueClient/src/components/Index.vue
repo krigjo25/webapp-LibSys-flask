@@ -1,5 +1,7 @@
 <template>
+  <section class="flex-wrap-row-space-evenly">
     <BookTable :data="data"/>
+  </section>
 </template>
 
 <script setup>
