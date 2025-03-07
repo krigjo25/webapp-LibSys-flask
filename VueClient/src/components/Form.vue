@@ -88,18 +88,18 @@ const inputs = reactive(
       {
         name: 'published_by',
         type: 'text',
-        placeholder: computed( () => {return bufferData ? bufferData.published_by : 'Published By'}),
+        placeholder: computed( () => {return bufferData ? bufferData.reviews.name : 'Published By'}),
         value: null
       },
       {
-        name: 'reviewers',
-        type: 'text',
-        placeholder: computed( () => {return bufferData ? bufferData.reviews.name : 'Review by, rating'}),
+        name: 'Rewiew',
+        type: 'number',
+        placeholder: computed( () => {return bufferData ? bufferData.reviews.name + ", " + bufferData.reviews.rating : 'Review by, rating'}),
         value: null
       },
     ]
 });
-
+console.log(bufferData)
 //  Handle  buffer data
 const handleData = (data) =>
 {

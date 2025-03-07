@@ -39,6 +39,6 @@ class Book(db.Model):
             'genre': str(self.genre).split(seperator),
             'description': self.description,
             'path': self.img_path,
-            'reviews': [{'name':self.reviewers,
-                        'rating': self.rating}]
+            'reviews': {'name':self.reviewers,
+                        'rating': self.rating}
         }
