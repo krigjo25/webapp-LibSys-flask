@@ -169,6 +169,11 @@ section .description p {
 section .genre p {
   padding: 1vw;
 }
+section .auth-tit {
+  bottom: 1vh;
+  font-size: small;
+  position: relative;
+}
 
 .bi-info-circle {
   color: white;

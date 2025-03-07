@@ -5,15 +5,16 @@
       </section>
       <section>
         <section class="flex-column-align-items-center">
-        <h2>{{ data.data.title }}</h2>
-        <p>
-          <span>
-            by
+        <h2>
+          {{ data.data.title }} 
+          <span class="auth-tit">
+            |by
             <small v-for="author in data.data.author">{{ author }}</small>
-            - Published {{ data.data.year }} by
+          </span></h2>
+        <p>
+          Published {{ data.data.year }} by
             <small v-for="publisher in data.data.publisher">{{ publisher }}</small> 
-          </span>
-          <span v-if="data.data.reviews" v-for="review in data.data.reviews">rating:{{review.rating}} by {{review.name}}</span>
+          <span v-if="data.data.reviews">Rating: {{data.data.reviews.rating}} by {{data.data.reviews.name}}</span>
         </p>
           </section>
         <section class="description flex-wrap-row-space-evenly">

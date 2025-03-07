@@ -3,10 +3,15 @@
             <div @click="bookInfo(book.id)">
                 <img :src="book.path" alt="book cover.jpg" />
                 <div>
-                    <h3>{{ book.title }}</h3>
-                    <span>
-                        by <i v-for="author in book.author"> {{ author }} </i>
-                    </span>
+                    <h3>{{ book.title }}
+                        <span class="auth-tit">
+                            |by
+                            <small v-for="author in book.author">{{ author }}</small>
+                        </span>
+                    </h3>
+                    <p>
+                        <span v-if="book.reviews">Rating: {{book.reviews.rating}} by {{book.reviews.name}}</span>
+                    </p>
                 </div>
             </div>
             <div v-if="props.nav">
