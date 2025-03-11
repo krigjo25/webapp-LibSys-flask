@@ -58,13 +58,13 @@ const inputs = reactive(
         
         type: 'text',
         name: 'title',
-        placeholder: computed( () => {return bufferData ? bufferData.title : 'Title'}),
+        placeholder: computed( () => {return bufferData ? bufferData.title : 'E.G The Alchemist'}),
         value: null
       },
       {
         name: 'author',
         type: 'text',
-        placeholder: computed( () => {return bufferData? bufferData.author : 'Author'}),
+        placeholder: computed( () => {return bufferData? bufferData.author : 'E.G Paulo Coelho'}),
         value: null
       },
       {
@@ -76,25 +76,25 @@ const inputs = reactive(
       {
           name: 'genre',
           type: 'text',
-          placeholder: computed( () => {return bufferData ? bufferData.genre : 'Genre, Genre'}),
+          placeholder: computed( () => {return bufferData ? bufferData.genre : 'E.G Fiction, Non-Fiction'}),
           value: null
       },
       {
         name: 'description',
         type: 'textarea',
-        placeholder: computed( () => {return  bufferData ? bufferData.description : 'Description'}),
+        placeholder: computed( () => {return  bufferData ? bufferData.description : ' E.G A The Alchemist is a novel by Brazilian author Paulo Coelho that was first published in 1988. Originally written in Portuguese, it became an international bestseller translated into some 70 languages as of 2016. An allegorical novel, The Alchemist follows a young Andalusian shepherd in his journey to the pyramids of Egypt, after having a recurring dream of finding a treasure there. '}),
         value: null
       },
       {
         name: 'published_by',
         type: 'text',
-        placeholder: computed( () => {return bufferData ? bufferData.reviews.name : 'Published By'}),
+        placeholder: computed( () => {return bufferData ? bufferData.reviews.name : 'E.G Harper Collins books'}),
         value: null
       },
       {
         name: 'Rewiew',
         type: 'number',
-        placeholder: computed( () => {return bufferData ? bufferData.reviews.name + ", " + bufferData.reviews.rating : 'Review by, rating'}),
+        placeholder: computed( () => {return bufferData ? bufferData.reviews.name + ", " + bufferData.reviews.rating : 'E.G 0.0, John Doe'}),
         value: null
       },
     ]
