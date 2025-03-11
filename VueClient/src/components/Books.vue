@@ -55,19 +55,14 @@
     function bookInfo(id)
     {
         //  Ensure that the data is not empty
-        if (!data.books) 
-        {return;}
-
-        for (let i = 0; i < data.books.length; i++) 
+        if (data.books) 
         {
-            const book = data.books[i];
-            if (book.id === id) 
-            {
 
+        const book =  data.books.find(book => book.id === id)
+        
             shareData.setData(book);
             
              router.push({name: 'BookDetails'});
-            }
         }
     };
 
