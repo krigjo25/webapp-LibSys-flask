@@ -34,11 +34,13 @@ class Book(db.Model):
 
         seperator = ","
 
+        year = str(self.year).split('-')
+
         return {
             'id': self.bookID,
             'title': self.title,
             'author': self.author,
-            'year': self.year,
+            'year': year[0],
             'genre': str(self.genre).split(seperator),
             'description': self.description,
             'path': self.img_path,
