@@ -4,8 +4,8 @@ Flask for the backend framework, and Vue.js with Sass for the frontend user inte
 
 This system was implemented as an assignment at GETacademy.<br>
 In accordance with [the Academic Honesty Policy](https://cs50.harvard.edu/x/2023/honesty/), please maintain academic integrity.<br>
+
 A preview of the project can be accessed at [Screen Dump](/lib/documents/Webapp-libSys.pdf)
-~~A demonstrationof the application can be accessed at [youtube]()~~.
 
 **Images:**
 
@@ -50,7 +50,17 @@ cd webapp-LibSys-flask
 pip install -r requirements.txt
 ```
 
-4. Run the file
+4. Change the current directory to the VueClient directory
+```sh
+cd VueClient
+
+npm install
+npm install axios@1.3.6 --save
+npm install pinia@latest
+npm run -dev
+```
+
+5. Run the server
 ```sh
 flask run --debug ( opens up the development environment)
 ```
